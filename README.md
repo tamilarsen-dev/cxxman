@@ -29,6 +29,8 @@ cxxman vector::push_back
 
 ## Documentation
 
+-   [User manual](docs/user-manual.md)
+-   [Developer guide](docs/developer-guide.md)
 -   [MVP scope](docs/mvp.md)
 -   [Architecture](docs/architecture.md)
 -   [Performance strategy](docs/performance.md)
