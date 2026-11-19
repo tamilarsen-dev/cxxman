@@ -45,26 +45,25 @@ original local history.
   for author and committer metadata before the public push. A local-only
   backup branch retains the original history; it was not pushed.
 
-## Configured but not verified remotely
+## Configured and verified remotely
 
 `.github/workflows/release.yml` runs on pushes and pull requests. It
 builds and smoke-tests native Windows x64, Linux x64, Intel macOS, and
 Apple Silicon macOS binaries. A matching `v*` tag publishes four
 platform archives and checksum files in one GitHub Release.
 
-Only the Windows build has been executed in this workspace. The first
-GitHub Actions run passed all four native builds: Windows x64, Linux x64,
-Intel macOS, and Apple Silicon macOS. GitHub uploaded four temporary run
-artifacts. The publish job was skipped because the run came from a branch
-push rather than a version tag. A second run for the latest documentation
-commit is queued.
+Only the Windows build has been executed in this workspace. Two GitHub
+Actions runs passed all four native builds: Windows x64, Linux x64, Intel
+macOS, and Apple Silicon macOS. Each run uploaded four temporary artifacts.
+The publish job was skipped because both runs came from branch pushes
+rather than a version tag. Changes since those runs only update these
+status documents; they do not change application code or the workflow.
 
 ## Still needed
 
-1. Confirm the latest documentation commit's workflow run also passes.
-2. Choose a project license. No `LICENSE` file has been added because the
+1. Choose a project license. No `LICENSE` file has been added because the
    license is an owner decision.
-3. After the matrix passes, publish the first version tag and verify the
+2. Publish version tag `v0.1.0` and verify the
    resulting release assets and checksums.
 
 macOS executables are not signed or notarized. The Linux x64 build uses
