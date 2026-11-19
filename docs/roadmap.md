@@ -51,6 +51,9 @@ in place.
 
 Acceptance: parser tests run fully offline.
 
+Status: complete. Saved HTML fixtures verify supported structures and
+graceful fallback behavior without network access.
+
 ## Phase 4 --- Renderer
 
 -   Render headings and paragraphs.

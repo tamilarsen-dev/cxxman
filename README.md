@@ -37,6 +37,6 @@ cxxman search unordered_map
 
 ## Current status
 
-Phases 1 and 2 are complete: the CLI skeleton and typed document model
-are in place. The HTML parser, terminal renderer, local storage, search,
-and documentation ingestion are subsequent milestones.
+Phases 1 through 3 are complete: the CLI skeleton, typed document model,
+and offline HTML parser are in place. The terminal renderer, local
+storage, search, and documentation ingestion are subsequent milestones.
