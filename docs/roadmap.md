@@ -76,6 +76,9 @@ width, and pagination for terminal output.
 
 Acceptance: show and search operations work offline.
 
+Status: complete. SQLite persistence, exact topic lookup, bounded search,
+and listing APIs are covered by offline tests.
+
 ## Phase 6 --- Documentation ingestion
 
 -   Add explicit download/update command.
