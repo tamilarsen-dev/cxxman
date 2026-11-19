@@ -1,7 +1,7 @@
 # GitHub Release Readiness
 
-This file tracks what has been checked locally and what still needs the
-GitHub repository and Actions.
+This file tracks completed local work, the public GitHub repository, and
+remaining steps before the first downloadable release.
 
 ## Repository setup
 
@@ -13,15 +13,16 @@ GitHub repository and Actions.
 | Description | C++ reference manuals in your terminal, with offline search and on-demand updates. |
 | Initial branch | `master` |
 
-The GitHub account is signed in through the browser. The repository has
-not yet been created, and this checkout has no Git remote. GitHub CLI is
-not installed; repository creation will use the already-open GitHub page.
+The public repository is live at
+[`tamilarsen-dev/cxxman`](https://github.com/tamilarsen-dev/cxxman), with
+the description shown above. The local `master` branch is pushed and
+tracks `origin/master`. GitHub CLI is not installed; the repository was
+created through the browser.
 
-Before the first public push, decide whether to rewrite the local commit
-author metadata to the account's GitHub noreply address. One author address
-in the existing history is not a GitHub noreply address, so pushing the
-history unchanged would make that address visible in public commit data.
-Rewriting preserves the staged work but changes commit hashes.
+The original history contained a non-GitHub-noreply author address. Before
+the public push, author and committer addresses were rewritten to the
+account's noreply address. The resulting commit hashes differ from the
+original local history.
 
 ## Completed locally
 
@@ -40,6 +41,9 @@ Rewriting preserves the staged work but changes commit hashes.
 - The latest full Python test run passed: 34 tests.
 - `.gitignore` excludes virtual environments, test/build output, and local
   documentation databases.
+- The 15 existing commits were rewritten to use the GitHub noreply address
+  for author and committer metadata before the public push. A local-only
+  backup branch retains the original history; it was not pushed.
 
 ## Configured but not verified remotely
 
@@ -48,20 +52,16 @@ builds and smoke-tests native Windows x64, Linux x64, Intel macOS, and
 Apple Silicon macOS binaries. A matching `v*` tag publishes four
 platform archives and checksum files in one GitHub Release.
 
-Only the Windows build has been executed in this workspace. Linux and
-macOS builds still need a successful GitHub Actions run before publishing
-the first release.
+Only the Windows build has been executed in this workspace. The first
+GitHub Actions run for the public `master` push is queued; Linux and macOS
+still need successful remote builds before publishing the first release.
 
 ## Still needed
 
-1. Create public `tamilarsen-dev/cxxman` without GitHub-generated README,
-   `.gitignore`, or license files; the local repository already has its
-   own README and `.gitignore`.
-2. Add `origin` and push the existing `master` branch.
-3. Check the cross-platform GitHub Actions matrix and fix any failures.
-4. Choose a project license. No `LICENSE` file has been added because the
+1. Check the cross-platform GitHub Actions matrix and fix any failures.
+2. Choose a project license. No `LICENSE` file has been added because the
    license is an owner decision.
-5. After the matrix passes, publish the first version tag and verify the
+3. After the matrix passes, publish the first version tag and verify the
    resulting release assets and checksums.
 
 macOS executables are not signed or notarized. The Linux x64 build uses
