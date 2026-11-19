@@ -25,7 +25,13 @@ def build_parser() -> argparse.ArgumentParser:
             "  cxxman <topic>             Show one locally stored page\n"
             "  cxxman search <query>      Search local documentation\n"
             "  cxxman list                List locally stored pages\n"
+            "  cxxman topics              Show pages available to download\n"
             "  cxxman update [topic ...]  Download/update starter pages"
+            "\n\nExamples:\n"
+            "  cxxman topics\n"
+            "  cxxman update vector::push_back\n"
+            "  cxxman vector::push_back\n"
+            "  cxxman search push_back"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -37,8 +43,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "action_or_topic",
         nargs="?",
-        metavar="{topic,search,list,update}",
-        help="topic to display, or search/list/update command",
+        metavar="{topic,search,list,topics,update}",
+        help="topic to display, or a command",
     )
     parser.add_argument("arguments", nargs="*", metavar="ARG")
     return parser
@@ -62,6 +68,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         if arguments:
             parser.error("list does not accept arguments")
         return _list_pages()
+    if action == "topics":
+        if arguments:
+            parser.error("topics does not accept arguments")
+        return _list_supported_topics()
     if action == "update":
         return _update_pages(arguments)
     if arguments:
@@ -119,6 +129,15 @@ def _list_pages() -> int:
         return 0
     for topic, title in topics:
         print(f"{topic}  {title}")
+    return 0
+
+
+def _list_supported_topics() -> int:
+    from cxxman.core.catalog import SOURCE_PAGES
+
+    print("Topics available to download (run 'cxxman update <topic>'):")
+    for page in SOURCE_PAGES.values():
+        print(f"  {page.topic:<22} {page.header or ''}")
     return 0
 
 

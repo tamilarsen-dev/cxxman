@@ -46,6 +46,15 @@ python -m cxxman --help
 
 ## Download pages
 
+To see every topic the current version supports, run:
+
+```powershell
+cxxman topics
+```
+
+This is the downloadable catalog. `cxxman list` shows only pages already
+stored in your local database.
+
 Run an explicit update to fetch and store the full current starter set:
 
 ```powershell

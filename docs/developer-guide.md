@@ -41,6 +41,7 @@ project `.venv` and generated documentation databases are ignored by Git.
 src/cxxman/
   __main__.py             python -m entry point
   cli.py                  argument parsing and command dispatch
+  core/catalog.py         curated downloadable page metadata
   core/document.py        typed document and content-block model
   core/search.py          search result and service types
   core/update.py          catalog, downloads, parsing, and update flow
@@ -75,7 +76,7 @@ Page lookup loads one page; search returns bounded metadata results.
 ## Adding a supported reference topic
 
 The current download catalog is `SOURCE_PAGES` in
-`src/cxxman/core/update.py`. To add a topic:
+`src/cxxman/core/catalog.py`. To add a topic:
 
 1. Add its topic name, stable identifier, cppreference URL, and header to
    the catalog.

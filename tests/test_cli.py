@@ -11,7 +11,19 @@ def test_help(capsys: pytest.CaptureFixture[str]) -> None:
         main(["--help"])
 
     assert exc_info.value.code == 0
-    assert "usage: cxxman" in capsys.readouterr().out
+    output = capsys.readouterr().out
+    assert "usage: cxxman" in output
+    assert "cxxman topics" in output
+    assert "cxxman update vector::push_back" in output
+
+
+def test_topics_lists_downloadable_pages(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["topics"]) == 0
+
+    output = capsys.readouterr().out
+    assert "Topics available to download" in output
+    assert "vector::push_back" in output
+    assert "<vector>" in output
 
 
 def test_version(capsys: pytest.CaptureFixture[str]) -> None:
