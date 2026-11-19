@@ -61,9 +61,9 @@ status documents; they do not change application code or the workflow.
 
 ## Still needed
 
-1. Choose a project license. No `LICENSE` file has been added because the
-   license is an owner decision.
-2. Publish version tag `v0.1.0` and verify the
+The project license is MIT; see the root `LICENSE` file.
+
+1. Publish version tag `v0.1.0` and verify the
    resulting release assets and checksums.
 
 macOS executables are not signed or notarized. The Linux x64 build uses

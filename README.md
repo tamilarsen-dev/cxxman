@@ -54,6 +54,10 @@ searching cached pages works offline.
 -   [Project structure](docs/project-structure.md)
 -   [Development roadmap](docs/roadmap.md)
 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
 ## Current status
 
 The CLI currently supports `vector`, `vector::push_back`, `string`, and
