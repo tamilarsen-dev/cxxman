@@ -50,7 +50,7 @@ cxxman/
   `core/search.py`          Search service and result handling
   `parser/html_parser.py`   HTML to structured document conversion
   `storage/database.py`     SQLite schema and persistence
-  `ui/renderer.py`          Terminal rendering with Rich
+  `ui/renderer.py`          Terminal rendering with Rich and pagination
   `tests/`                  Automated tests
   `data/`                   Local database and documentation data
 

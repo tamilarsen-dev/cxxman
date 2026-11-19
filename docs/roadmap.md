@@ -63,6 +63,9 @@ graceful fallback behavior without network access.
 
 Acceptance: fixture documents are readable in PowerShell.
 
+Status: complete. Rendering covers supported document blocks, terminal
+width, and pagination for terminal output.
+
 ## Phase 5 --- Local storage and search
 
 -   Define SQLite schema.
