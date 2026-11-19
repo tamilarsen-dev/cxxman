@@ -32,6 +32,7 @@ def test_parse_vector_fixture_preserves_order_and_structure() -> None:
         headers=("Operation", "Complexity"),
     )
     assert all("navigation" not in getattr(block, "text", "") for block in document.blocks)
+    assert all("Compiler support" not in str(block) for block in document.blocks)
 
 
 def test_parser_falls_back_gracefully_when_content_container_is_missing() -> None:

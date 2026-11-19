@@ -19,7 +19,15 @@ from cxxman.core.document import (
 )
 
 _SKIP_IDS = {"mw-navigation", "siteSub", "footer", "catlinks", "toc"}
-_SKIP_CLASSES = {"navbox", "infobox", "sistersitebox", "noprint", "mw-editsection"}
+_SKIP_CLASSES = {
+    "navbox",
+    "infobox",
+    "sistersitebox",
+    "noprint",
+    "mw-editsection",
+    "t-navbar",
+    "t-page-template",
+}
 
 
 def parse_html(
