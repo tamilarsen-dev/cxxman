@@ -58,9 +58,10 @@ searching cached pages works offline.
 
 The CLI currently supports `vector`, `vector::push_back`, `string`, and
 `sort`. The public source repository is [hosted on GitHub](https://github.com/tamilarsen-dev/cxxman).
-The Windows x64 executable and installer have been built and smoke-tested
-locally. The first GitHub Actions run is queued to test and build Windows
-x64, Linux x64, Intel macOS, and Apple Silicon macOS before the first release.
+Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS builds have
+passed the [GitHub Actions release workflow](https://github.com/tamilarsen-dev/cxxman/actions).
+The Windows executable has also been built and smoke-tested locally. The
+first downloadable GitHub Release has not been published yet.
 
 See [release readiness](docs/release-readiness.md) for completed checks
 and remaining publication steps.

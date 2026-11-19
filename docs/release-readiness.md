@@ -53,12 +53,15 @@ Apple Silicon macOS binaries. A matching `v*` tag publishes four
 platform archives and checksum files in one GitHub Release.
 
 Only the Windows build has been executed in this workspace. The first
-GitHub Actions run for the public `master` push is queued; Linux and macOS
-still need successful remote builds before publishing the first release.
+GitHub Actions run passed all four native builds: Windows x64, Linux x64,
+Intel macOS, and Apple Silicon macOS. GitHub uploaded four temporary run
+artifacts. The publish job was skipped because the run came from a branch
+push rather than a version tag. A second run for the latest documentation
+commit is queued.
 
 ## Still needed
 
-1. Check the cross-platform GitHub Actions matrix and fix any failures.
+1. Confirm the latest documentation commit's workflow run also passes.
 2. Choose a project license. No `LICENSE` file has been added because the
    license is an owner decision.
 3. After the matrix passes, publish the first version tag and verify the
