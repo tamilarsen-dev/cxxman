@@ -1,0 +1,106 @@
+name: Cross-platform release
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "v*"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-2025
+            platform: windows-x64
+            executable: cxxman.exe
+            installer: scripts/install.ps1
+            uninstaller: scripts/uninstall.ps1
+          - runner: ubuntu-22.04
+            platform: linux-x64
+            executable: cxxman
+            installer: scripts/install.sh
+            uninstaller: scripts/uninstall.sh
+          - runner: macos-15-intel
+            platform: macos-x64
+            executable: cxxman
+            installer: scripts/install.sh
+            uninstaller: scripts/uninstall.sh
+          - runner: macos-15
+            platform: macos-arm64
+            executable: cxxman
+            installer: scripts/install.sh
+            uninstaller: scripts/uninstall.sh
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.15"
+
+      - name: Install project and build tools
+        run: python -m pip install -e ".[build,dev]"
+
+      - name: Verify release version matches the tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: python tools/check_release_version.py
+
+      - name: Run tests
+        run: python -m pytest
+
+      - name: Build standalone executable
+        run: >-
+          python -m PyInstaller --noconfirm --clean --onefile --console
+          --name cxxman --paths src --specpath build/pyinstaller
+          --collect-data certifi --collect-submodules pygments.lexers
+          src/cxxman/__main__.py
+
+      - name: Smoke test executable
+        run: python tools/smoke_executable.py dist/${{ matrix.executable }}
+
+      - name: Package platform release
+        run: >-
+          python tools/package_release.py
+          --platform ${{ matrix.platform }}
+          --executable dist/${{ matrix.executable }}
+          --installer ${{ matrix.installer }}
+          --uninstaller ${{ matrix.uninstaller }}
+          --readme docs/release.md
+
+      - name: Upload release asset
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-${{ matrix.platform }}
+          path: dist/cxxman-${{ matrix.platform }}.*
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download release assets
+        uses: actions/download-artifact@v7
+        with:
+          pattern: release-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generate_release_notes: true
+          files: release-assets/*

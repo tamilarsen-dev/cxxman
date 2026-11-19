@@ -125,13 +125,14 @@ verified against cppreference; next, expand the small curated function set.
 
 -   [x] Improve first-run guidance, topic discovery, search feedback, and
     update progress output.
--   [x] Prepare a Windows x64 standalone executable build and per-user
-    PATH installer.
--   [x] Add a tagged GitHub Release workflow with executable smoke checks
-    and a SHA-256 checksum.
+-   [x] Prepare standalone builds and per-user installers for Windows
+    x64, Linux x64, Intel macOS, and Apple Silicon macOS.
+-   [x] Add a cross-platform GitHub Actions workflow that builds on pushes
+    and pull requests, then publishes tagged releases with native
+    executable smoke checks and SHA-256 checksums.
 -   [ ] Publish the first release after confirming the repository's
     GitHub Actions permissions and release page.
 
 The source project does not yet have a published standalone release.
-`docs/release.md` describes the package contents, install flow, and
+`docs/release.md` describes the platform archives, install flows, and
 maintainer release steps.

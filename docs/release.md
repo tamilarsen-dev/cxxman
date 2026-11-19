@@ -1,120 +1,133 @@
-# Windows Release and Installation
+# Release and Installation
 
-## What the release contains
+## Supported release builds
 
-The Windows x64 release ZIP contains:
+Each GitHub Release will include a standalone command-line build. Users do
+not need Python, pip, a virtual environment, or administrator privileges.
 
-- `cxxman.exe`: the standalone terminal application, including its Python
-  runtime and Python package dependencies.
-- `install.ps1`: per-user installer that copies the executable and adds
-  its folder to the user's `PATH`.
-- `uninstall.ps1`: removes the executable and its `PATH` entry.
-- This README with install and usage instructions.
+| Asset | Target |
+|---|---|
+| `cxxman-windows-x64.zip` | 64-bit Windows |
+| `cxxman-linux-x64.tar.gz` | 64-bit Linux, built on Ubuntu 22.04 |
+| `cxxman-macos-x64.tar.gz` | Intel macOS |
+| `cxxman-macos-arm64.tar.gz` | Apple Silicon macOS |
 
-Users do not need Python, pip, a virtual environment, or administrator
-rights. The executable is built for 64-bit Windows. Other operating
-systems and CPU architectures do not have release artifacts yet.
+PyInstaller builds for the native operating system and architecture; the
+release workflow therefore uses one GitHub runner per target. The
+executable contains the application, Python runtime, and Python package
+dependencies. It does not include the C++ reference corpus. Pages are
+downloaded explicitly and stored in the user's local database; page
+viewing, search, and listing work offline.
 
-The executable does not include the C++ reference corpus. Pages are
-downloaded on demand from cppreference and stored in the user's local
-database. Ordinary page viewing, search, and listing remain offline.
+## Windows installation
 
-## Install
-
-1. Download `cxxman-windows-x64.zip` from the GitHub Releases page.
+1. Download `cxxman-windows-x64.zip` from GitHub Releases.
 2. Extract the ZIP to a folder.
-3. Open PowerShell in that extracted folder and run:
+3. Open PowerShell in that folder and run:
 
    ```powershell
    .\install.ps1
    ```
 
-   If PowerShell blocks the downloaded script, run it with a process-only
+   If PowerShell blocks the downloaded script, use a process-only
    execution policy override:
 
    ```powershell
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
    ```
 
-4. Open a new terminal window so it loads the updated user `PATH`.
-5. Check the installation and inspect the catalog:
+4. Open a new terminal, then run `cxxman --help`.
 
-   ```powershell
-   cxxman --version
-   cxxman topics
+The installer copies the executable to
+`%LOCALAPPDATA%\Programs\cxxman` and adds that directory to the current
+user's `PATH`.
+
+## Linux and macOS installation
+
+1. Download the archive matching your OS and CPU from GitHub Releases.
+2. Extract it, then open a terminal in the extracted folder.
+3. Run the installer:
+
+   ```sh
+   sh ./install.sh
    ```
 
-The installer writes the executable to
-`%LOCALAPPDATA%\Programs\cxxman` and adds that directory to the current
-Windows user's `PATH`. It does not need administrator privileges.
+4. Open a new terminal, then run `cxxman --help`.
 
-## Use
+The installer copies the executable and uninstaller to `~/.local/bin` and
+adds that directory to the startup file for the current shell: `~/.bashrc`
+for Bash, `~/.zshrc` for Zsh, or `~/.config/fish/config.fish` for Fish.
+Other shells use `~/.profile`. If your shell does not read that file, add
+`~/.local/bin` to its `PATH` manually.
 
-Download a page, then read it:
+macOS downloads are not currently signed or notarized. macOS may block
+the first run; review the Gatekeeper message and allow the executable in
+System Settings only if you trust the release and have verified its
+checksum.
 
-```powershell
-cxxman update vector::push_back
-cxxman vector::push_back
-```
+## Verify downloads
 
-Or download the full current starter catalog:
-
-```powershell
-cxxman update
-```
-
-The current supported pages are `vector`, `vector::push_back`, `string`,
-and `sort`. Run `cxxman topics` for the version's catalog and
-`cxxman --help` for commands. Updates require an internet connection.
-Cached page reading, search, and listing do not.
-
-The local documentation database is kept under
-`%LOCALAPPDATA%\cxxman\cxxman.sqlite3`. Updating the application does not
-remove cached pages.
-
-## Upgrade
-
-Download and extract the newer release ZIP, then run its `install.ps1`
-again. It replaces the application in the same per-user directory and
-leaves the local documentation database intact. Open a new terminal if
-the command is not found.
-
-## Uninstall
-
-Run the installed uninstaller:
-
-```powershell
-& "$env:LOCALAPPDATA\Programs\cxxman\uninstall.ps1"
-```
-
-The uninstaller removes the application directory and its user `PATH`
-entry. It keeps the documentation database. To delete cached pages too,
-remove `%LOCALAPPDATA%\cxxman` separately.
-
-## Checksums and release trust
-
-Each GitHub Release includes `cxxman-windows-x64.zip.sha256`. Verify the
-download before extracting it:
+Each archive has a matching `.sha256` file. On Windows, compare:
 
 ```powershell
 Get-FileHash .\cxxman-windows-x64.zip -Algorithm SHA256
 Get-Content .\cxxman-windows-x64.zip.sha256
 ```
 
-Compare the hash values. The executable is not currently code-signed, so
-Windows SmartScreen or antivirus software may show a warning for a new
-download.
+On Linux or macOS, compare:
+
+```sh
+shasum -a 256 cxxman-linux-x64.tar.gz
+cat cxxman-linux-x64.tar.gz.sha256
+```
+
+Use the matching asset name for your download. The Windows executable
+is not currently code-signed and may trigger a SmartScreen or antivirus
+warning.
+
+## Use
+
+Inspect the supported pages, download one, then read it:
+
+```sh
+cxxman topics
+cxxman update vector::push_back
+cxxman vector::push_back
+```
+
+The current starter catalog contains `vector`, `vector::push_back`,
+`string`, and `sort`. Run `cxxman --help` for the full command list.
+Updates need an internet connection. Cached page reading, search, and
+listing do not.
+
+The local database is stored in the user's application data directory.
+On Windows this is `%LOCALAPPDATA%\cxxman\cxxman.sqlite3`; on Linux and
+macOS it is `$XDG_DATA_HOME/cxxman/cxxman.sqlite3`, or
+`~/.local/share/cxxman/cxxman.sqlite3` when `XDG_DATA_HOME` is unset.
+Upgrading or uninstalling the CLI leaves this database intact.
+
+## Upgrade and uninstall
+
+- **Windows:** extract a newer ZIP and run `install.ps1` again. Remove the
+  app with `& "$env:LOCALAPPDATA\Programs\cxxman\uninstall.ps1"`.
+- **Linux/macOS:** extract a newer archive and run `sh ./install.sh`
+  again. Remove the app with `sh "$HOME/.local/bin/uninstall.sh"`.
+
+Uninstall removes the executable, uninstaller, and PATH entry but keeps
+downloaded pages. To delete the cache too, remove the `cxxman` folder in
+the platform's data directory described above.
 
 ## Maintainer release steps
 
 1. Set the same release version in `pyproject.toml` and
    `src/cxxman/__init__.py`.
-2. Commit the version change and push the commit to GitHub.
-3. Create and push a matching tag, for example `v0.1.0`.
-4. The Windows release workflow runs the tests, builds the one-file
-   executable, smoke-tests the executable, assembles the ZIP and checksum,
-   and publishes a GitHub Release.
+2. Commit and push the version change.
+3. Push a matching version tag, for example `v0.1.0`.
+4. The workflow runs tests on four native runners, builds and smoke-tests
+   each executable, packages each archive with its checksum, and creates
+   one GitHub Release containing all assets.
 
 The workflow rejects tags whose version does not match both project
-version fields. The release is Windows x64 only; add and verify another
-build job before advertising support for other platforms.
+version fields. Linux x64 releases target the Ubuntu 22.04 baseline.
+Other Linux distributions may need a newer glibc than their system
+provides. Windows ARM and Linux ARM releases are not included yet.

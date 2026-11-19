@@ -49,7 +49,9 @@ src/cxxman/
   storage/database.py     SQLite schema, persistence, lookup, and search
   ui/renderer.py          Rich terminal rendering and pagination
 tests/                    offline pytest suite and saved HTML fixtures
-tools/benchmark.py        repeatable synthetic-corpus benchmark
+scripts/                  per-user installers and uninstallers
+tools/                     benchmark, packaging, and executable smoke checks
+.github/workflows/         native platform build and release workflow
 docs/                     scope, architecture, decisions, and manuals
 ```
 
@@ -125,7 +127,7 @@ storage behavior.
 - Keep generated databases, downloaded data, build output, and virtual
   environments out of commits.
 
-## Building and checking the Windows executable
+## Building and checking a native executable
 
 Install build tools into the project environment and build the one-file
 console executable:
@@ -139,7 +141,16 @@ python -m PyInstaller --noconfirm --clean --onefile --console `
 python tools/smoke_executable.py dist/cxxman.exe
 ```
 
+On Linux and macOS, the native executable is `dist/cxxman` rather than
+`dist/cxxman.exe`. Run the build on the operating system and architecture
+you want to target; PyInstaller does not make a Windows executable run
+on another operating system. The `tools/package_release.py` script
+assembles the native executable with its installer, uninstaller, README,
+and SHA-256 checksum.
+
 The smoke check uses a temporary SQLite database and does not access the
-network. The GitHub Actions workflow repeats tests, the build, and smoke
-checks on Windows when a matching `v*` tag is pushed, then publishes the
-ZIP and SHA-256 checksum. Read `docs/release.md` before tagging a release.
+network. The GitHub Actions workflow repeats tests, build, packaging, and
+smoke checks on Windows x64, Linux x64, Intel macOS, and Apple Silicon
+macOS for pushes and pull requests. A matching `v*` tag additionally
+publishes all four assets in one GitHub Release. Read `docs/release.md`
+before tagging a release.

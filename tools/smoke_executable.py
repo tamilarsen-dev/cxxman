@@ -40,7 +40,10 @@ def main() -> int:
         environment["CXXMAN_DB_PATH"] = str(database_path)
         _run(executable, ["--help"], environment, expected="cxxman topics")
         _run(executable, ["--version"], environment, expected="cxxman ")
+        _run(executable, [], environment, expected="Quick start:")
         _run(executable, ["topics"], environment, expected="vector::push_back")
+        _run(executable, ["list"], environment, expected="Smoke test page")
+        _run(executable, ["search", "Standalone"], environment, expected="cxxman smoke")
         _run(
             executable,
             ["smoke"],

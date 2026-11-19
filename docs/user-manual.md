@@ -21,7 +21,7 @@ topic must be in the catalog to be downloaded.
 
 ## Install and start
 
-The current development install uses the repository's Python virtual
+For development, install the repository into its Python virtual
 environment. From the project directory in PowerShell:
 
 ```powershell
@@ -30,10 +30,11 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 python -m pip install -e .
 ```
 
-The standalone Windows x64 release workflow and installer are prepared,
-but a GitHub Release has not been published yet. When one is available,
-download its ZIP and follow the [Windows installation guide](release.md).
-Until then, use the development install above. Ask for command help with:
+Standalone releases and installers are prepared for Windows x64, Linux
+x64, Intel Macs, and Apple Silicon Macs, but a GitHub Release has not
+been published yet. When one is available, download the matching archive
+and follow the [release installation guide](release.md). Ask for command
+help with:
 
 ```powershell
 cxxman --help

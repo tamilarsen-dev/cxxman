@@ -14,8 +14,8 @@ local storage when you open a page.
     and code examples.
 -   Search documentation by symbol and topic.
 -   Keep page lookup fast and memory usage bounded.
--   Support Windows PowerShell first, while keeping the Python package
-    portable.
+-   Provide native terminal builds for Windows, Linux, and macOS, while
+    keeping the Python package portable.
 
 ## Quick vision
 
@@ -31,7 +31,7 @@ cxxman vector::push_back
 
 -   [User manual](docs/user-manual.md)
 -   [Developer guide](docs/developer-guide.md)
--   [Windows release and installation](docs/release.md)
+-   [Cross-platform release and installation](docs/release.md)
 -   [MVP scope](docs/mvp.md)
 -   [Architecture](docs/architecture.md)
 -   [Performance strategy](docs/performance.md)
@@ -46,7 +46,8 @@ manual is `std::vector::push_back`; the class overview pages remain
 available when broader context is useful. First-run guidance and topic
 discovery are included in the CLI.
 
-A Windows x64 standalone release workflow and per-user installer are now
-prepared. No GitHub Release has been published yet; see the
-[release and installation guide](docs/release.md) for the planned install
-flow and maintainer steps.
+A cross-platform standalone release workflow and per-user installers are
+now prepared for Windows x64, Linux x64, and Intel and Apple Silicon Macs.
+No GitHub Release has been published yet; see the
+[release and installation guide](docs/release.md) for the install flow and
+maintainer steps.
