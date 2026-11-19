@@ -30,8 +30,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 python -m pip install -e .
 ```
 
-Standalone GitHub Releases are a planned distribution format and are not
-available yet. Once installed, ask for command help with:
+The standalone Windows x64 release workflow and installer are prepared,
+but a GitHub Release has not been published yet. When one is available,
+download its ZIP and follow the [Windows installation guide](release.md).
+Until then, use the development install above. Ask for command help with:
 
 ```powershell
 cxxman --help

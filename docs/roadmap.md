@@ -120,3 +120,18 @@ Expand focused library-function manuals so common operations such as
 `std::vector::push_back` open directly without loading a full class page.
 The first function page, `std::vector::push_back`, is implemented and
 verified against cppreference; next, expand the small curated function set.
+
+## Release preparation
+
+-   [x] Improve first-run guidance, topic discovery, search feedback, and
+    update progress output.
+-   [x] Prepare a Windows x64 standalone executable build and per-user
+    PATH installer.
+-   [x] Add a tagged GitHub Release workflow with executable smoke checks
+    and a SHA-256 checksum.
+-   [ ] Publish the first release after confirming the repository's
+    GitHub Actions permissions and release page.
+
+The source project does not yet have a published standalone release.
+`docs/release.md` describes the package contents, install flow, and
+maintainer release steps.

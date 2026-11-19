@@ -4,6 +4,7 @@ venv/
 *.egg-info/
 build/
 dist/
+release/
 __pycache__/
 *.py[cod]
 

@@ -3,8 +3,8 @@
 A terminal-based C++ documentation viewer inspired by Linux `man`.
 
 `cxxman` is designed around a **local-first** workflow: documentation is
-downloaded and parsed during installation or updates, then read from
-local storage when the user opens a page.
+downloaded and parsed only when you explicitly update it, then read from
+local storage when you open a page.
 
 ## Project goals
 
@@ -20,10 +20,10 @@ local storage when the user opens a page.
 ## Quick vision
 
 ``` powershell
+cxxman topics
+cxxman update vector
 cxxman vector
-cxxman string
-cxxman sort
-cxxman search unordered_map
+cxxman search vector
 cxxman vector::push_back
 ```
 
@@ -31,6 +31,7 @@ cxxman vector::push_back
 
 -   [User manual](docs/user-manual.md)
 -   [Developer guide](docs/developer-guide.md)
+-   [Windows release and installation](docs/release.md)
 -   [MVP scope](docs/mvp.md)
 -   [Architecture](docs/architecture.md)
 -   [Performance strategy](docs/performance.md)
@@ -42,4 +43,10 @@ cxxman vector::push_back
 
 Phases 1 through 7 are complete. The first focused library-function
 manual is `std::vector::push_back`; the class overview pages remain
-available when broader context is useful.
+available when broader context is useful. First-run guidance and topic
+discovery are included in the CLI.
+
+A Windows x64 standalone release workflow and per-user installer are now
+prepared. No GitHub Release has been published yet; see the
+[release and installation guide](docs/release.md) for the planned install
+flow and maintainer steps.

@@ -44,7 +44,7 @@ src/cxxman/
   core/catalog.py         curated downloadable page metadata
   core/document.py        typed document and content-block model
   core/search.py          search result and service types
-  core/update.py          catalog, downloads, parsing, and update flow
+  core/update.py          downloads, parsing, and transactional update flow
   parser/html_parser.py   source HTML to structured documents
   storage/database.py     SQLite schema, persistence, lookup, and search
   ui/renderer.py          Rich terminal rendering and pagination
@@ -125,9 +125,21 @@ storage behavior.
 - Keep generated databases, downloaded data, build output, and virtual
   environments out of commits.
 
-## Current release status
+## Building and checking the Windows executable
 
-The project is currently an editable Python package for development. A
-standalone Windows executable distributed through GitHub Releases is a
-planned next stage; there is not yet a release build workflow or user
-installer. See `docs/roadmap.md` for milestone status.
+Install build tools into the project environment and build the one-file
+console executable:
+
+```powershell
+python -m pip install -e ".[build,dev]"
+python -m PyInstaller --noconfirm --clean --onefile --console `
+  --name cxxman --paths src --specpath build/pyinstaller `
+  --collect-data certifi --collect-submodules pygments.lexers `
+  src/cxxman/__main__.py
+python tools/smoke_executable.py dist/cxxman.exe
+```
+
+The smoke check uses a temporary SQLite database and does not access the
+network. The GitHub Actions workflow repeats tests, the build, and smoke
+checks on Windows when a matching `v*` tag is pushed, then publishes the
+ZIP and SHA-256 checksum. Read `docs/release.md` before tagging a release.
