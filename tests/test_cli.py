@@ -124,3 +124,25 @@ def test_update_command_fetches_requested_page(
 
     with Database(database_path) as database:
         assert database.get_document("vector") is not None
+
+
+def test_corrupt_local_page_has_a_useful_error(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.core.document import Document, Paragraph
+    from cxxman.storage.database import Database
+
+    database_path = tmp_path / "docs.sqlite3"
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(database_path))
+    with Database(database_path) as database:
+        database.save_document(
+            Document("id", "std::vector", "vector", "url", (Paragraph("text"),))
+        )
+        with database._connection:
+            database._connection.execute(
+                "UPDATE documents SET content_json = ? WHERE identifier = ?",
+                ("broken", "id"),
+            )
+
+    assert main(["vector"]) == 1
+    assert "local page 'vector' is corrupt" in capsys.readouterr().err

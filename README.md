@@ -37,7 +37,8 @@ cxxman search unordered_map
 
 ## Current status
 
-Phases 1 through 6 are complete: the CLI, structured document model,
-offline parser and renderer, local SQLite storage/search, and explicit
-documentation updates are implemented. Phase 7 covers quality and
-performance measurements.
+Phases 1 through 7 are complete: the CLI, structured document model,
+offline parser and renderer, local SQLite storage/search, explicit
+documentation updates, and baseline quality/performance checks are in
+place. Measurements use synthetic data and are not performance claims
+for a full cppreference corpus.

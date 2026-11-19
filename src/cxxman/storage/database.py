@@ -39,6 +39,10 @@ def default_database_path() -> Path:
     return data_root / "cxxman" / "cxxman.sqlite3"
 
 
+class CorruptDocumentError(ValueError):
+    """A stored page record could not be reconstructed as a document."""
+
+
 class Database:
     """Persist documents in SQLite and provide bounded local queries."""
 
@@ -192,7 +196,14 @@ class Database:
                LIMIT 1""",
             (topic, topic, topic),
         ).fetchone()
-        return _deserialize_document(row) if row else None
+        if row is None:
+            return None
+        try:
+            return _deserialize_document(row)
+        except (json.JSONDecodeError, KeyError, TypeError, ValueError, IndexError) as error:
+            raise CorruptDocumentError(
+                f"stored page '{row['identifier']}' has invalid structured content"
+            ) from error
 
     def list_topics(self, limit: int = 100) -> list[tuple[str, str]]:
         """Return bounded ``(canonical_topic, title)`` pairs in stable order."""

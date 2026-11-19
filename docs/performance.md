@@ -95,3 +95,44 @@ Treat these as engineering targets to validate, not guarantees:
 
 Avoid premature micro-optimization. The largest performance win is
 removing network access and HTML parsing from the read path.
+
+## 7. Phase 7 baseline (2026-11-19)
+
+Measurements were collected with `tools/benchmark.py` on Windows 11
+(build 26200), Python 3.15.2, SQLite 3.53.4 with FTS5 enabled, and an
+Intel 64-bit processor (Family 6, Model 126, Stepping 5; 8 logical CPUs).
+The harness creates temporary synthetic
+corpora of 3 and 1,000 pages. Each synthetic page has six typed blocks;
+the 1,000-page corpus contains 453,000 bytes of serialized page blocks.
+These pages are representative test data, not downloaded cppreference
+content.
+
+`timeit.repeat` used five repeats of 500 operations for lookup and search,
+and five repeats of 100 operations for rendering. Process startup was
+measured over six subprocess runs of `python -m cxxman search sequence`
+against the 1,000-page database. The first process took 239 ms; the
+median of the next five was 255 ms. This is process startup with local
+database initialization and search, not a cold operating-system cache
+measurement.
+
+| Corpus | SQLite file | Exact lookup/load | FTS5 search |
+|---|---:|---:|---:|
+| 3 synthetic pages | 40 KiB | 0.166 ms | 0.244 ms |
+| 1,000 synthetic pages | 1.37 MiB | 0.370 ms | 1.645 ms |
+
+For the 1,000-page corpus, rendering one six-block page took 3.248 ms.
+`tracemalloc` reported a 4,301-byte Python allocation peak while loading
+one page. This excludes native SQLite allocations and process memory.
+The SQLite content JSON averaged 453 bytes per page. The database stores
+the FTS index and metadata as well, so its full file size is not directly
+comparable to that content size.
+
+`cProfile` over 100 large-corpus search calls attributed 0.242 seconds to
+SQLite `execute`, out of 0.262 seconds total. The timed query returned at
+most 20 metadata results.
+
+These measurements establish a reproducible baseline, not a performance
+claim for real cppreference pages. They do not compare JSON files against
+SQLite using a real corpus, and they do not capture native memory. Repeat
+the measurements after ingesting real pages before changing the storage
+format or claiming a target is met.

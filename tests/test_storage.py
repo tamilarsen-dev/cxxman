@@ -1,5 +1,7 @@
 """Tests for SQLite document persistence and lookup."""
 
+import pytest
+
 from cxxman.core.document import (
     CodeBlock,
     Document,
@@ -10,6 +12,7 @@ from cxxman.core.document import (
     Table,
 )
 from cxxman.storage.database import Database
+from cxxman.storage.database import CorruptDocumentError
 
 
 def make_document(
@@ -59,3 +62,16 @@ def test_list_topics_is_bounded_and_sorted(tmp_path) -> None:
         database.save_document(make_document())
 
         assert database.list_topics(limit=1) == [("string", "std::string")]
+
+
+def test_corrupt_structured_record_raises_specific_error(tmp_path) -> None:
+    with Database(tmp_path / "docs.sqlite3") as database:
+        database.save_document(make_document())
+        with database._connection:
+            database._connection.execute(
+                "UPDATE documents SET content_json = ? WHERE identifier = ?",
+                ("not valid JSON", "cpp/vector"),
+            )
+
+        with pytest.raises(CorruptDocumentError, match="cpp/vector"):
+            database.get_document("vector")

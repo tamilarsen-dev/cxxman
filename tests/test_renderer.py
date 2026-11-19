@@ -1,5 +1,6 @@
 """Tests for readable terminal rendering of document blocks."""
 
+from contextlib import contextmanager
 from io import StringIO
 
 from rich.console import Console
@@ -62,3 +63,20 @@ def test_render_pagination_is_ignored_for_piped_output() -> None:
     render_document(document, console=console, paginate=True)
 
     assert "Text" in sink.getvalue()
+
+
+def test_render_uses_pager_for_terminal_output(monkeypatch) -> None:
+    sink = StringIO()
+    console = Console(file=sink, width=40, color_system=None, force_terminal=True)
+    document = Document("id", "Title", "topic", "url", (Paragraph("Text"),))
+    pager_styles: list[bool] = []
+
+    @contextmanager
+    def fake_pager(*, styles: bool = False):
+        pager_styles.append(styles)
+        yield
+
+    monkeypatch.setattr(console, "pager", fake_pager)
+    render_document(document, console=console, paginate=True)
+
+    assert pager_styles == [True]

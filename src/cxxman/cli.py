@@ -8,7 +8,11 @@ import sys
 from collections.abc import Sequence
 
 from cxxman import __version__
-from cxxman.storage.database import Database, default_database_path
+from cxxman.storage.database import (
+    CorruptDocumentError,
+    Database,
+    default_database_path,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -69,6 +73,9 @@ def _show_page(topic: str) -> int:
     try:
         with Database(default_database_path()) as database:
             document = database.get_document(topic)
+    except CorruptDocumentError as error:
+        print(f"cxxman: local page '{topic}' is corrupt: {error}", file=sys.stderr)
+        return 1
     except (OSError, sqlite3.Error) as error:
         print(f"cxxman: could not open local documentation: {error}", file=sys.stderr)
         return 1

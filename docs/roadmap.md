@@ -92,17 +92,21 @@ Acceptance: after download, page viewing works with the network
 disconnected.
 
 Status: complete. Explicit updates, local read commands, and failed-update
-preservation are covered by the 23-test suite.
+preservation are covered by the full test suite.
 
 ## Phase 7 --- Quality and performance
 
--   Add CLI integration tests.
--   Measure startup, lookup, search, rendering, and memory.
--   Test missing pages, corrupt records, and network failures.
--   Package and test the Windows command.
+-   [x] Add CLI integration tests.
+-   [x] Measure startup, lookup, search, rendering, and memory.
+-   [x] Test missing pages, corrupt records, and network failures.
+-   [x] Package and test the Windows command.
 
 Acceptance: documented performance measurements and reliable offline
 behavior.
+
+Status: complete. The full suite passes, the installed Windows command
+works, and a synthetic-corpus baseline is recorded in
+`docs/performance.md`.
 
 ## Release boundary
 
