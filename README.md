@@ -37,6 +37,6 @@ cxxman search unordered_map
 
 ## Current status
 
-Early project setup. The first milestone is a working CLI skeleton.
-Documentation ingestion, local storage, search, and rendering are
-subsequent milestones.
+Phases 1 and 2 are complete: the CLI skeleton and typed document model
+are in place. The HTML parser, terminal renderer, local storage, search,
+and documentation ingestion are subsequent milestones.

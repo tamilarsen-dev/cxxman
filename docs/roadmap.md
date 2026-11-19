@@ -5,8 +5,8 @@
 -   [x] Choose Python and local-first architecture.
 -   [x] Initialize Git repository.
 -   [x] Create Python virtual environment.
--   [ ] Create package metadata and CLI entry point.
--   [ ] Verify editable installation and command execution.
+-   [x] Create package metadata and CLI entry point.
+-   [x] Verify editable installation and command execution.
 
 ## Phase 1 --- CLI skeleton
 
@@ -18,6 +18,9 @@ Commands:
     available)
 
 Acceptance: predictable argument parsing, exit codes, and useful errors.
+
+Status: complete. Editable installation, help, version, and the missing
+topic response were verified in the project virtual environment.
 
 ## Phase 2 --- Document model
 
@@ -33,6 +36,9 @@ Define typed structures for:
 
 Acceptance: construct representative documents in tests without HTML or
 network access.
+
+Status: complete. The typed model and its offline construction tests are
+in place.
 
 ## Phase 3 --- Parser
 
