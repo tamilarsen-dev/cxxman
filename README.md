@@ -37,7 +37,7 @@ cxxman search unordered_map
 
 ## Current status
 
-Phases 1 through 5 are complete: the CLI skeleton, typed document model,
-offline HTML parser, terminal renderer, and local SQLite storage/search
-are in place. Documentation ingestion and CLI integration are the next
-milestone.
+Phases 1 through 6 are complete: the CLI, structured document model,
+offline parser and renderer, local SQLite storage/search, and explicit
+documentation updates are implemented. Phase 7 covers quality and
+performance measurements.

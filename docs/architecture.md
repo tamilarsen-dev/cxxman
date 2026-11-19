@@ -65,6 +65,8 @@ download or parse remote HTML.
 -   `document.py`: define the structured document model.
 -   `search.py`: define search behavior and ranking over local indexed
     data.
+-   `update.py`: fetch and parse only when the user invokes `update`, then
+    atomically commit the selected pages.
 
 ### Parser (`parser/`)
 

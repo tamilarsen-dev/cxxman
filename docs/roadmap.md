@@ -91,6 +91,9 @@ and listing APIs are covered by offline tests.
 Acceptance: after download, page viewing works with the network
 disconnected.
 
+Status: complete. Explicit updates, local read commands, and failed-update
+preservation are covered by the 23-test suite.
+
 ## Phase 7 --- Quality and performance
 
 -   Add CLI integration tests.
