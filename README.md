@@ -1,6 +1,8 @@
 # cxxman
 
 A terminal-based C++ documentation viewer inspired by Linux `man`.
+Read C++ library references, search cached pages, and update documentation
+from the terminal.
 
 `cxxman` is designed around a **local-first** workflow: documentation is
 downloaded and parsed only when you explicitly update it, then read from
@@ -27,11 +29,24 @@ cxxman search vector
 cxxman vector::push_back
 ```
 
+## Download
+
+Standalone builds are prepared for Windows x64, Linux x64, Intel macOS,
+and Apple Silicon macOS. The first GitHub Release is not published yet.
+Once available, download the archive for your platform from
+[GitHub Releases](https://github.com/tamilarsen-dev/cxxman/releases/latest)
+and follow the [installation guide](docs/release.md).
+
+The executable does not bundle cppreference pages. Run `cxxman update`
+after installing to download the supported starter pages; reading and
+searching cached pages works offline.
+
 ## Documentation
 
 -   [User manual](docs/user-manual.md)
 -   [Developer guide](docs/developer-guide.md)
 -   [Cross-platform release and installation](docs/release.md)
+-   [Release readiness](docs/release-readiness.md)
 -   [MVP scope](docs/mvp.md)
 -   [Architecture](docs/architecture.md)
 -   [Performance strategy](docs/performance.md)
@@ -41,13 +56,11 @@ cxxman vector::push_back
 
 ## Current status
 
-Phases 1 through 7 are complete. The first focused library-function
-manual is `std::vector::push_back`; the class overview pages remain
-available when broader context is useful. First-run guidance and topic
-discovery are included in the CLI.
+The CLI currently supports `vector`, `vector::push_back`, `string`, and
+`sort`. The Windows x64 executable and installer have been built and
+smoke-tested locally. GitHub Actions is configured to test and build
+Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS; those remote
+matrix builds still need to run before the first release.
 
-A cross-platform standalone release workflow and per-user installers are
-now prepared for Windows x64, Linux x64, and Intel and Apple Silicon Macs.
-No GitHub Release has been published yet; see the
-[release and installation guide](docs/release.md) for the install flow and
-maintainer steps.
+See [release readiness](docs/release-readiness.md) for completed checks
+and remaining publication steps.

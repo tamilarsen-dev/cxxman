@@ -353,19 +353,18 @@ Before finishing:
 
 If a requirement is ambiguous or a dependency is incompatible with Python 3.15.2, stop and explain the trade-off rather than guessing.
 
-## 17. First task for Codex
+## 17. Current project state
 
-Start by inspecting the repository and its documentation. Then implement **only Phase 1: CLI skeleton** from `docs/roadmap.md`.
+The original Phase 1 CLI skeleton task is complete. The project now has
+the document model, parser, renderer, SQLite storage and search, explicit
+updates, first-run guidance, and a cross-platform release workflow.
 
-Expected outcome:
+For future work:
 
-- A valid `pyproject.toml`.
-- `src/cxxman/__init__.py`.
-- `src/cxxman/__main__.py`.
-- `src/cxxman/cli.py`.
-- Minimal tests for `--help`, `--version`, and a topic argument.
-- Editable installation works in the existing `.venv`.
-- `python -m cxxman --help` works.
-- The installed `cxxman --help` command works when invoked from the project's virtual environment.
-
-Do not implement the HTML parser, SQLite database, downloader, or renderer in this first task. Do not install all planned dependencies yet. Keep the first milestone small and verify it before stopping.
+1. Read `docs/roadmap.md`, `docs/release-readiness.md`, and the relevant
+   user or developer guide before choosing a milestone.
+2. Inspect Git status and the current implementation; do not repeat the
+   original CLI skeleton task.
+3. Keep each change focused, tested, and committed locally.
+4. Do not publish a GitHub release until the native platform matrix has
+   passed.
