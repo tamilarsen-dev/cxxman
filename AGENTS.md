@@ -357,14 +357,15 @@ If a requirement is ambiguous or a dependency is incompatible with Python 3.15.2
 
 The original Phase 1 CLI skeleton task is complete. The project now has
 the document model, parser, renderer, SQLite storage and search, explicit
-updates, first-run guidance, and a cross-platform release workflow.
+updates, first-run guidance, and a cross-platform release workflow. The
+public repository and the first downloadable release (`v0.1.0`) are live.
 
 For future work:
 
-1. Read `docs/roadmap.md`, `docs/release-readiness.md`, and the relevant
-   user or developer guide before choosing a milestone.
+1. Read `docs/continuation.md`, `docs/roadmap.md`, and the relevant user
+   or developer guide before choosing a milestone.
 2. Inspect Git status and the current implementation; do not repeat the
    original CLI skeleton task.
 3. Keep each change focused, tested, and committed locally.
-4. Do not publish a GitHub release until the native platform matrix has
-   passed.
+4. The next planned direction is adding more focused library-function
+   manual pages; `std::vector::push_back` is already implemented.
