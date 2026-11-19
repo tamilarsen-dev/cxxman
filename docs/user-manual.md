@@ -38,6 +38,12 @@ cxxman --help
 cxxman --version
 ```
 
+Running `cxxman` with no arguments prints a short quick start:
+
+```powershell
+cxxman
+```
+
 You can also run the package as a module during development:
 
 ```powershell
@@ -106,8 +112,10 @@ cxxman search sequence container
 
 Search returns up to 20 matching page titles and topic names. When SQLite
 FTS5 is available, query terms are combined and support token-prefix
-matching. Search results are metadata only; open a result by its topic to
-read the full page. An empty result means no cached page matched.
+matching. Each result includes a command you can run to open that page.
+Search results are metadata only; open a result by its topic to read the
+full page. If nothing matches, the message distinguishes an empty local
+cache from a query with no matches.
 
 ## List cached pages
 
@@ -136,7 +144,8 @@ cxxman list
 
 After pages are downloaded, `cxxman <topic>`, `cxxman search <query>`,
 and `cxxman list` need no network connection. `cxxman update` is the only
-current network-enabled command.
+current network-enabled command. Updates print a message before each page
+download and suggest a page command when they finish.
 
 ## Common problems
 

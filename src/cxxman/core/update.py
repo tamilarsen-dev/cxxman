@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 import httpx
 
@@ -24,22 +24,25 @@ def update_documents(
     topics: tuple[str, ...] | list[str] = (),
     *,
     client: httpx.Client | None = None,
+    on_page_start: Callable[[SourcePage], None] | None = None,
 ) -> list[Document]:
     """Fetch, parse, then atomically store selected supported pages.
 
     With no topics, update the small curated starter set. Supplying a client
     makes the network boundary injectable for deterministic offline tests.
+    ``on_page_start`` may report progress without coupling this service to a
+    particular terminal UI.
     """
     selected_pages = _resolve_pages(topics)
     if client is not None:
-        documents = _fetch_pages(selected_pages, client)
+        documents = _fetch_pages(selected_pages, client, on_page_start)
     else:
         with httpx.Client(
             timeout=20.0,
             follow_redirects=True,
             headers={"User-Agent": "cxxman/0.1 (C++ reference terminal viewer)"},
         ) as http_client:
-            documents = _fetch_pages(selected_pages, http_client)
+            documents = _fetch_pages(selected_pages, http_client, on_page_start)
     database.save_documents(documents)
     return documents
 
@@ -63,9 +66,15 @@ def _resolve_pages(topics: tuple[str, ...] | list[str]) -> list[SourcePage]:
     return selected
 
 
-def _fetch_pages(pages: list[SourcePage], client: httpx.Client) -> list[Document]:
+def _fetch_pages(
+    pages: list[SourcePage],
+    client: httpx.Client,
+    on_page_start: Callable[[SourcePage], None] | None,
+) -> list[Document]:
     documents: list[Document] = []
     for page in pages:
+        if on_page_start is not None:
+            on_page_start(page)
         try:
             response = client.get(page.url)
             response.raise_for_status()

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from difflib import get_close_matches
 import sqlite3
 import sys
 from collections.abc import Sequence
@@ -58,7 +59,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     arguments = args.arguments
 
     if action is None:
-        parser.print_help()
+        print("cxxman — C++ reference pages in your terminal")
+        print("Quick start:")
+        print("  cxxman topics                 See available pages")
+        print("  cxxman update vector          Download a page")
+        print("  cxxman vector                 Read it offline")
+        print("\nRun 'cxxman --help' to see all commands.")
         return 0
     if action == "search":
         if not arguments:
@@ -90,10 +96,29 @@ def _show_page(topic: str) -> int:
         print(f"cxxman: could not open local documentation: {error}", file=sys.stderr)
         return 1
     if document is None:
-        print(
-            f"cxxman: '{topic}' is not available locally. Run 'cxxman update' to obtain documentation.",
-            file=sys.stderr,
-        )
+        from cxxman.core.catalog import SOURCE_PAGES
+
+        normalized_topic = topic.strip().casefold()
+        if normalized_topic.startswith("std::"):
+            normalized_topic = normalized_topic.removeprefix("std::")
+        if normalized_topic in SOURCE_PAGES:
+            print(
+                f"cxxman: '{topic}' is not downloaded yet. Run 'cxxman update {topic}' to get it.",
+                file=sys.stderr,
+            )
+        else:
+            suggestions = get_close_matches(normalized_topic, SOURCE_PAGES, n=1, cutoff=0.6)
+            if suggestions:
+                print(
+                    f"cxxman: unknown topic '{topic}'. Did you mean '{suggestions[0]}'? "
+                    "Run 'cxxman topics' to see supported pages.",
+                    file=sys.stderr,
+                )
+            else:
+                print(
+                    f"cxxman: unknown topic '{topic}'. Run 'cxxman topics' to see supported pages.",
+                    file=sys.stderr,
+                )
         return 1
 
     from cxxman.ui.renderer import render_document
@@ -106,14 +131,20 @@ def _search(query: str) -> int:
     try:
         with Database(default_database_path()) as database:
             results = database.search(query, limit=20)
+            cached_pages = database.list_topics(limit=1)
     except (OSError, sqlite3.Error) as error:
         print(f"cxxman: could not search local documentation: {error}", file=sys.stderr)
         return 1
     if not results:
-        print("No matching local pages.")
+        if not cached_pages:
+            print("No pages are cached yet. Run 'cxxman topics', then 'cxxman update <topic>'.")
+        else:
+            print(f"No local results for '{query}'. Search only checks pages you've downloaded.")
         return 0
+    print(f"Found {len(results)} local page(s):")
     for result in results:
-        print(f"{result.canonical_topic}  {result.title}")
+        print(f"  {result.canonical_topic}  {result.title}")
+        print(f"    Open with: cxxman {result.canonical_topic}")
     return 0
 
 
@@ -125,10 +156,11 @@ def _list_pages() -> int:
         print(f"cxxman: could not list local documentation: {error}", file=sys.stderr)
         return 1
     if not topics:
-        print("No local pages. Run 'cxxman update' to obtain documentation.")
+        print("No pages are cached yet. Run 'cxxman topics', then 'cxxman update <topic>'.")
         return 0
+    print(f"{len(topics)} cached page(s):")
     for topic, title in topics:
-        print(f"{topic}  {title}")
+        print(f"  {topic}  {title}")
     return 0
 
 
@@ -146,10 +178,17 @@ def _update_pages(topics: list[str]) -> int:
 
     try:
         with Database(default_database_path()) as database:
-            documents = update_documents(database, topics)
+            documents = update_documents(
+                database,
+                topics,
+                on_page_start=lambda page: print(
+                    f"Downloading {page.topic} from cppreference...", file=sys.stderr
+                ),
+            )
     except (UpdateError, OSError, sqlite3.Error) as error:
         print(f"cxxman: update failed: {error}", file=sys.stderr)
         return 1
     updated_topics = ", ".join(document.canonical_topic for document in documents)
     print(f"Updated {len(documents)} page(s): {updated_topics}")
+    print(f"Open a page with: cxxman {documents[0].canonical_topic}")
     return 0

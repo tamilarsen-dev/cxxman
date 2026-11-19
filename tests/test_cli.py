@@ -26,6 +26,15 @@ def test_topics_lists_downloadable_pages(capsys: pytest.CaptureFixture[str]) -> 
     assert "<vector>" in output
 
 
+def test_no_arguments_show_quick_start(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main([]) == 0
+
+    output = capsys.readouterr().out
+    assert "Quick start:" in output
+    assert "cxxman topics" in output
+    assert "cxxman update vector" in output
+
+
 def test_version(capsys: pytest.CaptureFixture[str]) -> None:
     with pytest.raises(SystemExit) as exc_info:
         main(["--version"])
@@ -42,8 +51,40 @@ def test_topic_reports_not_available(
 
     captured = capsys.readouterr()
     assert exit_code == 1
-    assert "'vector' is not available locally" in captured.err
-    assert "cxxman update" in captured.err
+    assert "'vector' is not downloaded yet" in captured.err
+    assert "cxxman update vector" in captured.err
+
+
+def test_unknown_topic_suggests_supported_topic(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(tmp_path / "docs.sqlite3"))
+
+    assert main(["vectro"]) == 1
+
+    error = capsys.readouterr().err
+    assert "Did you mean 'vector'?" in error
+    assert "cxxman topics" in error
+
+
+def test_search_explains_empty_cache_and_no_match(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.core.document import Document, Paragraph
+    from cxxman.storage.database import Database
+
+    database_path = tmp_path / "docs.sqlite3"
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(database_path))
+
+    assert main(["search", "vector"]) == 0
+    assert "No pages are cached yet" in capsys.readouterr().out
+
+    with Database(database_path) as database:
+        database.save_document(
+            Document("id", "std::vector", "vector", "url", (Paragraph("container"),))
+        )
+    assert main(["search", "deque"]) == 0
+    assert "Search only checks pages you've downloaded" in capsys.readouterr().out
 
 
 def test_search_list_and_topic_read_from_local_database(
@@ -143,7 +184,10 @@ def test_update_command_fetches_requested_page(
 
     monkeypatch.setattr(httpx.Client, "get", fake_get)
     assert main(["update", "vector"]) == 0
-    assert "Updated 1 page(s): vector" in capsys.readouterr().out
+    captured = capsys.readouterr()
+    assert "Updated 1 page(s): vector" in captured.out
+    assert "Open a page with: cxxman vector" in captured.out
+    assert "Downloading vector from cppreference" in captured.err
     assert requested_urls == ["https://en.cppreference.com/cpp/container/vector"]
 
     with Database(database_path) as database:
