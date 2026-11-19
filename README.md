@@ -24,6 +24,7 @@ cxxman vector
 cxxman string
 cxxman sort
 cxxman search unordered_map
+cxxman vector::push_back
 ```
 
 ## Documentation
@@ -37,8 +38,6 @@ cxxman search unordered_map
 
 ## Current status
 
-Phases 1 through 7 are complete: the CLI, structured document model,
-offline parser and renderer, local SQLite storage/search, explicit
-documentation updates, and baseline quality/performance checks are in
-place. Measurements use synthetic data and are not performance claims
-for a full cppreference corpus.
+Phases 1 through 7 are complete. The first focused library-function
+manual is `std::vector::push_back`; the class overview pages remain
+available when broader context is useful.

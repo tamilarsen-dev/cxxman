@@ -8,6 +8,12 @@ from cxxman.core.update import UpdateError, update_documents
 from cxxman.storage.database import Database
 
 PAGE_HTML = "<html><body><h1>std::vector</h1><p>A sequence container.</p></body></html>"
+FUNCTION_HTML = (
+    "<html><body><h1>std::vector&lt;T,Allocator&gt;::push_back</h1>"
+    "<table class='t-dcl-begin'><tr class='t-dcl'>"
+    "<td>void push_back(const T&amp; value);</td></tr></table>"
+    "<p>Appends value.</p></body></html>"
+)
 
 
 def test_update_fetches_parses_and_stores_selected_page(tmp_path) -> None:
@@ -67,3 +73,27 @@ def test_update_rejects_unsupported_topics_before_network(tmp_path) -> None:
         with Database(tmp_path / "docs.sqlite3") as database:
             with pytest.raises(UpdateError, match="unsupported topic"):
                 update_documents(database, ["not-supported"], client=client)
+
+
+def test_update_accepts_fully_qualified_function_topic(tmp_path) -> None:
+    requested_urls: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requested_urls.append(str(request.url))
+        return httpx.Response(200, text=FUNCTION_HTML)
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        with Database(tmp_path / "docs.sqlite3") as database:
+            documents = update_documents(
+                database,
+                ["std::vector::push_back"],
+                client=client,
+            )
+            stored = database.get_document("std::vector::push_back")
+
+    assert len(documents) == 1
+    assert documents[0].canonical_topic == "vector::push_back"
+    assert stored == documents[0]
+    assert requested_urls == [
+        "https://en.cppreference.com/cpp/container/vector/push_back"
+    ]

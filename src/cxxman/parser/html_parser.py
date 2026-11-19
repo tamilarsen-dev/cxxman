@@ -105,9 +105,13 @@ def _parse_children(parent: Tag) -> Iterator[ContentBlock]:
             if items:
                 yield ListBlock(items, ordered=name == "ol")
         elif name == "table":
-            table = _parse_table(child)
-            if table is not None:
-                yield table
+            classes = set(child.get("class", []))
+            if "t-dcl-begin" in classes:
+                yield from _parse_declarations(child)
+            else:
+                table = _parse_table(child)
+                if table is not None:
+                    yield table
         elif name in {"div", "section", "main", "article"}:
             yield from _parse_children(child)
 
@@ -128,6 +132,19 @@ def _parse_table(tag: Tag) -> Table | None:
     width = len(headers) if headers else max(map(len, parsed), default=0)
     rows = tuple(row + ("",) * (width - len(row)) for row in parsed)
     return Table(rows=rows, headers=headers)
+
+
+def _parse_declarations(tag: Tag) -> Iterator[CodeBlock]:
+    """Preserve cppreference declaration rows as function signatures."""
+    for row in tag.find_all("tr"):
+        classes = set(row.get("class", []))
+        if not classes & {"t-dcl", "t-dcl-rev"}:
+            continue
+        cells = row.find_all(["th", "td"], recursive=False)
+        if cells:
+            signature = _text(cells[0])
+            if signature:
+                yield CodeBlock(signature, language="cpp")
 
 
 def _text(tag: Tag, *, preserve: bool = False) -> str:

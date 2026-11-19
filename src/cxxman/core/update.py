@@ -35,6 +35,12 @@ SOURCE_PAGES = {
     "sort": SourcePage(
         "sort", "cppref/algorithm/sort", "https://en.cppreference.com/cpp/algorithm/sort", "<algorithm>"
     ),
+    "vector::push_back": SourcePage(
+        "vector::push_back",
+        "cppref/container/vector/push_back",
+        "https://en.cppreference.com/cpp/container/vector/push_back",
+        "<vector>",
+    ),
 }
 
 

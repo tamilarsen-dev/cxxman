@@ -113,3 +113,10 @@ works, and a synthetic-corpus baseline is recorded in
 The MVP ends after Phase 6's core path works and the critical acceptance
 criteria in `mvp.md` pass. Phase 7 hardens and measures the
 implementation.
+
+## Post-MVP direction
+
+Expand focused library-function manuals so common operations such as
+`std::vector::push_back` open directly without loading a full class page.
+The first function page, `std::vector::push_back`, is implemented and
+verified against cppreference; next, expand the small curated function set.

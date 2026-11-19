@@ -37,7 +37,7 @@ def test_topic_reports_not_available(
 def test_search_list_and_topic_read_from_local_database(
     capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from cxxman.core.document import Document, Paragraph
+    from cxxman.core.document import CodeBlock, Document, Paragraph
     from cxxman.storage.database import Database
 
     database_path = tmp_path / "docs.sqlite3"
@@ -52,6 +52,15 @@ def test_search_list_and_topic_read_from_local_database(
                 (Paragraph("A sequence container."),),
             )
         )
+        database.save_document(
+            Document(
+                "cppref/container/vector/push_back",
+                "std::vector<T,Allocator>::push_back",
+                "vector::push_back",
+                "https://example.test/vector/push_back",
+                (CodeBlock("void push_back(const T& value);", language="cpp"),),
+            )
+        )
 
     assert main(["list"]) == 0
     assert "vector  std::vector" in capsys.readouterr().out
@@ -63,6 +72,9 @@ def test_search_list_and_topic_read_from_local_database(
     output = capsys.readouterr().out
     assert "std::vector" in output
     assert "A sequence container." in output
+
+    assert main(["std::vector::push_back"]) == 0
+    assert "std::vector<T,Allocator>::push_back" in capsys.readouterr().out
 
 
 def test_read_commands_never_call_http(

@@ -186,6 +186,9 @@ class Database:
 
     def get_document(self, topic: str) -> Document | None:
         """Load one page by exact canonical topic or stable identifier."""
+        lookup_topic = topic.strip()
+        if lookup_topic.casefold().startswith("std::"):
+            lookup_topic = lookup_topic[5:]
         row = self._connection.execute(
             """SELECT identifier, title, canonical_topic, source_url, header,
                       updated_at, content_json
@@ -194,7 +197,7 @@ class Database:
                ORDER BY CASE WHEN canonical_topic = ? COLLATE NOCASE THEN 0 ELSE 1 END,
                         identifier COLLATE NOCASE
                LIMIT 1""",
-            (topic, topic, topic),
+            (lookup_topic, lookup_topic, lookup_topic),
         ).fetchone()
         if row is None:
             return None

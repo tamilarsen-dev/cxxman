@@ -44,3 +44,22 @@ def test_parser_falls_back_gracefully_when_content_container_is_missing() -> Non
     assert document.title == "std::sort"
     assert document.canonical_topic == "sort"
     assert document.blocks == (Heading("std::sort", level=1), Paragraph("Sorts a range."))
+
+
+def test_function_page_keeps_declarations_as_code_and_omits_navigation() -> None:
+    html = (FIXTURES / "vector_push_back.html").read_text(encoding="utf-8")
+
+    document = parse_html(
+        html,
+        source_url="https://en.cppreference.com/cpp/container/vector/push_back",
+        canonical_topic="vector::push_back",
+        header="<vector>",
+    )
+
+    signatures = [block.code for block in document.blocks if isinstance(block, CodeBlock)]
+    assert signatures == [
+        "void push_back( const T& value );",
+        "void push_back( T&& value );",
+        "values.push_back(42);",
+    ]
+    assert all("navigation" not in str(block) for block in document.blocks)

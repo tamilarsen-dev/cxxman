@@ -14,12 +14,14 @@ page.
 
 1.  As a user, I can run `cxxman vector` and read the `std::vector`
     reference page in my terminal.
-2.  As a user, I can run `cxxman search vector` and find matching local
+2.  As a user, I can run `cxxman vector::push_back` and read the focused
+    `std::vector::push_back` manual.
+3.  As a user, I can run `cxxman search vector` and find matching local
     documentation entries.
-3.  As a user, I can see whether a page is available locally.
-4.  As a user, I can download or update documentation explicitly, rather
+4.  As a user, I can see whether a page is available locally.
+5.  As a user, I can download or update documentation explicitly, rather
     than triggering network access during ordinary page viewing.
-5.  As a user, I can navigate long output using terminal pagination.
+6.  As a user, I can navigate long output using terminal pagination.
 
 ## 3. MVP commands
 
@@ -29,6 +31,9 @@ page.
   `cxxman vector`          Display a locally       Never
                            cached page             
 
+  `cxxman vector::push_back` Display one local      Never
+                             function manual
+
   `cxxman search vector`   Search the local index  Never
 
   `cxxman list`            List locally available  Never
@@ -37,6 +42,8 @@ page.
   `cxxman update`          Download and parse the  Yes
                            selected documentation  
                            corpus                  
+
+  `cxxman update vector::push_back` Update one page Yes
 
   `cxxman --version`       Show application        Never
                            version                 
