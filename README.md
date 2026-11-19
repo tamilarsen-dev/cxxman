@@ -31,9 +31,9 @@ cxxman vector::push_back
 
 ## Download
 
-Standalone builds are prepared for Windows x64, Linux x64, Intel macOS,
-and Apple Silicon macOS. The first GitHub Release is not published yet.
-Once available, download the archive for your platform from
+Standalone builds for Windows x64, Linux x64, Intel macOS, and Apple
+Silicon macOS are available in release `v0.1.0`. Download the archive for
+your platform from
 [GitHub Releases](https://github.com/tamilarsen-dev/cxxman/releases/latest)
 and follow the [installation guide](docs/release.md).
 
@@ -65,7 +65,8 @@ The CLI currently supports `vector`, `vector::push_back`, `string`, and
 Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS builds have
 passed the [GitHub Actions release workflow](https://github.com/tamilarsen-dev/cxxman/actions).
 The Windows executable has also been built and smoke-tested locally. The
-first downloadable GitHub Release has not been published yet.
+first downloadable GitHub Release, [`v0.1.0`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.1.0),
+is published with four platform archives and SHA-256 checksums.
 
-See [release readiness](docs/release-readiness.md) for completed checks
-and remaining publication steps.
+See [release readiness](docs/release-readiness.md) for the completed
+publishing steps and platform notes.

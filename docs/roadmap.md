@@ -130,9 +130,9 @@ verified against cppreference; next, expand the small curated function set.
 -   [x] Add a cross-platform GitHub Actions workflow that builds on pushes
     and pull requests, then publishes tagged releases with native
     executable smoke checks and SHA-256 checksums.
--   [ ] Publish the first release after confirming the repository's
-    GitHub Actions permissions and release page.
+-   [x] Publish and verify release `v0.1.0` with four native platform
+    archives and SHA-256 checksums.
 
-The source project does not yet have a published standalone release.
-`docs/release.md` describes the platform archives, install flows, and
-maintainer release steps.
+The source repository and standalone downloads are public at
+<https://github.com/tamilarsen-dev/cxxman>. `docs/release.md` describes the
+platform archives, install flows, and maintainer release steps.

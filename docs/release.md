@@ -2,7 +2,7 @@
 
 ## Supported release builds
 
-Each GitHub Release will include a standalone command-line build. Users do
+GitHub Release `v0.1.0` includes standalone command-line builds. Users do
 not need Python, pip, a virtual environment, or administrator privileges.
 
 | Asset | Target |

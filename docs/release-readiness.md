@@ -1,7 +1,7 @@
 # GitHub Release Readiness
 
-This file tracks completed local work, the public GitHub repository, and
-remaining steps before the first downloadable release.
+This file records completed local work, the public GitHub repository, and
+the first downloadable release.
 
 ## Repository setup
 
@@ -41,6 +41,7 @@ original local history.
 - The latest full Python test run passed: 34 tests.
 - `.gitignore` excludes virtual environments, test/build output, and local
   documentation databases.
+- The MIT license is selected and included in the public repository.
 - The 15 existing commits were rewritten to use the GitHub noreply address
   for author and committer metadata before the public push. A local-only
   backup branch retains the original history; it was not pushed.
@@ -52,19 +53,20 @@ builds and smoke-tests native Windows x64, Linux x64, Intel macOS, and
 Apple Silicon macOS binaries. A matching `v*` tag publishes four
 platform archives and checksum files in one GitHub Release.
 
-Only the Windows build has been executed in this workspace. Two GitHub
-Actions runs passed all four native builds: Windows x64, Linux x64, Intel
-macOS, and Apple Silicon macOS. Each run uploaded four temporary artifacts.
-The publish job was skipped because both runs came from branch pushes
-rather than a version tag. Changes since those runs only update these
-status documents; they do not change application code or the workflow.
+The Windows executable was built and smoke-tested locally. Two branch
+workflow runs passed all four native builds. The `v0.1.0` tag workflow also
+passed Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS, then
+successfully published the GitHub Release.
 
-## Still needed
+## Published release
 
-The project license is MIT; see the root `LICENSE` file.
+[`v0.1.0`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.1.0)
+is the latest public release. It contains four platform archives, four
+SHA-256 sidecar files, and GitHub's source archives. The README links to
+the latest release, and `docs/release.md` describes platform installation.
 
-1. Publish version tag `v0.1.0` and verify the
-   resulting release assets and checksums.
+No further setup is needed for the first distribution. Future releases
+use the same `v*` tag workflow.
 
 macOS executables are not signed or notarized. The Linux x64 build uses
 Ubuntu 22.04 as its compatibility baseline. These are documented in
