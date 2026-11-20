@@ -17,7 +17,9 @@ def main() -> int:
     if not installer.is_file():
         raise SystemExit(f"Windows installer not found: {installer}")
 
-    with tempfile.TemporaryDirectory(prefix="cxxman-installer-smoke-") as directory:
+    with tempfile.TemporaryDirectory(
+        prefix="cxxman-installer-smoke-", ignore_cleanup_errors=True
+    ) as directory:
         install_dir = Path(directory) / "application"
         setup_log = Path(directory) / "setup.log"
         _run_installer(
