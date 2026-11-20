@@ -40,6 +40,28 @@ def test_update_fetches_parses_and_stores_selected_page(tmp_path) -> None:
     assert requested_urls == ["https://en.cppreference.com/cpp/container/vector"]
 
 
+def test_update_without_topics_downloads_the_full_default_catalog(tmp_path) -> None:
+    from cxxman.core.catalog import SOURCE_PAGES
+
+    requested_urls: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requested_urls.append(str(request.url))
+        return httpx.Response(
+            200,
+            text="<html><body><h1>Reference</h1><p>Catalog fixture.</p></body></html>",
+        )
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        with Database(tmp_path / "docs.sqlite3") as database:
+            documents = update_documents(database, client=client)
+            cached_topics = database.list_topics(limit=100)
+
+    assert len(documents) == len(SOURCE_PAGES) == 50
+    assert len(cached_topics) == 50
+    assert set(requested_urls) == {page.url for page in SOURCE_PAGES.values()}
+
+
 def test_failed_batch_update_preserves_existing_pages(tmp_path) -> None:
     old_document = Document(
         "cppref/container/vector",

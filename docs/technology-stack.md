@@ -19,9 +19,9 @@
   Storage                 SQLite                  Local indexed storage;
                                                   built into Python
 
-  Terminal rendering      Rich                    Tables, syntax
+  Terminal rendering      Rich                    Tables, C++ syntax
                                                   highlighting, terminal
-                                                  layout
+                                                  colors, and layout
 
   Testing                 Pytest                  Automated tests
 

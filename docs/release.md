@@ -2,12 +2,15 @@
 
 ## Supported release builds
 
-GitHub Release `v0.1.0` includes standalone command-line builds. Users do
-not need Python, pip, a virtual environment, or administrator privileges.
+The published `v0.1.0` release includes standalone command-line builds.
+The release workflow now builds a Windows setup executable for a future
+tagged release. Users will not need Python, pip, a virtual environment,
+PowerShell, or administrator privileges to install that Windows package.
 
 | Asset | Target |
 |---|---|
 | `cxxman-windows-x64.zip` | 64-bit Windows |
+| `cxxman-windows-x64-setup.exe` | Windows per-user installer (future release) |
 | `cxxman-linux-x64.tar.gz` | 64-bit Linux, built on Ubuntu 22.04 |
 | `cxxman-macos-x64.tar.gz` | Intel macOS |
 | `cxxman-macos-arm64.tar.gz` | Apple Silicon macOS |
@@ -21,26 +24,17 @@ viewing, search, and listing work offline.
 
 ## Windows installation
 
-1. Download `cxxman-windows-x64.zip` from GitHub Releases.
-2. Extract the ZIP to a folder.
-3. Open PowerShell in that folder and run:
+For releases that include `cxxman-windows-x64-setup.exe`, download and run
+it, then open a new terminal and run `cxxman --help`. Setup installs for
+the current user under `%LOCALAPPDATA%\Programs\cxxman`, adds that folder
+to the user's `PATH`, and creates a Start menu shortcut. It requires no
+PowerShell or administrator access. The generated uninstaller is listed
+in Windows Apps settings and is available as `unins000.exe` in the install
+folder.
 
-   ```powershell
-   .\install.ps1
-   ```
-
-   If PowerShell blocks the downloaded script, use a process-only
-   execution policy override:
-
-   ```powershell
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
-   ```
-
-4. Open a new terminal, then run `cxxman --help`.
-
-The installer copies the executable to
-`%LOCALAPPDATA%\Programs\cxxman` and adds that directory to the current
-user's `PATH`.
+The published `v0.1.0` predates this installer and contains only the
+standalone executable ZIP. The setup executable becomes downloadable
+after a newer release is published.
 
 ## Linux and macOS installation
 
@@ -67,11 +61,12 @@ checksum.
 
 ## Verify downloads
 
-Each archive has a matching `.sha256` file. On Windows, compare:
+Each archive has a matching `.sha256` file. Future Windows releases also
+provide a checksum for the setup executable. On Windows, compare:
 
-```powershell
-Get-FileHash .\cxxman-windows-x64.zip -Algorithm SHA256
-Get-Content .\cxxman-windows-x64.zip.sha256
+```bat
+certutil -hashfile cxxman-windows-x64-setup.exe SHA256
+type cxxman-windows-x64-setup.exe.sha256
 ```
 
 On Linux or macOS, compare:
@@ -95,10 +90,21 @@ cxxman update vector::push_back
 cxxman vector::push_back
 ```
 
-The current starter catalog contains `vector`, `vector::push_back`,
-`string`, and `sort`. Run `cxxman --help` for the full command list.
-Updates need an internet connection. Cached page reading, search, and
-listing do not.
+The current source contains a 50-page curated C++ standard-library catalog.
+Published binary release `v0.1.0` predates that expansion and contains its
+earlier catalog. To use all 50 topics before a newer binary release is
+published, install from the current source. In a build with the expanded
+catalog, `cxxman update` downloads all pages; `cxxman update <topic>` fetches
+one page. Run `cxxman topics` to list that build's topics and
+`cxxman --help` for the full command list.
+
+Manual pages use C++ syntax highlighting. `--color auto` follows terminal
+capabilities by default; `--color always` and `--color never` override it.
+`cxxman update` downloads reference pages. `cxxman check-updates` checks
+GitHub for a newer application release, and `cxxman self-update` verifies
+and installs it for standalone builds. These commands need an internet
+connection. Cached page reading, search, and listing do not. Python-managed
+installations should update with pip or reinstall from source.
 
 The local database is stored in the user's application data directory.
 On Windows this is `%LOCALAPPDATA%\cxxman\cxxman.sqlite3`; on Linux and
@@ -108,8 +114,10 @@ Upgrading or uninstalling the CLI leaves this database intact.
 
 ## Upgrade and uninstall
 
-- **Windows:** extract a newer ZIP and run `install.ps1` again. Remove the
-  app with `& "$env:LOCALAPPDATA\Programs\cxxman\uninstall.ps1"`.
+- **Windows:** run a newer setup `.exe`; it closes cxxman during
+  replacement and opens the setup wizard. Uninstall through Windows Apps
+  settings or run `unins000.exe` from the installation folder. Downloaded
+  pages remain installed.
 - **Linux/macOS:** extract a newer archive and run `sh ./install.sh`
   again. Remove the app with `sh "$HOME/.local/bin/uninstall.sh"`.
 

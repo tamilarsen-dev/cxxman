@@ -28,7 +28,7 @@ def update_documents(
 ) -> list[Document]:
     """Fetch, parse, then atomically store selected supported pages.
 
-    With no topics, update the small curated starter set. Supplying a client
+    With no topics, update the complete curated catalog. Supplying a client
     makes the network boundary injectable for deterministic offline tests.
     ``on_page_start`` may report progress without coupling this service to a
     particular terminal UI.

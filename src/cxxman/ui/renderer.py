@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from contextlib import nullcontext
+from typing import Literal
 
 from rich import box
 from rich.console import Console
@@ -21,6 +22,18 @@ from cxxman.core.document import (
     Reference,
     Table,
 )
+from cxxman.core.manual import ManualPage
+
+ColorMode = Literal["auto", "always", "never"]
+
+
+def create_console(color_mode: ColorMode = "auto") -> Console:
+    """Create a Rich console with explicit terminal color behavior."""
+    if color_mode == "always":
+        return Console(highlight=False, force_terminal=True, color_system="truecolor")
+    if color_mode == "never":
+        return Console(highlight=False, no_color=True, color_system=None)
+    return Console(highlight=False)
 
 
 def render_document(
@@ -34,7 +47,7 @@ def render_document(
     Rich detects terminal width and disables color when output is piped.
     Pagination is only activated when the destination is a terminal.
     """
-    output = console or Console(highlight=False)
+    output = console or create_console()
     use_pager = paginate and output.is_terminal
     pager = output.pager(styles=True) if use_pager else nullcontext()
     with pager:
@@ -44,6 +57,35 @@ def render_document(
         output.print()
         for block in document.blocks:
             _render_block(output, block)
+
+
+def render_manual_page(
+    page: ManualPage,
+    *,
+    console: Console | None = None,
+    paginate: bool = False,
+) -> None:
+    """Render a projected page using concise, optional manual sections."""
+    output = console or create_console()
+    use_pager = paginate and output.is_terminal
+    pager = output.pager(styles=True) if use_pager else nullcontext()
+    with pager:
+        output.print(Text(page.name, style="bold cyan"))
+        if page.header:
+            output.print(Text("LIBRARY", style="bold cyan"))
+            output.print(Text(f"    {page.header}"))
+        output.print()
+        rendered_references = False
+        for section in page.sections:
+            output.print(Text(section.title, style="bold cyan"))
+            for block in section.blocks:
+                _render_block(output, block)
+            if section.title == "REFERENCES" and page.source_url:
+                output.print(Text(f"    Source: {page.source_url}", style="dim"))
+                rendered_references = True
+        if page.source_url and not rendered_references:
+            output.print(Text("REFERENCES", style="bold cyan"))
+            output.print(Text(f"    {page.source_url}", style="dim"))
 
 
 def _render_block(console: Console, block: ContentBlock) -> None:
@@ -56,7 +98,7 @@ def _render_block(console: Console, block: ContentBlock) -> None:
         syntax = Syntax(
             block.code,
             block.language or "text",
-            theme="ansi_dark",
+            theme="monokai",
             word_wrap=True,
             line_numbers=False,
         )

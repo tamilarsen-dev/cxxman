@@ -116,10 +116,16 @@ implementation.
 
 ## Post-MVP direction
 
-Expand focused library-function manuals so common operations such as
-`std::vector::push_back` open directly without loading a full class page.
-The first function page, `std::vector::push_back`, is implemented and
-verified against cppreference; next, expand the small curated function set.
+The initial semantic manual-page path is implemented: a loaded generic
+document is projected deterministically at read time and rendered with
+dynamic sections. The default download catalog has 50 C++ standard-library
+pages. Six representative pages have saved fixtures for projection tests;
+the remaining pages use the same conservative generic projection. Existing
+parsed documents remain the stored source of truth; no database migration
+was needed. This is a curated selection, not complete cppreference coverage.
+Add further entity-specific extraction only with representative fixtures
+and source-accuracy tests. The Rich page renderer uses C++ syntax
+highlighting and provides `--color auto|always|never` controls.
 
 ## Release preparation
 
@@ -132,7 +138,13 @@ verified against cppreference; next, expand the small curated function set.
     executable smoke checks and SHA-256 checksums.
 -   [x] Publish and verify release `v0.1.0` with four native platform
     archives and SHA-256 checksums.
+-   [x] Add explicit application release checks and self-update for
+    standalone builds, with SHA-256 verification.
+-   [x] Replace the Windows script installer with a per-user Inno Setup
+    executable and generated uninstaller; add CI install/remove smoke test.
 
 The source repository and standalone downloads are public at
 <https://github.com/tamilarsen-dev/cxxman>. `docs/release.md` describes the
-platform archives, install flows, and maintainer release steps.
+platform archives, install flows, application updates, and maintainer
+release steps. The updated setup and updater will reach users in a future
+tagged release; published `v0.1.0` remains unchanged.

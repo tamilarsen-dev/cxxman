@@ -33,12 +33,13 @@ original local history.
 - A Windows x64 one-file executable was built with Python 3.15.2 and
   PyInstaller 6.22.3. Its help, version, catalog, offline search/list,
   and page rendering passed the executable smoke check.
-- The Windows ZIP, PowerShell installer/uninstaller, and SHA-256 checksum
-  were assembled and checked locally.
+- The published `v0.1.0` Windows ZIP was assembled and checked locally.
+- The current release workflow builds an Inno Setup Windows installer
+  with a generated uninstaller and runs an install/remove smoke test.
 - POSIX installer and uninstaller scripts passed Bash syntax validation
   and an isolated install/remove check using a temporary home directory.
 - Release archive packaging tests pass for ZIP and POSIX tar archives.
-- The latest full Python test run passed: 34 tests.
+- The `v0.1.0` release-era full Python test run passed: 34 tests.
 - `.gitignore` excludes virtual environments, test/build output, and local
   documentation databases.
 - The MIT license is selected and included in the public repository.
@@ -65,8 +66,16 @@ is the latest public release. It contains four platform archives, four
 SHA-256 sidecar files, and GitHub's source archives. The README links to
 the latest release, and `docs/release.md` describes platform installation.
 
-No further setup is needed for the first distribution. Future releases
-use the same `v*` tag workflow.
+The current source tree has since added a 50-page default topic catalog,
+manual-page projection, page color/syntax-highlighting controls, and
+application update commands. The current test suite passes 57 tests. These
+newer changes have not yet been included in a published binary release;
+the `v0.1.0` executable retains its earlier catalog.
+
+The current working tree adds the per-user Windows setup executable and
+application update commands; those changes are not part of published
+`v0.1.0`. A future `v*` tag will publish the Windows setup `.exe`, release
+archives, and checksums through the updated workflow.
 
 macOS executables are not signed or notarized. The Linux x64 build uses
 Ubuntu 22.04 as its compatibility baseline. These are documented in

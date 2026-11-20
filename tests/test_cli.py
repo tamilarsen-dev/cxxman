@@ -43,6 +43,29 @@ def test_version(capsys: pytest.CaptureFixture[str]) -> None:
     assert f"cxxman {__version__}" in capsys.readouterr().out
 
 
+def test_check_updates_reports_new_release(capsys, monkeypatch: pytest.MonkeyPatch) -> None:
+    from cxxman.core.app_updates import LatestRelease
+
+    monkeypatch.setattr(
+        "cxxman.core.app_updates.fetch_latest_release",
+        lambda: LatestRelease(
+            "v9.0.0", "9.0.0", "https://github.com/tamilarsen-dev/cxxman/releases/tag/v9.0.0", {}
+        ),
+    )
+    assert main(["check-updates"]) == 0
+    output = capsys.readouterr().out
+    assert "Update available: cxxman 9.0.0" in output
+    assert "cxxman self-update" in output
+
+
+def test_self_update_explains_python_managed_installation(capsys, monkeypatch) -> None:
+    import sys
+
+    monkeypatch.setattr(sys, "frozen", False, raising=False)
+    assert main(["self-update"]) == 1
+    assert "managed by Python" in capsys.readouterr().err
+
+
 def test_topic_reports_not_available(
     capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -130,6 +153,37 @@ def test_search_list_and_topic_read_from_local_database(
     assert "std::vector<T,Allocator>::push_back" in capsys.readouterr().out
 
 
+def test_manual_page_color_option_controls_terminal_styles(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.core.document import CodeBlock, Document
+    from cxxman.storage.database import Database
+
+    database_path = tmp_path / "docs.sqlite3"
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(database_path))
+    with Database(database_path) as database:
+        database.save_document(
+            Document(
+                "cppref/container/vector",
+                "std::vector",
+                "vector",
+                "https://example.test/vector",
+                (CodeBlock("int answer = 42;", language="cpp"),),
+                header="<vector>",
+            )
+        )
+
+    assert main(["--color", "always", "vector"]) == 0
+    colored_output = capsys.readouterr().out
+    assert "\x1b[" in colored_output
+    assert "answer" in colored_output
+
+    assert main(["vector", "--color", "never"]) == 0
+    plain_output = capsys.readouterr().out
+    assert "\x1b[" not in plain_output
+    assert "answer" in plain_output
+
+
 def test_read_commands_never_call_http(
     capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -149,6 +203,7 @@ def test_read_commands_never_call_http(
         raise AssertionError("read commands must not make HTTP requests")
 
     monkeypatch.setattr(httpx.Client, "get", fail_if_called)
+    monkeypatch.setattr("cxxman.parser.html_parser.parse_html", fail_if_called)
     assert main(["vector"]) == 0
     assert main(["search", "sequence"]) == 0
     assert main(["list"]) == 0

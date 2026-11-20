@@ -7,6 +7,8 @@ from difflib import get_close_matches
 import sqlite3
 import sys
 from collections.abc import Sequence
+from pathlib import Path
+from typing import Literal
 
 from cxxman import __version__
 from cxxman.storage.database import (
@@ -27,7 +29,10 @@ def build_parser() -> argparse.ArgumentParser:
             "  cxxman search <query>      Search local documentation\n"
             "  cxxman list                List locally stored pages\n"
             "  cxxman topics              Show pages available to download\n"
-            "  cxxman update [topic ...]  Download/update starter pages"
+            "  cxxman update [topic ...]  Download/update catalog pages"
+            "\n"
+            "  cxxman check-updates       Check for a newer cxxman release\n"
+            "  cxxman self-update         Download and install a newer release"
             "\n\nExamples:\n"
             "  cxxman topics\n"
             "  cxxman update vector::push_back\n"
@@ -42,9 +47,16 @@ def build_parser() -> argparse.ArgumentParser:
         version=f"%(prog)s {__version__}",
     )
     parser.add_argument(
+        "--color",
+        choices=("auto", "always", "never"),
+        default="auto",
+        metavar="WHEN",
+        help="colorize manual pages: auto follows the terminal (default), always, or never",
+    )
+    parser.add_argument(
         "action_or_topic",
         nargs="?",
-        metavar="{topic,search,list,topics,update}",
+        metavar="{topic,search,list,topics,update,check-updates,self-update}",
         help="topic to display, or a command",
     )
     parser.add_argument("arguments", nargs="*", metavar="ARG")
@@ -80,12 +92,22 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _list_supported_topics()
     if action == "update":
         return _update_pages(arguments)
+    if action == "check-updates":
+        if arguments:
+            parser.error("check-updates does not accept arguments")
+        return _check_app_updates()
+    if action == "self-update":
+        if arguments:
+            parser.error("self-update does not accept arguments")
+        return _self_update()
     if arguments:
         parser.error("a topic command accepts one topic")
-    return _show_page(action)
+    return _show_page(action, color=args.color)
 
 
-def _show_page(topic: str) -> int:
+def _show_page(
+    topic: str, *, color: Literal["auto", "always", "never"] = "auto"
+) -> int:
     try:
         with Database(default_database_path()) as database:
             document = database.get_document(topic)
@@ -121,9 +143,14 @@ def _show_page(topic: str) -> int:
                 )
         return 1
 
-    from cxxman.ui.renderer import render_document
+    from cxxman.core.manual import project_document
+    from cxxman.ui.renderer import create_console, render_manual_page
 
-    render_document(document, paginate=sys.stdout.isatty())
+    render_manual_page(
+        project_document(document),
+        console=create_console(color),
+        paginate=sys.stdout.isatty(),
+    )
     return 0
 
 
@@ -191,4 +218,52 @@ def _update_pages(topics: list[str]) -> int:
     updated_topics = ", ".join(document.canonical_topic for document in documents)
     print(f"Updated {len(documents)} page(s): {updated_topics}")
     print(f"Open a page with: cxxman {documents[0].canonical_topic}")
+    return 0
+
+
+def _check_app_updates() -> int:
+    from cxxman.core.app_updates import (
+        AppUpdateError,
+        fetch_latest_release,
+        is_update_available,
+    )
+
+    try:
+        release = fetch_latest_release()
+    except AppUpdateError as error:
+        print(f"cxxman: update check failed: {error}", file=sys.stderr)
+        return 1
+    if is_update_available(__version__, release.version):
+        print(f"Update available: cxxman {release.version} (current: {__version__})")
+        print(f"Release notes: {release.url}")
+        print("Run 'cxxman self-update' to install it.")
+    else:
+        print(f"cxxman is up to date ({__version__}).")
+    return 0
+
+
+def _self_update() -> int:
+    from cxxman.core.app_updates import (
+        AppUpdateError,
+        fetch_latest_release,
+        install_release_update,
+        is_update_available,
+    )
+
+    if not getattr(sys, "frozen", False):
+        print(
+            "This installation is managed by Python. Update it with pip or reinstall from source.",
+            file=sys.stderr,
+        )
+        return 1
+    try:
+        release = fetch_latest_release()
+        if not is_update_available(__version__, release.version):
+            print(f"cxxman is already up to date ({__version__}).")
+            return 0
+        message = install_release_update(release, executable_path=Path(sys.executable))
+    except AppUpdateError as error:
+        print(f"cxxman: self-update failed: {error}", file=sys.stderr)
+        return 1
+    print(message)
     return 0

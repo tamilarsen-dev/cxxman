@@ -18,7 +18,7 @@ def _sample_files(tmp_path, names: tuple[str, ...]):
 def test_windows_release_is_a_zip_with_expected_members(tmp_path) -> None:
     paths = _sample_files(
         tmp_path,
-        ("cxxman.exe", "install.ps1", "uninstall.ps1", "README.md"),
+        ("cxxman.exe", "cxxman-windows-x64-setup.exe", "README.md"),
     )
 
     archive_path = create_archive("windows-x64", paths, tmp_path)

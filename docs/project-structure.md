@@ -1,6 +1,6 @@
 # Project Structure
 
-Target structure:
+Conceptual package layout (the current source adds the modules listed below):
 
 ``` text
 cxxman/
@@ -46,11 +46,16 @@ cxxman/
   ------------------------- --------------------------------------------
   `__main__.py`             Module execution entry point
   `cli.py`                  CLI argument parsing and command dispatch
+  `core/catalog.py`         Curated download topics and source metadata
   `core/document.py`        Document metadata and typed content-block structures
+  `core/manual.py`          Read-time manual-page projection
   `core/search.py`          Search service and result handling
+  `core/update.py`          Explicit remote fetch, parsing, and storage flow
+  `core/app_updates.py`     GitHub release checks and verified self-update
   `parser/html_parser.py`   HTML to structured document conversion
   `storage/database.py`     SQLite schema and persistence
-  `ui/renderer.py`          Terminal rendering with Rich and pagination
+  `ui/renderer.py`          Rich manual/document rendering, syntax highlighting, and pagination
+  `installer/cxxman.iss`    Windows per-user setup and generated uninstaller
   `tests/`                  Automated tests
   `data/`                   Local database and documentation data
 

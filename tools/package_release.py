@@ -16,25 +16,41 @@ def build_parser() -> argparse.ArgumentParser:
     ))
     parser.add_argument("--executable", required=True, type=Path)
     parser.add_argument("--installer", required=True, type=Path)
-    parser.add_argument("--uninstaller", required=True, type=Path)
+    parser.add_argument("--uninstaller", type=Path)
     parser.add_argument("--readme", required=True, type=Path)
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
-    paths = [args.executable, args.installer, args.uninstaller, args.readme]
+    if args.platform == "windows-x64" and args.uninstaller is not None:
+        raise SystemExit("Windows uses the generated Inno Setup uninstaller; omit --uninstaller")
+    if args.platform != "windows-x64" and args.uninstaller is None:
+        raise SystemExit("POSIX release archives require --uninstaller")
+    paths = [args.executable, args.installer]
+    if args.uninstaller is not None:
+        paths.append(args.uninstaller)
+    paths.append(args.readme)
     missing = [str(path) for path in paths if not path.is_file()]
     if missing:
         raise SystemExit(f"Release inputs not found: {', '.join(missing)}")
 
     archive_path = create_archive(args.platform, paths, args.executable.resolve().parent)
     digest = hashlib.sha256(archive_path.read_bytes()).hexdigest()
-    checksum_path = archive_path.with_name(archive_path.name + ".sha256")
-    checksum_path.write_text(f"{digest}  {archive_path.name}\n", encoding="ascii")
+    checksum_path = write_sha256(archive_path)
+    if args.platform == "windows-x64":
+        write_sha256(args.installer)
     print(f"Created {archive_path}")
     print(f"SHA-256 {digest}")
     return 0
+
+
+def write_sha256(path: Path) -> Path:
+    """Write the release's conventional SHA-256 sidecar for one asset."""
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    checksum_path = path.with_name(path.name + ".sha256")
+    checksum_path.write_text(f"{digest}  {path.name}\n", encoding="ascii")
+    return checksum_path
 
 
 def create_archive(platform: str, paths: list[Path], output_directory: Path) -> Path:

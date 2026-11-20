@@ -20,6 +20,9 @@ SQLite metadata + page storage
 Document model
     |
     v
+Manual-page projection
+    |
+    v
 Terminal renderer
     |
     v
@@ -50,6 +53,12 @@ SQLite / local document storage
 The two paths must remain separate. A normal `show` operation must never
 download or parse remote HTML.
 
+Application updates use a separate explicit path: `check-updates` reads
+the GitHub release API, and `self-update` downloads the platform asset,
+verifies its SHA-256 sidecar, then starts the Windows setup program or
+replaces the standalone POSIX executable. This path is not used by page
+viewing, search, or listing.
+
 ## 2. Component responsibilities
 
 ### CLI (`cli.py`)
@@ -63,10 +72,15 @@ download or parse remote HTML.
 ### Core (`core/`)
 
 -   `document.py`: define the structured document model.
+-   `manual.py`: project a loaded generic document into a concise page
+    using recognized source headings and known page identity. Unrecognized
+    facts are not inferred.
 -   `search.py`: define search behavior and ranking over local indexed
     data.
 -   `update.py`: fetch and parse only when the user invokes `update`, then
     atomically commit the selected pages.
+-   `catalog.py`: define the 50 curated source pages, their stable URLs,
+    headers, and entity kinds. A no-topic update selects the full catalog.
 
 ### Parser (`parser/`)
 
@@ -83,8 +97,10 @@ download or parse remote HTML.
 
 ### UI (`ui/`)
 
--   `renderer.py`: render the document model using Rich.
--   Handle headings, paragraphs, code blocks, tables, and pagination.
+-   `renderer.py`: render generic documents or projected manual pages using Rich.
+-   Highlight C++ code, handle headings, paragraphs, code blocks, tables,
+    and pagination. Manual pages support automatic, forced, or disabled
+    terminal color.
 -   Keep rendering independent from HTTP and database implementation
     details.
 
@@ -93,7 +109,8 @@ download or parse remote HTML.
 -   CLI depends on application/core interfaces, not on HTML parsing
     internals.
 -   Parser produces a document model; it does not print to the terminal.
--   Renderer consumes a document model; it does not fetch pages.
+-   Renderer consumes prepared document/manual-page models; it does not
+    fetch pages or extract source semantics.
 -   Storage persists structured data; it does not parse HTML.
 -   HTTP is used only by explicit ingestion/update workflows.
 

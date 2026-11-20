@@ -37,9 +37,20 @@ your platform from
 [GitHub Releases](https://github.com/tamilarsen-dev/cxxman/releases/latest)
 and follow the [installation guide](docs/release.md).
 
-The executable does not bundle cppreference pages. Run `cxxman update`
-after installing to download the supported starter pages; reading and
-searching cached pages works offline.
+The next tagged release is configured to include a Windows per-user setup
+`.exe` with a generated uninstaller. The currently published `v0.1.0`
+predates that installer. Later standalone builds can check for and install
+app releases with `cxxman check-updates` and `cxxman self-update`.
+
+The executable does not bundle cppreference pages. The published `v0.1.0`
+binary predates the current 50-page catalog. In a build containing the
+current source, run `cxxman update` after installing to download all 50
+pages; use `cxxman update <topic>` to fetch only one. Reading and searching
+cached pages work offline.
+
+Manual pages use C++ syntax highlighting and terminal colors by default.
+Choose `--color auto`, `--color always`, or `--color never` when displaying
+a page.
 
 ## Documentation
 
@@ -60,8 +71,10 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Current status
 
-The CLI currently supports `vector`, `vector::push_back`, `string`, and
-`sort`. The public source repository is [hosted on GitHub](https://github.com/tamilarsen-dev/cxxman).
+The current source catalog contains 50 C++ standard-library pages across
+containers, algorithms, utilities, and memory. See `cxxman topics` for the
+current list. The public source repository is
+[hosted on GitHub](https://github.com/tamilarsen-dev/cxxman).
 Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS builds have
 passed the [GitHub Actions release workflow](https://github.com/tamilarsen-dev/cxxman/actions).
 The Windows executable has also been built and smoke-tested locally. The

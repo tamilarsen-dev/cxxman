@@ -43,13 +43,15 @@ src/cxxman/
   cli.py                  argument parsing and command dispatch
   core/catalog.py         curated downloadable page metadata
   core/document.py        typed document and content-block model
+  core/manual.py          conservative semantic projection to manual pages
   core/search.py          search result and service types
   core/update.py          downloads, parsing, and transactional update flow
   parser/html_parser.py   source HTML to structured documents
   storage/database.py     SQLite schema, persistence, lookup, and search
   ui/renderer.py          Rich terminal rendering and pagination
 tests/                    offline pytest suite and saved HTML fixtures
-scripts/                  per-user installers and uninstallers
+scripts/                  POSIX per-user installers and uninstallers
+installer/cxxman.iss      Windows per-user setup and generated uninstaller
 tools/                     benchmark, packaging, and executable smoke checks
 .github/workflows/         native platform build and release workflow
 docs/                     scope, architecture, decisions, and manuals
@@ -60,7 +62,7 @@ docs/                     scope, architecture, decisions, and manuals
 There are two separate paths:
 
 ```text
-Read:    CLI -> SQLite -> Document -> Rich renderer -> terminal
+Read:    CLI -> SQLite -> Document -> manual projection -> Rich renderer -> terminal
 Update:  CLI -> HTTPX -> Beautiful Soup parser -> SQLite transaction
 ```
 
@@ -68,7 +70,10 @@ Keep page display, search, and listing offline. Do not add network access
 or HTML parsing to those commands. Updates fetch only topics in
 `core/update.py`'s curated `SOURCE_PAGES` catalog and save parsed documents
 through the database transaction. Parsing should remain independent from
-terminal output and persistence.
+terminal output and persistence. Manual projection consumes the generic
+`Document`, stays deterministic and offline, and leaves the stored source
+document intact. Rich renders the prepared manual page; it does not classify
+cppreference HTML.
 
 The database stores document metadata, structured blocks as JSON, and
 searchable text. It uses indexed SQLite lookup and FTS5 when the Python
@@ -77,15 +82,21 @@ Page lookup loads one page; search returns bounded metadata results.
 
 ## Adding a supported reference topic
 
-The current download catalog is `SOURCE_PAGES` in
-`src/cxxman/core/catalog.py`. To add a topic:
+The 50-page default download catalog is `SOURCE_PAGES` in
+`src/cxxman/core/catalog.py`. Each entry includes its topic, stable source
+identifier and URL, header, and entity kind. To add a topic:
 
-1. Add its topic name, stable identifier, cppreference URL, and header to
-   the catalog.
+1. Add its topic name, stable identifier, cppreference URL, header, and
+   entity kind to the catalog. Keep topic, identifier, and URL values unique.
 2. Save a representative HTML fixture under `tests/fixtures/`.
 3. Add parser coverage for any source structures not already represented.
 4. Add update tests for URL selection, persistence, and failure behavior.
 5. Mention the topic and command in `docs/user-manual.md`.
+
+The catalog count is checked in `tests/test_catalog.py`. A no-topic update
+fetches every catalog page, so keep that default list intentionally
+curated. Some cppreference pages cover multiple related functions; use one
+source page entry for a shared page instead of duplicating its URL.
 
 The parser should preserve semantic content blocks and degrade gracefully
 when page markup changes. Never use live network access in ordinary unit
@@ -144,13 +155,18 @@ python tools/smoke_executable.py dist/cxxman.exe
 On Linux and macOS, the native executable is `dist/cxxman` rather than
 `dist/cxxman.exe`. Run the build on the operating system and architecture
 you want to target; PyInstaller does not make a Windows executable run
-on another operating system. The `tools/package_release.py` script
-assembles the native executable with its installer, uninstaller, README,
-and SHA-256 checksum.
+on another operating system. On Windows, install Inno Setup 6 and run
+`python tools/build_windows_installer.py` after building the executable.
+It creates the per-user setup `.exe` and generated Windows uninstaller.
+`tools/package_release.py` assembles the native executable with the
+platform installer, README, and SHA-256 checksums. The explicit app
+updater lives in `core/app_updates.py`; page viewing and search do not use
+it.
 
 The smoke check uses a temporary SQLite database and does not access the
 network. The GitHub Actions workflow repeats tests, build, packaging, and
 smoke checks on Windows x64, Linux x64, Intel macOS, and Apple Silicon
-macOS for pushes and pull requests. A matching `v*` tag additionally
-publishes all four assets in one GitHub Release. Read `docs/release.md`
-before tagging a release.
+macOS for pushes and pull requests. Windows also compiles, installs, and
+uninstalls the Inno Setup package in a temporary directory. A matching
+`v*` tag publishes platform assets, including the Windows setup `.exe`
+and checksums. Read `docs/release.md` before tagging a release.

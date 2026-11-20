@@ -21,8 +21,7 @@ jobs:
           - runner: windows-2025
             platform: windows-x64
             executable: cxxman.exe
-            installer: scripts/install.ps1
-            uninstaller: scripts/uninstall.ps1
+            installer: dist/cxxman-windows-x64-setup.exe
           - runner: ubuntu-22.04
             platform: linux-x64
             executable: cxxman
@@ -68,7 +67,25 @@ jobs:
       - name: Smoke test executable
         run: python tools/smoke_executable.py dist/${{ matrix.executable }}
 
-      - name: Package platform release
+      - name: Build Windows installer
+        if: matrix.platform == 'windows-x64'
+        run: python tools/build_windows_installer.py
+
+      - name: Smoke test Windows installer and uninstaller
+        if: matrix.platform == 'windows-x64'
+        run: python tools/smoke_windows_installer.py
+
+      - name: Package Windows release
+        if: matrix.platform == 'windows-x64'
+        run: >-
+          python tools/package_release.py
+          --platform ${{ matrix.platform }}
+          --executable dist/${{ matrix.executable }}
+          --installer ${{ matrix.installer }}
+          --readme docs/release.md
+
+      - name: Package POSIX release
+        if: matrix.platform != 'windows-x64'
         run: >-
           python tools/package_release.py
           --platform ${{ matrix.platform }}
@@ -81,7 +98,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: release-${{ matrix.platform }}
-          path: dist/cxxman-${{ matrix.platform }}.*
+          path: dist/cxxman-${{ matrix.platform }}*
           if-no-files-found: error
 
   publish:

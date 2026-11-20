@@ -7,17 +7,29 @@ work offline.
 
 ## Current scope
 
-The current starter catalog contains these pages:
+The default catalog contains 50 curated pages covering sequence and
+associative containers, container adaptors, common algorithms, utility
+types, strings, views, and smart pointers. Run `cxxman topics` to see every
+topic and its header. This is a focused selection, not a complete copy of
+cppreference; only catalog topics can be downloaded.
 
-| Topic | What it covers | Header |
-|---|---|---|
-| `vector` | The `std::vector` container reference | `<vector>` |
-| `vector::push_back` | The focused `std::vector::push_back` manual | `<vector>` |
-| `string` | The `std::basic_string` / `std::string` reference | `<string>` |
-| `sort` | The `std::sort` algorithm reference | `<algorithm>` |
+The catalog includes:
 
-This is a curated starter set, not a complete copy of cppreference. A
-topic must be in the catalog to be downloaded.
+- **Containers, strings, and views:** `vector`, `vector::push_back`,
+  `string`, `array`, `deque`, `forward_list`, `list`, `map`, `multimap`,
+  `multiset`, `set`, `unordered_map`, `unordered_multimap`,
+  `unordered_multiset`, `unordered_set`, `stack`, `queue`, `priority_queue`,
+  `span`, and `string_view`.
+- **Algorithms:** `sort`, `unique`, `all_of`, `adjacent_find`, `equal`,
+  `binary_search`, `copy`, `count`, `find`, `for_each`, `lower_bound`,
+  `max_element`, `min_element`, `remove`, `replace`, `reverse`,
+  `transform`, `fill`, `generate`, `accumulate`, and `merge`.
+- **Utilities and memory:** `optional`, `bitset`, `any`, `variant`, `pair`,
+  `tuple`, `expected`, `unique_ptr`, and `shared_ptr`.
+
+Some cppreference pages cover related operations together. For example,
+the `all_of` page also documents `any_of` and `none_of`; use `cxxman topics`
+for the exact downloadable topic names.
 
 ## Install and start
 
@@ -30,11 +42,14 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 python -m pip install -e .
 ```
 
-Standalone releases and installers are prepared for Windows x64, Linux
-x64, Intel Macs, and Apple Silicon Macs, but a GitHub Release has not
-been published yet. When one is available, download the matching archive
-and follow the [release installation guide](release.md). Ask for command
-help with:
+Standalone `v0.1.0` releases are available for Windows x64, Linux x64,
+Intel Macs, and Apple Silicon Macs. That release predates the 50-page
+catalog in the current source. A future Windows release will include a
+setup `.exe` and generated uninstaller without a PowerShell install step.
+To use all 50 topics before a newer release is published, install from
+the current repository using the steps below. See the [release
+installation guide](release.md) for details. Ask for
+command help with:
 
 ```powershell
 cxxman --help
@@ -64,7 +79,7 @@ cxxman topics
 This is the downloadable catalog. `cxxman list` shows only pages already
 stored in your local database.
 
-Run an explicit update to fetch and store the full current starter set:
+Run an explicit update to fetch and store all 50 catalog pages:
 
 ```powershell
 cxxman update
@@ -77,7 +92,12 @@ cxxman update vector
 cxxman update vector::push_back
 cxxman update string
 cxxman update sort
+cxxman update unique
+cxxman update optional
 ```
+
+To download only one page, pass its topic, for example
+`cxxman update vector`.
 
 The `std::` prefix is accepted too, for example
 `cxxman update std::vector::push_back`. Updates require an internet
@@ -95,10 +115,16 @@ cxxman vector::push_back
 cxxman std::vector::push_back
 ```
 
-The page is rendered in the terminal with headings, paragraphs, code and
-signatures, lists, tables, and references where the source page provides
-them. Long pages open a pager when output is connected to an interactive
-terminal. Piped output is printed directly without the pager.
+The page is rendered as a concise manual-style view. Recognized source
+sections are shown only when they contain content; declarations, lists,
+tables, and references remain structured. The original parsed document is
+still stored locally. Long pages open a pager when output is connected to
+an interactive terminal. Piped output is printed directly without the
+pager.
+
+Code blocks use C++ syntax highlighting. Color follows terminal support by
+default; select a mode with `--color auto`, `--color always`, or
+`--color never` (for example, `cxxman vector --color never`).
 
 Reading a page never downloads or parses HTML. If the page is not cached,
 `cxxman` reports that and suggests `cxxman update`.
@@ -146,17 +172,23 @@ cxxman list
 ```
 
 After pages are downloaded, `cxxman <topic>`, `cxxman search <query>`,
-and `cxxman list` need no network connection. `cxxman update` is the only
-current network-enabled command. Updates print a message before each page
+and `cxxman list` need no network connection. `cxxman update` downloads
+reference pages. `cxxman check-updates` checks for a newer application
+release; `cxxman self-update` installs it for standalone builds. These
+commands need a network connection. Python-managed installations should
+use pip or reinstall from source. Page updates print a message before each
 download and suggest a page command when they finish.
 
 ## Common problems
 
 - **Topic not available locally:** run `cxxman update <topic>`.
-- **Unsupported topic:** check the starter catalog above; arbitrary
+- **Unsupported topic:** check the catalog with `cxxman topics`; arbitrary
   cppreference URLs are not accepted yet.
 - **Update failed:** check internet access and retry. Previously stored
   valid pages are preserved when an update fails.
+- **Application update:** run `cxxman check-updates`. For a standalone
+  installation, run `cxxman self-update`; for a Python installation, use
+  pip or reinstall from source.
 - **Command not found:** activate the development virtual environment or
-  check that its `Scripts` directory is on `PATH`. The planned standalone
-  release should remove this Python environment setup step.
+  check that its `Scripts` directory is on `PATH`. Standalone release
+  archives are also available; see [release installation](release.md).
