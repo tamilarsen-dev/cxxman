@@ -136,8 +136,11 @@ For commands such as cxxman vector and cxxman search vector:
   -> generic structured document
   -> semantic extraction / manual-page projection
   -> local storage and search index
-  Network access is allowed only for an explicit command such as
-  cxxman update or a future explicit download command.
+  Network access is allowed only for explicit commands: `cxxman update`
+  fetches C++ reference pages, `cxxman check-updates` checks the GitHub
+  application release, and `cxxman self-update` installs a newer standalone
+  build. These app-update commands do not belong to the page-view or search
+  read path.
 
 Parse HTML only during ingestion or update. Persist the parsed
 representation so the read path does not need the original HTML.
@@ -550,7 +553,13 @@ Existing/planned commands include:
 - cxxman list: list locally available pages.
 - cxxman update: explicit network-enabled ingestion/update
   operation.
-  Do not break existing command syntax without an approved reason.
+- cxxman check-updates: explicitly check whether a newer application
+  release exists.
+- cxxman self-update: explicitly download and install a verified release
+  for a standalone installation; Python-managed installations use pip or
+  their source checkout.
+
+Do not break existing command syntax without an approved reason.
 
 Potential future options include:
 
@@ -720,15 +729,16 @@ Before changing code
     If a requirement is ambiguous or a dependency is incompatible with
     Python 3.15.2, stop and explain the trade-off rather than guessing.
 22. Current project state
-    The original CLI skeleton milestone is complete. The project already has
-    a document model, parser, renderer, SQLite storage and search, explicit
-    updates, first-run guidance, and a cross-platform release workflow. The
-    public repository and the first downloadable release (v0.1.0) are
-    live. The current source also has a 50-page curated catalog, read-time
-    manual-page projection, and Rich C++ syntax highlighting with
-    `--color auto|always|never`. Six representative source fixtures cover
-    the manual projection. The current working-tree suite has 46 passing
-    tests. Published v0.1.0 binaries predate these newer changes.
+    The project is a public C++ terminal reference. Release v0.2.0 is
+    published with native Windows x64, Linux x64, Intel macOS, and Apple
+    Silicon builds. It includes a 50-page curated catalog, deterministic
+    manual-page projection, Rich C++ syntax highlighting, `--color
+    auto|always|never`, `check-updates`, `self-update`, and a Windows
+    per-user setup executable with a generated uninstaller. The Windows
+    installer and uninstaller passed CI install/remove coverage. The full
+    local suite passes 57 tests. Release v0.1.0 is historical; v0.2.0 is the
+    current release. The reference remains a curated selection, not complete
+    cppreference coverage.
 
 The repository is an existing working project. Do not repeat the
 original skeleton task or assume that the proposed architecture has

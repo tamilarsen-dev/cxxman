@@ -25,25 +25,17 @@ Last updated: 2026-11-20
 - The original commit author/committer addresses were rewritten to the
   account's GitHub noreply address before the public push. A local backup
   branch preserves the original history; do not push that backup branch.
-- The working tree is clean after the release commit.
+- The working tree is clean after this documentation sync.
 
 ## Next planned work
 
 The first distribution milestone, the initial manual-page projection
-slice, 50-page default catalog, app updater, Windows installer, and
-`v0.2.0` release are complete. Six representative
-pages have saved fixtures for manual projection tests. Remaining catalog
-pages use the same deterministic source-heading projection; add focused
-fixtures as extraction rules expand. Preserve offline page viewing and
-search. C++ syntax highlighting and `--color auto|always|never` are
-implemented for displayed pages and included in `v0.2.0`. See
-`docs/roadmap.md` for scope and limitations.
-
-The working tree also adds `cxxman check-updates` and `cxxman self-update`
-for standalone builds, checksum verification, a Windows Inno Setup package
-with a generated uninstaller, and Windows CI install/remove coverage. These
-changes are included in `v0.2.0`. The Windows CI job verified installer
-compilation, installation, and uninstallation.
+slice, the 50-page default catalog, app updater, Windows installer, and
+`v0.2.0` release are complete. Six representative pages have saved fixtures
+for manual projection tests; remaining catalog pages use the conservative
+source-heading projection. Expand entity-specific extraction only with
+representative fixtures and source-accuracy tests. Preserve offline page
+viewing and search. See `docs/roadmap.md` for scope and limitations.
 
 Before starting, inspect Git status, read `AGENTS.md`, this handoff, and
 the relevant roadmap and developer-guide sections. Do not restart the

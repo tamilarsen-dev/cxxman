@@ -42,7 +42,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 python -m pip install -e .
 ```
 
-Standalone `v0.2.0` releases are available for Windows x64, Linux x64,
+Standalone release `v0.2.0` is available for Windows x64, Linux x64,
 Intel Macs, and Apple Silicon Macs. It includes the 50-page catalog and
 Windows setup `.exe` with a generated uninstaller. See the [release
 installation guide](release.md) for setup and app updates. For development,

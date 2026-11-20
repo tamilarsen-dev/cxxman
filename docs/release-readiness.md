@@ -1,7 +1,7 @@
 # GitHub Release Readiness
 
 This file records completed local work, the public GitHub repository, and
-the first downloadable release.
+the published `v0.2.0` release. `v0.1.0` is retained as release history.
 
 ## Repository setup
 

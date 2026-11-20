@@ -13,8 +13,9 @@
 
   HTML parser             BeautifulSoup4          Practical HTML parsing
 
-  HTTP client             HTTPX                   Explicit documentation
-                                                  downloads
+HTTP client             HTTPX                   Explicit documentation
+                                                  and application-release
+                                                  updates
 
   Storage                 SQLite                  Local indexed storage;
                                                   built into Python
@@ -59,8 +60,8 @@ document parsing, persistence, or network behavior.
 
 ## HTTP decision: HTTPX
 
-HTTPX is used by explicit update/download commands. It must not be
-called by ordinary page-view or search commands.
+HTTPX is used by explicit page and application update commands. It must
+not be called by ordinary page-view, search, or listing commands.
 
 ## Compatibility note
 
