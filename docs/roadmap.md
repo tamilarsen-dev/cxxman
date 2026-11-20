@@ -146,5 +146,6 @@ highlighting and provides `--color auto|always|never` controls.
 The source repository and standalone downloads are public at
 <https://github.com/tamilarsen-dev/cxxman>. `docs/release.md` describes the
 platform archives, install flows, application updates, and maintainer
-release steps. The updated setup and updater will reach users in a future
-tagged release; published `v0.1.0` remains unchanged.
+release steps. Release `v0.2.0` packages the 50-page catalog, manual
+renderer, application updater, and Windows setup executable. The earlier
+`v0.1.0` release remains available as a historical release.

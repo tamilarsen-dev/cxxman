@@ -32,21 +32,19 @@ cxxman vector::push_back
 ## Download
 
 Standalone builds for Windows x64, Linux x64, Intel macOS, and Apple
-Silicon macOS are available in release `v0.1.0`. Download the archive for
+Silicon macOS are available in release `v0.2.0`. Download the archive for
 your platform from
 [GitHub Releases](https://github.com/tamilarsen-dev/cxxman/releases/latest)
 and follow the [installation guide](docs/release.md).
 
-The next tagged release is configured to include a Windows per-user setup
-`.exe` with a generated uninstaller. The currently published `v0.1.0`
-predates that installer. Later standalone builds can check for and install
-app releases with `cxxman check-updates` and `cxxman self-update`.
+Release `v0.2.0` includes a Windows per-user setup `.exe` with a generated
+uninstaller. Standalone builds can check for and install app releases with
+`cxxman check-updates` and `cxxman self-update`.
 
-The executable does not bundle cppreference pages. The published `v0.1.0`
-binary predates the current 50-page catalog. In a build containing the
-current source, run `cxxman update` after installing to download all 50
-pages; use `cxxman update <topic>` to fetch only one. Reading and searching
-cached pages work offline.
+The executable does not bundle cppreference pages. Run `cxxman update`
+after installing to download all 50 catalog pages; use
+`cxxman update <topic>` to fetch only one. Reading and searching cached
+pages work offline.
 
 Manual pages use C++ syntax highlighting and terminal colors by default.
 Choose `--color auto`, `--color always`, or `--color never` when displaying
@@ -77,9 +75,9 @@ current list. The public source repository is
 [hosted on GitHub](https://github.com/tamilarsen-dev/cxxman).
 Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS builds have
 passed the [GitHub Actions release workflow](https://github.com/tamilarsen-dev/cxxman/actions).
-The Windows executable has also been built and smoke-tested locally. The
-first downloadable GitHub Release, [`v0.1.0`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.1.0),
-is published with four platform archives and SHA-256 checksums.
+GitHub Release [`v0.2.0`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.2.0)
+provides four platform builds, a Windows setup executable, and SHA-256
+checksums.
 
 See [release readiness](docs/release-readiness.md) for the completed
 publishing steps and platform notes.

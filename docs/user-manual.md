@@ -42,13 +42,11 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 python -m pip install -e .
 ```
 
-Standalone `v0.1.0` releases are available for Windows x64, Linux x64,
-Intel Macs, and Apple Silicon Macs. That release predates the 50-page
-catalog in the current source. A future Windows release will include a
-setup `.exe` and generated uninstaller without a PowerShell install step.
-To use all 50 topics before a newer release is published, install from
-the current repository using the steps below. See the [release
-installation guide](release.md) for details. Ask for
+Standalone `v0.2.0` releases are available for Windows x64, Linux x64,
+Intel Macs, and Apple Silicon Macs. It includes the 50-page catalog and
+Windows setup `.exe` with a generated uninstaller. See the [release
+installation guide](release.md) for setup and app updates. For development,
+install from the current repository using the steps below. Ask for
 command help with:
 
 ```powershell

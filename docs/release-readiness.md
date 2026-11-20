@@ -59,23 +59,16 @@ workflow runs passed all four native builds. The `v0.1.0` tag workflow also
 passed Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS, then
 successfully published the GitHub Release.
 
-## Published release
+## Published releases
 
 [`v0.1.0`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.1.0)
-is the latest public release. It contains four platform archives, four
-SHA-256 sidecar files, and GitHub's source archives. The README links to
-the latest release, and `docs/release.md` describes platform installation.
+was the first public release and contains the original platform archives.
+Release `v0.2.0` adds the updated catalog, manual pages, application
+updater, Windows setup executable, and per-asset checksums.
 
-The current source tree has since added a 50-page default topic catalog,
-manual-page projection, page color/syntax-highlighting controls, and
-application update commands. The current test suite passes 57 tests. These
-newer changes have not yet been included in a published binary release;
-the `v0.1.0` executable retains its earlier catalog.
-
-The current working tree adds the per-user Windows setup executable and
-application update commands; those changes are not part of published
-`v0.1.0`. A future `v*` tag will publish the Windows setup `.exe`, release
-archives, and checksums through the updated workflow.
+The current test suite passes 57 tests. The `v0.2.0` tag workflow
+successfully builds all four platforms and tests the Windows setup and
+generated uninstaller before publishing the assets.
 
 macOS executables are not signed or notarized. The Linux x64 build uses
 Ubuntu 22.04 as its compatibility baseline. These are documented in
