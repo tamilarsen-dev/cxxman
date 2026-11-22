@@ -208,13 +208,17 @@ local database has no records outside the generated catalog.
 
 -   [x] Improve first-run guidance, topic discovery, search feedback, and
     update progress output.
--   [x] Prepare standalone builds and per-user installers for Windows
-    x64, Linux x64, Intel macOS, and Apple Silicon macOS.
+-   [x] Prepare standalone builds for Windows x86 and x64, Linux x64,
+    Intel macOS, and Apple Silicon macOS; provide per-user installers for
+    both Windows architectures.
 -   [x] Add a cross-platform GitHub Actions workflow that builds on pushes
     and pull requests, then publishes tagged releases with native
     executable smoke checks and SHA-256 checksums.
 -   [x] Publish and verify release `v0.1.0` with four native platform
     archives and SHA-256 checksums.
+-   [x] Publish release `v0.3.1` with Windows x86/x64, Linux x64, Intel
+    macOS, and Apple Silicon builds; verify all release assets and checksums
+    are publicly available.
 -   [x] Add explicit application release checks and self-update for
     standalone builds, with SHA-256 verification.
 -   [x] Replace the Windows script installer with a per-user Inno Setup
@@ -223,6 +227,6 @@ local database has no records outside the generated catalog.
 The source repository and standalone downloads are public at
 <https://github.com/tamilarsen-dev/cxxman>. `docs/release.md` describes the
 platform archives, install flows, application updates, and maintainer
-release steps. Release `v0.2.0` packages the 50-page catalog, manual
-renderer, application updater, and Windows setup executable. The earlier
-`v0.1.0` release remains available as a historical release.
+release steps. Release `v0.3.1` packages the generated 2,496-name catalog,
+manual renderer, application updater, and Windows x86/x64 setup executables.
+Releases `v0.1.0` and `v0.2.0` remain available as historical releases.

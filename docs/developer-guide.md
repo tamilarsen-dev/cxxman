@@ -170,8 +170,8 @@ it.
 
 The smoke check uses a temporary SQLite database and does not access the
 network. The GitHub Actions workflow repeats tests, build, packaging, and
-smoke checks on Windows x64, Linux x64, Intel macOS, and Apple Silicon
-macOS for pushes and pull requests. Windows also compiles, installs, and
-uninstalls the Inno Setup package in a temporary directory. A matching
+smoke checks on Windows x86 and x64, Linux x64, Intel macOS, and Apple
+Silicon macOS for pushes and pull requests. Windows compiles, installs, and
+uninstalls both Inno Setup packages in temporary directories. A matching
 `v*` tag publishes platform assets, including the Windows setup `.exe`
 and checksums. Read `docs/release.md` before tagging a release.

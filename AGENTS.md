@@ -729,16 +729,15 @@ Before changing code
     If a requirement is ambiguous or a dependency is incompatible with
     Python 3.15.2, stop and explain the trade-off rather than guessing.
 22. Current project state
-    The project is a public C++ terminal reference. Release v0.2.0 is
-    published with native Windows x64, Linux x64, Intel macOS, and Apple
-    Silicon builds. It includes a 50-page curated catalog, deterministic
-    manual-page projection, Rich C++ syntax highlighting, `--color
-    auto|always|never`, `check-updates`, `self-update`, and a Windows
-    per-user setup executable with a generated uninstaller. The Windows
-    installer and uninstaller passed CI install/remove coverage. The full
-    local suite passes 57 tests. Release v0.1.0 is historical; v0.2.0 is the
-    current release. The reference remains a curated selection, not complete
-    cppreference coverage.
+    The project is a public C++ terminal reference. Release v0.3.1 is
+    published for Windows x86 and x64, Linux x64, Intel macOS, and Apple
+    Silicon. It ships a generated catalog of 2,496 names across 111 headers
+    and 2,167 cppreference routes, concise deterministic manual pages, Rich
+    C++ highlighting, configurable color, `check-updates`, `self-update`,
+    and per-user Windows installers for both architectures. CI tests both
+    Windows installers and uninstallers. The local suite passes 108 tests.
+    Releases v0.1.0-v0.3.0 are historical; v0.3.1 is current. The reference
+    remains a curated selection, not complete cppreference coverage.
 
 The repository is an existing working project. Do not repeat the
 original skeleton task or assume that the proposed architecture has

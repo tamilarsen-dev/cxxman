@@ -1,75 +1,53 @@
 # GitHub Release Readiness
 
-This file records completed local work, the public GitHub repository, and
-the published `v0.2.0` release. `v0.1.0` is retained as release history.
+Last updated: 2026-11-22
 
-## Repository setup
+## Repository
 
-| Setting | Planned value |
-|---|---|
-| Owner | `tamilarsen-dev` |
-| Repository | `cxxman` |
-| Visibility | Public, for downloadable releases and source access |
-| Description | C++ reference manuals in your terminal, with offline search and on-demand updates. |
-| Initial branch | `master` |
+- Public repository: <https://github.com/tamilarsen-dev/cxxman>
+- Current release: [`v0.3.1`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.3.1)
+- License: MIT, in the root `LICENSE` file.
+- Release workflow: [GitHub Actions](https://github.com/tamilarsen-dev/cxxman/actions/workflows/release.yml)
 
-The public repository is live at
-[`tamilarsen-dev/cxxman`](https://github.com/tamilarsen-dev/cxxman), with
-the description shown above. The local `master` branch is pushed and
-tracks `origin/master`. GitHub CLI is not installed; the repository was
-created through the browser.
+## v0.3.1 builds
 
-The original history contained a non-GitHub-noreply author address. Before
-the public push, author and committer addresses were rewritten to the
-account's noreply address. The resulting commit hashes differ from the
-original local history.
+The release workflow builds natively on five targets:
 
-## Completed locally
+| Target | Archive | Windows setup |
+|---|---|---|
+| Windows x64 | `cxxman-windows-x64.zip` | `cxxman-windows-x64-setup.exe` |
+| Windows x86 | `cxxman-windows-x86.zip` | `cxxman-windows-x86-setup.exe` |
+| Linux x64 | `cxxman-linux-x64.tar.gz` | — |
+| Intel macOS | `cxxman-macos-x64.tar.gz` | — |
+| Apple Silicon macOS | `cxxman-macos-arm64.tar.gz` | — |
 
-- CLI commands, supported-topic discovery, first-run guidance, and
-  actionable search/update messages are implemented.
-- User and developer manuals are in `docs/user-manual.md` and
-  `docs/developer-guide.md`.
-- A Windows x64 one-file executable was built with Python 3.15.2 and
-  PyInstaller 6.22.3. Its help, version, catalog, offline search/list,
-  and page rendering passed the executable smoke check.
-- The published `v0.1.0` Windows ZIP was assembled and checked locally.
-- The current release workflow builds an Inno Setup Windows installer
-  with a generated uninstaller and runs an install/remove smoke test.
-- POSIX installer and uninstaller scripts passed Bash syntax validation
-  and an isolated install/remove check using a temporary home directory.
-- Release archive packaging tests pass for ZIP and POSIX tar archives.
-- The `v0.1.0` release-era full Python test run passed: 34 tests.
-- `.gitignore` excludes virtual environments, test/build output, and local
-  documentation databases.
-- The MIT license is selected and included in the public repository.
-- The 15 existing commits were rewritten to use the GitHub noreply address
-  for author and committer metadata before the public push. A local-only
-  backup branch retains the original history; it was not pushed.
+Every archive and Windows setup executable has a SHA-256 sidecar. All 14
+release assets (seven files and their seven checksum sidecars) returned HTTP
+200 when checked after publication. The release includes the generated
+catalog with 2,496 names across 111 headers, mapped to 2,167 cppreference
+routes in the supported `/cpp/` scope.
 
-## Configured and verified remotely
+## Validation
 
-`.github/workflows/release.yml` runs on pushes and pull requests. It
-builds and smoke-tests native Windows x64, Linux x64, Intel macOS, and
-Apple Silicon macOS binaries. A matching `v*` tag publishes four
-platform archives and checksum files in one GitHub Release.
+- The local Python 3.15.2 suite passes **108 tests**.
+- The successful branch workflow built all five targets; the Windows x86 job
+  passed its tests, executable smoke check, installer build, install/remove
+  smoke check, packaging, and asset upload.
+- The tagged release workflow published the v0.3.1 assets after its build
+  matrix completed. See the [v0.3.1 workflow run](https://github.com/tamilarsen-dev/cxxman/actions/runs/45007467635).
+- Both Windows setup programs install for the current user and generate an
+  uninstaller. CI verifies installation, PATH changes, and removal.
 
-The Windows executable was built and smoke-tested locally. Two branch
-workflow runs passed all four native builds. The `v0.1.0` tag workflow also
-passed Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS, then
-successfully published the GitHub Release.
-
-## Published releases
+## Release history and limitations
 
 [`v0.1.0`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.1.0)
-was the first public release and contains the original platform archives.
-Release `v0.2.0` adds the updated catalog, manual pages, application
-updater, Windows setup executable, and per-asset checksums.
+was the first public release. `v0.2.0` added the Windows setup, application
+update commands, and checksums. `v0.3.0` bundled the generated topic catalog
+in standalone builds. `v0.3.1` adds Windows x86 binaries and installers.
 
-The current test suite passes 57 tests. The `v0.2.0` tag workflow
-successfully builds all four platforms and tests the Windows setup and
-generated uninstaller before publishing the assets.
-
-macOS executables are not signed or notarized. The Linux x64 build uses
-Ubuntu 22.04 as its compatibility baseline. These are documented in
-`docs/release.md`.
+The executable bundles the topic catalog, not downloaded page contents;
+users run `cxxman update` to populate the local database. The catalog is a
+curated C++ standard-library scope, not all of cppreference. macOS binaries
+are not signed or notarized. Linux x64 builds use Ubuntu 22.04 as the
+compatibility baseline. Windows ARM and Linux ARM builds are not included.
+See [`release.md`](release.md) for installation and update instructions.

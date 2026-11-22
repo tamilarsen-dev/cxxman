@@ -1,117 +1,137 @@
 # cxxman
 
-A terminal-based C++ documentation viewer inspired by Linux `man`.
-Read C++ library references, search cached pages, and update documentation
-from the terminal.
+**C++ reference pages in your terminal, with offline search and on-demand updates.**
 
-`cxxman` is designed around a **local-first** workflow: documentation is
-downloaded and parsed only when you explicitly update it, then read from
-local storage when you open a page.
+`cxxman` turns supported cppreference pages into concise, source-backed
+terminal manual pages. It keeps downloaded pages in a local SQLite database:
+page viewing, search, and topic discovery work offline.
 
-## Project goals
+## What you can do
 
--   Display C++ reference documentation directly in the terminal.
--   Work offline after documentation has been downloaded.
--   Provide readable headings, paragraphs, lists, tables, signatures,
-    and code examples.
--   Search documentation by symbol and topic.
--   Keep page lookup fast and memory usage bounded.
--   Provide native terminal builds for Windows, Linux, and macOS, while
-    keeping the Python package portable.
+- Read quick cards with the purpose, header, signatures, parameters, return
+  behavior, complexity, important pitfalls, and a source example when those
+  facts are available.
+- Use `--full` to inspect the preserved parsed page and `--example` to show
+  examples. The quick card does not replace the detailed source content.
+- Search cached documentation, browse topics by header, and update one page or
+  the full supported catalog.
+- Keep normal reads offline. Only explicit documentation updates and
+  application update commands use the network.
+- Install a standalone build on Windows x86 or x64, Linux x64, or Intel and
+  Apple Silicon macOS.
 
-## Quick vision
+## Current release
 
-``` powershell
+Release **v0.3.1** adds a native Windows x86 build alongside Windows x64,
+Linux x64, Intel macOS, and Apple Silicon macOS. Download the installer or
+archive for your platform from
+[GitHub Releases](https://github.com/tamilarsen-dev/cxxman/releases/latest).
+The release includes SHA-256 checksums; the Windows setup executables also
+have individual checksum files.
+
+| Platform | Recommended download |
+|---|---|
+| 64-bit Windows | `cxxman-windows-x64-setup.exe` |
+| 32-bit Windows | `cxxman-windows-x86-setup.exe` |
+| Linux x64 | `cxxman-linux-x64.tar.gz` |
+| Intel macOS | `cxxman-macos-x64.tar.gz` |
+| Apple Silicon macOS | `cxxman-macos-arm64.tar.gz` |
+
+Windows installers are per-user and do not require administrator access.
+For Linux and macOS, extract the matching archive and run `sh ./install.sh`.
+See the [installation and update guide](docs/release.md) for details,
+checksums, and uninstall steps. macOS builds are not signed or notarized.
+
+## Catalog and scope
+
+The release includes a generated catalog of **2,496 names across 111
+headers**, mapped to **2,167 cppreference routes** in the supported `/cpp/`
+scope. This is a curated C++ standard-library reference catalog, not all of
+cppreference. It excludes C-language pages, C++ language-reference pages,
+experimental and TS pages, compiler-support tables, and library overview
+pages. Catalog coverage does not mean every technical fact has been manually
+audited.
+
+The executable includes the catalog, but not downloaded page contents. Run an
+explicit update to fetch pages into the local database. Cached page reads,
+search, listing, and header discovery stay offline.
+
+## Quick start
+
+```console
 cxxman topics
-cxxman update vector
-cxxman vector
-cxxman search vector
+cxxman update vector::push_back
 cxxman vector::push_back
+cxxman search vector
+cxxman header vector
 ```
 
-## Features
+To download all supported pages, run `cxxman update`. If an update stops,
+continue with `cxxman update --resume`. Use `cxxman --help` to see all
+commands and options.
 
-- **Quick manual pages:** concise, source-backed cards show purpose,
-  `#include`, declarations, and applicable behavior. Use `--full` for the
-  complete stored document or `--example` for source examples.
-- **Offline reads:** page viewing, search, listing, and header discovery use
-  local SQLite data. HTML parsing and network access happen only during
-  explicit updates.
-- **Broad topic discovery in the current source:** a generated catalog with
-  2,496 names across 111 headers, mapped to 2,167 distinct cppreference
-  routes. Search ranks names, aliases, purpose text, and page content;
-  `cxxman header <name>` lists entities by header.
-- **Resilient updates:** targeted and full-catalog updates, per-page commits,
-  retry/backoff, failure reporting, and `cxxman update --resume`.
-- **Terminal support:** Rich rendering, C++ syntax highlighting,
-  `--color auto|always|never`, terminal-width-aware output, paging for long
-  pages, and quiet handling of closed output pipes.
-- **Cross-platform standalone app:** Windows x64, Linux x64, Intel macOS,
-  and Apple Silicon packages; Windows per-user installer; checksums; and
-  application check/self-update commands.
+## Reading pages
 
-## Download
+```console
+cxxman vector
+cxxman sort --example
+cxxman vector --full
+cxxman vector --color never
+```
 
-Standalone builds for Windows x64, Linux x64, Intel macOS, and Apple
-Silicon macOS are available in release `v0.2.0`. Download the archive for
-your platform from
-[GitHub Releases](https://github.com/tamilarsen-dev/cxxman/releases/latest)
-and follow the [installation guide](docs/release.md).
+Quick cards select information supported by the stored source. They do not
+invent missing signatures, guarantees, or standard versions. `--full` keeps
+the complete parsed document available, and source links provide attribution
+to cppreference. Rich rendering supports C++ syntax highlighting and
+`--color auto|always|never`.
 
-Release `v0.2.0` includes a Windows per-user setup `.exe` with a generated
-uninstaller. Standalone builds can check for and install app releases with
-`cxxman check-updates` and `cxxman self-update`.
+## Updating the application
 
-The executable does not bundle cppreference pages. The published `v0.2.0`
-build contains the 50-page catalog available at release time. The current
-source tree has a generated catalog of 2,496 names across 111 headers
-(2,167 distinct source routes); run `cxxman update` from that source version
-to fetch the full catalog, or use `cxxman update <topic>` for selected pages.
-Reading and searching cached pages work offline.
+```console
+cxxman check-updates
+cxxman self-update
+```
 
-Manual pages use C++ syntax highlighting and terminal colors by default.
-Choose `--color auto`, `--color always`, or `--color never` when displaying
-a page.
+These commands check GitHub for a newer standalone release and verify its
+checksums before installing it. Python-managed installations should update
+with pip or their source checkout. They are separate from `cxxman update`,
+which downloads C++ reference pages.
+
+## Run from source
+
+The project uses Python 3.15.2 for development. From the repository root in
+PowerShell:
+
+```powershell
+py -3.15 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -e ".[dev]"
+python -m cxxman --help
+```
 
 ## Documentation
 
--   [User manual](docs/user-manual.md)
--   [Developer guide](docs/developer-guide.md)
--   [Cross-platform release and installation](docs/release.md)
--   [Release readiness](docs/release-readiness.md)
--   [MVP scope](docs/mvp.md)
--   [Architecture](docs/architecture.md)
--   [Performance strategy](docs/performance.md)
--   [Technology decisions](docs/technology-stack.md)
--   [Project structure](docs/project-structure.md)
--   [Development roadmap](docs/roadmap.md)
--   [Project history and complete feature reference](docs/project-history-and-features.md)
+- [User manual](docs/user-manual.md): commands, reading pages, search, and
+  local data.
+- [Release and installation](docs/release.md): platform assets, checksums,
+  upgrades, and uninstall steps.
+- [Architecture](docs/architecture.md): parser, storage, search, and rendering
+  boundaries.
+- [Developer guide](docs/developer-guide.md): local development and project
+  workflows.
+- [Roadmap](docs/roadmap.md): completed milestones and next work.
+- [Project history and feature reference](docs/project-history-and-features.md):
+  project evolution and current capabilities.
+- [Coverage report](docs/coverage-report.md): catalog route and structural
+  validation results.
 
-## License
+## Project status
 
-This project is licensed under the [MIT License](LICENSE).
+The latest release is **v0.3.1**. Its Windows x86 and x64 installers,
+Linux x64 build, Intel macOS build, and Apple Silicon build passed the
+GitHub Actions release workflow. The Windows CI job also tests installation
+and removal of both installers. The local test suite passes **108 tests**.
 
-## Current status
-
-The current source catalog contains 2,496 named entries across 111 headers,
-mapping to 2,167 distinct cppreference routes in the supported `/cpp/` scope.
-The latest local coverage sweep found every route stored and no page/category
-findings; four entries have no purpose sentence in their source and show only
-their title. This is structural coverage, not a manual audit of every
-technical fact. The published `v0.2.0` binaries still include the older
-50-page catalog; the full-catalog source work has not been released yet. See
-[`docs/coverage-report.md`](docs/coverage-report.md) and
-[`cxxman topics`](docs/user-manual.md#download-pages) for details. The public
-source repository is
-[hosted on GitHub](https://github.com/tamilarsen-dev/cxxman).
-Windows x64, Linux x64, Intel macOS, and Apple Silicon macOS builds have
-passed the [GitHub Actions release workflow](https://github.com/tamilarsen-dev/cxxman/actions).
-GitHub Release [`v0.2.0`](https://github.com/tamilarsen-dev/cxxman/releases/tag/v0.2.0)
-provides four platform builds, a Windows setup executable, and SHA-256
-checksums.
-
-See [release readiness](docs/release-readiness.md) for the completed
-publishing steps and platform notes. See the
-[project history and feature reference](docs/project-history-and-features.md)
-for the full timeline, current source/release distinction, feature inventory,
-and documentation index.
+The project is licensed under the [MIT License](LICENSE). See the
+[release readiness notes](docs/release-readiness.md) for release history and
+platform limitations.

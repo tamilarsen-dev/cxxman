@@ -6,18 +6,16 @@ searching, and listing pages use the local database and work offline.
 
 ## Current scope
 
-The published `v0.2.0` standalone release contains the 50-page catalog
-available when it was built. The current source tree has a generated
-catalog of 2,496 names across 111 headers, mapping to 2,167 unique source
-routes in the supported cppreference `/cpp/` scope. Run `cxxman topics` to
-see the catalog available in the version you are using. The catalog is not
-the entirety of cppreference: it excludes C-language pages, C++
-language-reference pages, experimental/TS routes, compiler-support tables,
-and pure library-overview pages. See
-[`project-history-and-features.md`](project-history-and-features.md) for the
-full history and release/source distinction.
+The published `v0.3.1` release includes a generated catalog of 2,496 names
+across 111 headers, mapping to 2,167 cppreference routes in the supported
+`/cpp/` scope. Run `cxxman topics` to see the catalog in your installed
+version. It is not all of cppreference: the catalog excludes C-language
+pages, C++ language-reference pages, experimental/TS routes,
+compiler-support tables, and pure library-overview pages. See
+[`project-history-and-features.md`](project-history-and-features.md) for
+the project history and feature inventory.
 
-The original 50-page release catalog included these representative topics:
+The catalog includes topics such as:
 
 - **Containers, strings, and views:** `vector`, `vector::push_back`,
   `string`, `array`, `deque`, `forward_list`, `list`, `map`, `multimap`,
@@ -46,12 +44,12 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 python -m pip install -e .
 ```
 
-Standalone release `v0.2.0` is available for Windows x64, Linux x64,
-Intel Macs, and Apple Silicon Macs. It includes the 50-page catalog and
-Windows setup `.exe` with a generated uninstaller. See the [release
-installation guide](release.md) for setup and app updates. For development,
-install from the current repository using the steps below. Ask for
-command help with:
+Standalone release `v0.3.1` is available for Windows x86 and x64, Linux x64,
+Intel Macs, and Apple Silicon Macs. It includes the generated catalog and
+Windows setup `.exe` installers with generated uninstallers. See the
+[release installation guide](release.md) for setup and app updates. For
+development, install from the current repository using the steps below.
+Ask for command help with:
 
 ```powershell
 cxxman --help
@@ -82,9 +80,8 @@ This is the downloadable catalog. `cxxman list` shows only pages already
 stored in your local database.
 
 Run an explicit update to fetch and store every page in the catalog
-supported by the installed version. In the current source tree this is the
-full generated catalog; the published `v0.2.0` executable has the earlier
-50-page catalog:
+supported by the installed version. The `v0.3.1` release supports the full
+generated catalog:
 
 ```powershell
 cxxman update

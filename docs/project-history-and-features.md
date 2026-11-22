@@ -4,8 +4,7 @@ Last updated: 2026-11-22
 
 This document brings together the project history, released capabilities,
 current source-tree features, validation results, and links to the detailed
-design and operating documents. It distinguishes the published `v0.2.0`
-application from later changes in the current working tree.
+design and operating documents. The latest published release is `v0.3.1`.
 
 ## Project at a glance
 
@@ -18,8 +17,8 @@ The project has two relevant snapshots:
 
 | Snapshot | What it includes |
 |---|---|
-| Published release `v0.2.0` | Windows x64, Linux x64, Intel macOS, and Apple Silicon builds; Windows per-user installer; the 50-page catalog shipped at release time; application update commands. |
-| Current source tree (2026-11-22) | Generated catalog with 2,496 named entries in 111 headers, representing 2,167 distinct cppreference routes; full-catalog resumable ingestion; quick-card and discovery improvements; a coverage report with no page/category findings. These source changes are not represented by a newer published release yet. |
+| Published release `v0.3.1` | Windows x86 and x64, Linux x64, Intel macOS, and Apple Silicon builds; Windows per-user installers; the generated catalog; quick-card and discovery improvements; application update commands. |
+| Current source tree (2026-11-22) | The same released capabilities, with 2,496 catalog names across 111 headers and 2,167 distinct cppreference routes; resumable ingestion; a coverage report with no page/category findings; and 108 passing local tests. |
 
 The generated catalog is a broad route-coverage goal for C++ standard-library
 reference material under cppreference `/cpp/`. It does not mean every
@@ -72,12 +71,14 @@ in [`performance.md`](performance.md).
 ### 6. First public releases
 
 Release `v0.1.0` was the first historical cross-platform release. Release
-`v0.2.0` added four native targets, SHA-256 checksum files, application
-release checking and self-update for standalone builds, and a Windows
-per-user setup executable with a generated uninstaller. CI tested package
-builds and install/remove behavior. The release executable does not bundle
-cppreference data; users download pages explicitly. macOS builds are not
-signed or notarized.
+`v0.2.0` added SHA-256 checksum files, application release checking and
+self-update for standalone builds, and a Windows per-user setup executable
+with a generated uninstaller. Release `v0.3.0` bundled the generated topic
+catalog in standalone builds. Release `v0.3.1` added Windows x86 binaries
+and a matching setup executable alongside Windows x64. CI tests both
+Windows installers and their generated uninstallers. The app bundles topic
+metadata, while users download cppreference page content explicitly. macOS
+builds are not signed or notarized.
 
 ### 7. Manual-page quality audit and quick-card direction
 
@@ -159,10 +160,9 @@ See [`coverage-report.md`](coverage-report.md).
 | `cxxman check-updates` | Explicitly check GitHub for a newer application release. |
 | `cxxman self-update` | Download and install a verified release for standalone builds. Python installations update through pip or source checkout. |
 
-The standalone `v0.2.0` release still contains the 50-page catalog current
-when that release was built. Full-catalog behavior described above belongs
-to the current source tree and will require a later application release to
-reach standalone users.
+The standalone `v0.3.1` release includes the generated catalog. It does not
+bundle downloaded page content; `cxxman update` stores those pages in the
+user's local database.
 
 ### Quick-card information
 
@@ -195,9 +195,10 @@ for full view or omitted from the card rather than guessed.
 - **Terminal output:** Rich layout, C++ syntax highlighting, configurable
   color, terminal-width-aware wrapping, pagination for long output, and
   quiet broken-pipe handling for pipelines.
-- **Cross-platform app distribution:** native Windows x64, Linux x64,
-  Intel macOS, and Apple Silicon packages in `v0.2.0`; Windows per-user
-  setup/uninstall; checksum sidecars; and CI packaging/install smoke tests.
+- **Cross-platform app distribution:** Windows x86 and x64, Linux x64,
+  Intel macOS, and Apple Silicon packages in `v0.3.1`; per-user setup and
+  uninstall on both Windows architectures; checksum sidecars; and CI
+  packaging/install smoke tests.
 - **Maintainer tooling:** catalog builder, saved-fixture downloader, and
   read-only coverage validator. The coverage validator does not update the
   database or fetch pages.
@@ -210,15 +211,11 @@ for full view or omitted from the card rather than guessed.
 - Route presence and parser/card checks are not equivalent to a manual
   technical review of every page. Source accuracy remains the priority for
   future expansion of entity-specific extraction.
-- The published binaries remain `v0.2.0` and ship the older 50-page
-  catalog until a later release is published.
 - A prebuilt, bundled, or downloadable database distribution is not
   implemented. It needs explicit owner approval and a plan for the
   cppreference CC-BY-SA 3.0 / GFDL attribution and share-alike terms.
 - macOS binaries are not signed or notarized. Windows ARM and Linux ARM
   builds are not currently provided.
-- Current source changes are uncommitted; no release or commit is implied
-  by this documentation update.
 
 ## Documentation index
 
