@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import os
 from pathlib import Path
 import shutil
@@ -24,6 +25,11 @@ def locate_compiler() -> Path:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--platform", choices=("windows-x64", "windows-x86"), default="windows-x64"
+    )
+    platform_name = parser.parse_args().platform
     if sys.platform != "win32":
         raise SystemExit("The Windows installer must be built on Windows")
     executable = ROOT / "dist" / "cxxman.exe"
@@ -33,11 +39,16 @@ def main() -> int:
     script = ROOT / "installer" / "cxxman.iss"
     version = _read_version()
     subprocess.run(
-        [str(compiler), f"/DAppVersion={version}", str(script)],
+        [
+            str(compiler),
+            f"/DAppVersion={version}",
+            f"/DAppArchitecture={platform_name.removeprefix('windows-')}",
+            str(script),
+        ],
         cwd=ROOT,
         check=True,
     )
-    output = ROOT / "dist" / "cxxman-windows-x64-setup.exe"
+    output = ROOT / "dist" / f"cxxman-{platform_name}-setup.exe"
     if not output.is_file():
         raise SystemExit(f"Installer compiler did not create {output}")
     print(f"Created {output}")

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import os
 from pathlib import Path
 import subprocess
@@ -10,10 +11,15 @@ import winreg
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--platform", choices=("windows-x64", "windows-x86"), default="windows-x64"
+    )
+    platform_name = parser.parse_args().platform
     if os.name != "nt":
         raise SystemExit("The Windows installer smoke check must run on Windows")
     root = Path(__file__).resolve().parents[1]
-    installer = root / "dist" / "cxxman-windows-x64-setup.exe"
+    installer = root / "dist" / f"cxxman-{platform_name}-setup.exe"
     if not installer.is_file():
         raise SystemExit(f"Windows installer not found: {installer}")
 

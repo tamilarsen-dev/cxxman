@@ -1,6 +1,9 @@
 #ifndef AppVersion
 #define AppVersion "0.1.0"
 #endif
+#ifndef AppArchitecture
+#define AppArchitecture "x64"
+#endif
 
 [Setup]
 AppId={{D31D5F93-18BE-4E38-98C1-6D8F9D9425B3}
@@ -13,10 +16,16 @@ DefaultDirName={localappdata}\Programs\cxxman
 DefaultGroupName=cxxman
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
-ArchitecturesAllowed=x64
-ArchitecturesInstallIn64BitMode=x64
-OutputDir=..\dist
+#if AppArchitecture == "x64"
+ArchitecturesAllowed=x64compatible
+ArchitecturesInstallIn64BitMode=x64compatible
 OutputBaseFilename=cxxman-windows-x64-setup
+#else
+ArchitecturesAllowed=x86compatible
+ArchitecturesInstallIn64BitMode=
+OutputBaseFilename=cxxman-windows-x86-setup
+#endif
+OutputDir=..\dist
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern

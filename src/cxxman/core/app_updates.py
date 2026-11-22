@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import platform
 import re
+import struct
 import subprocess
 import sys
 import tarfile
@@ -111,11 +112,18 @@ def is_update_available(current_version: str, latest_version: str) -> bool:
     return _version_key(latest_version) > _version_key(current_version)
 
 
-def detect_platform(system: str | None = None, machine: str | None = None) -> str:
+def detect_platform(
+    system: str | None = None,
+    machine: str | None = None,
+    *,
+    pointer_bits: int | None = None,
+) -> str:
     """Map the current OS and CPU to a published release platform."""
     operating_system = (system or platform.system()).casefold()
     architecture = (machine or platform.machine()).casefold()
-    if architecture in {"amd64", "x86_64", "x64"}:
+    if architecture in {"x86", "i386", "i486", "i586", "i686", "win32"}:
+        suffix = "x86"
+    elif architecture in {"amd64", "x86_64", "x64"}:
         suffix = "x64"
     elif architecture in {"arm64", "aarch64"}:
         suffix = "arm64"
@@ -123,8 +131,13 @@ def detect_platform(system: str | None = None, machine: str | None = None) -> st
         raise AppUpdateError(f"application updates are not available for {architecture}")
 
     if operating_system == "windows":
-        if suffix != "x64":
+        if suffix == "arm64":
             raise AppUpdateError("application updates are not available for Windows ARM yet")
+        process_bits = (
+            pointer_bits if pointer_bits is not None else struct.calcsize("P") * 8
+        )
+        if suffix == "x86" or process_bits == 32:
+            return "windows-x86"
         return "windows-x64"
     if operating_system == "linux" and suffix == "x64":
         return "linux-x64"
@@ -174,8 +187,8 @@ def _install_release_update(
     client: httpx.Client,
     launch: Callable[[list[str]], object],
 ) -> str:
-    if platform_key == "windows-x64":
-        setup_name = "cxxman-windows-x64-setup.exe"
+    if platform_key.startswith("windows-"):
+        setup_name = f"cxxman-{platform_key}-setup.exe"
         setup_bytes = _download_verified_asset(release, setup_name, client)
         file_descriptor, temporary_name = tempfile.mkstemp(
             prefix=f"cxxman-setup-{release.version}-", suffix=".exe"

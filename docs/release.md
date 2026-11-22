@@ -2,14 +2,16 @@
 
 ## Supported release builds
 
-Release `v0.2.0` provides standalone command-line builds. Users do not need
+Release `v0.3.1` provides standalone command-line builds. Users do not need
 Python, pip, a virtual environment, PowerShell, or administrator
 privileges to install the Windows package.
 
 | Asset | Target |
 |---|---|
 | `cxxman-windows-x64.zip` | 64-bit Windows |
-| `cxxman-windows-x64-setup.exe` | Windows per-user installer |
+| `cxxman-windows-x64-setup.exe` | 64-bit Windows per-user installer |
+| `cxxman-windows-x86.zip` | 32-bit Windows |
+| `cxxman-windows-x86-setup.exe` | 32-bit Windows per-user installer |
 | `cxxman-linux-x64.tar.gz` | 64-bit Linux, built on Ubuntu 22.04 |
 | `cxxman-macos-x64.tar.gz` | Intel macOS |
 | `cxxman-macos-arm64.tar.gz` | Apple Silicon macOS |
@@ -23,16 +25,17 @@ viewing, search, and listing work offline.
 
 ## Windows installation
 
-For releases that include `cxxman-windows-x64-setup.exe`, download and run
-it, then open a new terminal and run `cxxman --help`. Setup installs for
-the current user under `%LOCALAPPDATA%\Programs\cxxman`, adds that folder
-to the user's `PATH`, and creates a Start menu shortcut. It requires no
-PowerShell or administrator access. The generated uninstaller is listed
-in Windows Apps settings and is available as `unins000.exe` in the install
-folder.
+Download and run the setup executable that matches Windows: use the x64
+installer on 64-bit Windows or the x86 installer on 32-bit Windows. Open a
+new terminal and run `cxxman --help`. Setup installs for the current user
+under `%LOCALAPPDATA%\Programs\cxxman`, adds that folder to the user's
+`PATH`, and creates a Start menu shortcut. It requires no PowerShell or
+administrator access. The generated uninstaller is listed in Windows Apps
+settings and is available as `unins000.exe` in the install folder.
 
 The older `v0.1.0` release predates this installer and contains only the
-standalone executable ZIP. Use `v0.2.0` for the setup executable.
+standalone executable ZIP. Releases `v0.2.0` and later include the Windows
+setup executable.
 
 ## Linux and macOS installation
 
@@ -67,6 +70,9 @@ certutil -hashfile cxxman-windows-x64-setup.exe SHA256
 type cxxman-windows-x64-setup.exe.sha256
 ```
 
+For 32-bit Windows, compare `cxxman-windows-x86-setup.exe` with its
+`cxxman-windows-x86-setup.exe.sha256` sidecar.
+
 On Linux or macOS, compare:
 
 ```sh
@@ -88,9 +94,10 @@ cxxman update vector::push_back
 cxxman vector::push_back
 ```
 
-The release contains a 50-page curated C++ standard-library catalog.
-`cxxman update` downloads all pages; `cxxman update <topic>` fetches one
-page. Run `cxxman topics` to list the topics and `cxxman --help` for the
+The release includes a generated catalog with 2,496 named entries across
+111 headers, mapped to 2,167 cppreference routes in the supported `/cpp/`
+scope. `cxxman update` downloads the catalog; `cxxman update <topic>` fetches
+one page. Run `cxxman topics` to list topics and `cxxman --help` for the
 full command list.
 
 Manual pages use C++ syntax highlighting. `--color auto` follows terminal
@@ -125,10 +132,11 @@ the platform's data directory described above.
 1. Set the same release version in `pyproject.toml` and
    `src/cxxman/__init__.py`.
 2. Commit and push the version change.
-3. Push a matching version tag, for example `v0.2.0`.
-4. The workflow runs tests on four native runners, builds and smoke-tests
-   each executable, packages each archive with its checksum, and creates
-   one GitHub Release containing all assets.
+3. Push a matching version tag, for example `v0.3.1`.
+4. The workflow runs tests on five native build targets, builds and
+   smoke-tests each executable, tests both Windows installers, packages
+   archives with checksums, and creates one GitHub Release containing all
+   assets.
 
 The workflow rejects tags whose version does not match both project
 version fields. Linux x64 releases target the Ubuntu 22.04 baseline.

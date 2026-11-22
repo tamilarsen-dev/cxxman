@@ -3,6 +3,8 @@
 import tarfile
 import zipfile
 
+import pytest
+
 from tools.package_release import create_archive
 
 
@@ -15,13 +17,14 @@ def _sample_files(tmp_path, names: tuple[str, ...]):
     return paths
 
 
-def test_windows_release_is_a_zip_with_expected_members(tmp_path) -> None:
+@pytest.mark.parametrize("platform", ("windows-x64", "windows-x86"))
+def test_windows_release_is_a_zip_with_expected_members(tmp_path, platform) -> None:
     paths = _sample_files(
         tmp_path,
-        ("cxxman.exe", "cxxman-windows-x64-setup.exe", "README.md"),
+        ("cxxman.exe", f"cxxman-{platform}-setup.exe", "README.md"),
     )
 
-    archive_path = create_archive("windows-x64", paths, tmp_path)
+    archive_path = create_archive(platform, paths, tmp_path)
 
     with zipfile.ZipFile(archive_path) as archive:
         assert set(archive.namelist()) == {path.name for path in paths}

@@ -12,7 +12,7 @@ from pathlib import Path
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--platform", required=True, choices=(
-        "windows-x64", "linux-x64", "macos-x64", "macos-arm64"
+        "windows-x64", "windows-x86", "linux-x64", "macos-x64", "macos-arm64"
     ))
     parser.add_argument("--executable", required=True, type=Path)
     parser.add_argument("--installer", required=True, type=Path)
@@ -23,9 +23,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
-    if args.platform == "windows-x64" and args.uninstaller is not None:
+    is_windows = args.platform.startswith("windows-")
+    if is_windows and args.uninstaller is not None:
         raise SystemExit("Windows uses the generated Inno Setup uninstaller; omit --uninstaller")
-    if args.platform != "windows-x64" and args.uninstaller is None:
+    if not is_windows and args.uninstaller is None:
         raise SystemExit("POSIX release archives require --uninstaller")
     paths = [args.executable, args.installer]
     if args.uninstaller is not None:
@@ -38,7 +39,7 @@ def main() -> int:
     archive_path = create_archive(args.platform, paths, args.executable.resolve().parent)
     digest = hashlib.sha256(archive_path.read_bytes()).hexdigest()
     checksum_path = write_sha256(archive_path)
-    if args.platform == "windows-x64":
+    if is_windows:
         write_sha256(args.installer)
     print(f"Created {archive_path}")
     print(f"SHA-256 {digest}")
@@ -54,7 +55,7 @@ def write_sha256(path: Path) -> Path:
 
 
 def create_archive(platform: str, paths: list[Path], output_directory: Path) -> Path:
-    suffix = ".zip" if platform == "windows-x64" else ".tar.gz"
+    suffix = ".zip" if platform.startswith("windows-") else ".tar.gz"
     archive_path = output_directory / f"cxxman-{platform}{suffix}"
     if suffix == ".zip":
         with zipfile.ZipFile(

@@ -70,12 +70,17 @@ def test_fetch_latest_release_rejects_an_untrusted_release_url() -> None:
     ("system", "machine", "expected"),
     [
         ("Windows", "AMD64", "windows-x64"),
+        ("Windows", "x86", "windows-x86"),
         ("Linux", "x86_64", "linux-x64"),
         ("Darwin", "arm64", "macos-arm64"),
     ],
 )
 def test_detect_platform(system: str, machine: str, expected: str) -> None:
     assert detect_platform(system, machine) == expected
+
+
+def test_detect_windows_32_bit_process_on_64_bit_host() -> None:
+    assert detect_platform("Windows", "AMD64", pointer_bits=32) == "windows-x86"
 
 
 def test_version_comparison_uses_numeric_components() -> None:
@@ -148,11 +153,17 @@ def test_linux_update_verifies_archive_and_replaces_executable(tmp_path) -> None
     assert "Updated cxxman to v1.2.0" in message
 
 
-def test_windows_update_launches_checksum_verified_setup(tmp_path) -> None:
+@pytest.mark.parametrize(
+    ("machine", "platform_name"),
+    [("AMD64", "windows-x64"), ("x86", "windows-x86")],
+)
+def test_windows_update_launches_checksum_verified_setup(
+    tmp_path, machine: str, platform_name: str
+) -> None:
     executable = tmp_path / "cxxman.exe"
     executable.write_bytes(b"current")
     installer = b"installer bytes"
-    name = "cxxman-windows-x64-setup.exe"
+    name = f"cxxman-{platform_name}-setup.exe"
     client = _mocked_assets(name, installer, hashlib.sha256(installer).hexdigest())
     release = LatestRelease(
         "v1.2.0",
@@ -172,7 +183,7 @@ def test_windows_update_launches_checksum_verified_setup(tmp_path) -> None:
         executable_path=executable,
         frozen=True,
         system="Windows",
-        machine="AMD64",
+        machine=machine,
         client=client,
         launch=launched.append,
     )
