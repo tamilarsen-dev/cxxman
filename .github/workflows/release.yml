@@ -61,7 +61,8 @@ jobs:
         run: >-
           python -m PyInstaller --noconfirm --clean --onefile --console
           --name cxxman --paths src --specpath build/pyinstaller
-          --collect-data certifi --collect-submodules pygments.lexers
+          --collect-data cxxman --collect-data certifi
+          --collect-submodules pygments.lexers
           src/cxxman/__main__.py
 
       - name: Smoke test executable
