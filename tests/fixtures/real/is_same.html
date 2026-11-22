@@ -1,0 +1,192 @@
+<!doctype html>
+<html><head><title>std::is_same</title></head><body><div id="mw-content-text"><div class="mw-content-ltr mw-parser-output" dir="ltr" lang="en">
+<table class="t-dcl-begin">
+<tbody><tr class="t-dsc-header">
+<td> <div>Defined in header <code><a href="/cpp/header/type_traits" title="cpp/header/type traits">&lt;type_traits&gt;</a></code>
+</div></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="t-dcl t-since-cxx11">
+<td> <div><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">U</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">is_same</span><span class="p">;</span>
+</pre></div></div></td>
+<td class="t-dcl-nopad"> </td>
+<td> <span class="t-mark-rev t-since-cxx11">(since C++11)</span> </td>
+</tr>
+<tr class="t-dcl-sep"><td></td><td></td><td></td></tr>
+</tbody></table>
+<p>If <code>T</code> and <code>U</code> name the same type (taking into account const/volatile qualifications), provides the member constant <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">value</span></code></span> equal to <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="nb">true</span></code></span>. Otherwise <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">value</span></code></span> is <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="nb">false</span></code></span>.
+</p><p>Commutativity is satisfied, i.e. for any two types <code>T</code> and <code>U</code>, <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">is_same</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="o">&gt;::</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span></code></span> if and only if <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">is_same</span><span class="o">&lt;</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span></code></span>.
+</p><p>If the program adds specializations for <code>std::is_same</code><span class="t-rev-inl t-since-cxx17"><span> or <code>std::is_same_v</code></span><span><span class="t-mark-rev t-since-cxx17">(since C++17)</span></span></span>, the behavior is undefined.
+</p>
+
+<h3><span class="mw-headline" id="Helper_variable_template">Helper variable template</span></h3>
+<table class="t-dcl-begin">
+<tbody><tr class="t-dcl t-since-cxx17">
+<td> <div><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">U</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_same_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_same</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+</pre></div></div></td>
+<td class="t-dcl-nopad"> </td>
+<td> <span class="t-mark-rev t-since-cxx17">(since C++17)</span> </td>
+</tr>
+<tr class="t-dcl-sep"><td></td><td></td><td></td></tr>
+</tbody></table>
+<div class="t-template-editlink" style="">
+<span class="t-template editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/types/integral_constant/inherit2&amp;action=edit" rel="nofollow">[edit]</a></span></div><div class="t-inherited">
+<h2><span class="mw-headline" id="Inherited_from_std::integral_constant">Inherited from <a href="/cpp/types/integral_constant" title="cpp/types/integral constant"> <span style="font-size:0.7em; line-height:130%">std::</span>integral_constant</a></span></h2>
+<h3><span class="mw-headline" id="Member_constants">Member constants</span></h3>
+<table class="t-dsc-begin">
+<tbody><tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><span class="t-lines"><span>value</span></span></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td><span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="nb">true</span></code></span> if <code>T</code> and <code>U</code> are the same type, <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="nb">false</span></code></span> otherwise  <br/> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+</tbody></table>
+<h3><span class="mw-headline" id="Member_functions">Member functions</span></h3>
+<table class="t-dsc-begin">
+<tbody><tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><span class="t-lines"><span>operator bool</span></span></div></div>
+</td>
+<td>converts the object to <code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="kt">bool</span></code>, returns <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">value</span></code></span> <br/> <span class="t-mark">(public member function)</span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><span class="t-lines"><span>operator()</span></span></div><div><span class="t-lines"><span><span class="t-mark-rev t-since-cxx14">(C++14)</span></span></span></div></div>
+</td>
+<td>returns <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">value</span></code></span> <br/> <span class="t-mark">(public member function)</span>
+</td></tr>
+</tbody></table>
+<h3><span class="mw-headline" id="Member_types">Member types</span></h3>
+<table class="t-dsc-begin">
+<tbody><tr class="t-dsc-hitem">
+<td>Type
+</td>
+<td>Definition
+</td></tr>
+<tr class="t-dsc">
+<td><code>value_type</code>
+</td>
+<td><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="kt">bool</span></code>
+</td></tr>
+<tr class="t-dsc">
+<td><code>type</code>
+</td>
+<td><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="o">&gt;</span></code>
+</td></tr>
+</tbody></table>
+</div>
+<h3><span class="mw-headline" id="Possible_implementation">Possible implementation</span></h3>
+<table class="eq-fun-cpp-table">
+<tbody><tr>
+<td>
+<div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">is_same</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">false_type</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">is_same</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">true_type</span><span class="w"> </span><span class="p">{};</span>
+</pre></div>
+</td></tr></tbody></table>
+<h3><span class="mw-headline" id="Example">Example</span></h3>
+<div class="t-example"><div class="t-example-live-link"><div class="coliru-btn coliru-btn-run-init">Run this code</div></div>
+<div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span>
+
+<span class="cp">#define SHOW(...) std::cout &lt;&lt; #__VA_ARGS__ &lt;&lt; " : " &lt;&lt; __VA_ARGS__ &lt;&lt; '\n'</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// some implementation-defined facts</span>
+
+<span class="w">    </span><span class="c1">// usually true if 'int' is 32 bit</span>
+<span class="w">    </span><span class="n">SHOW</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">int32_t</span><span class="o">&gt;::</span><span class="n">value</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// maybe true</span>
+<span class="w">    </span><span class="c1">// possibly true if ILP64 data model is used</span>
+<span class="w">    </span><span class="n">SHOW</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">int64_t</span><span class="o">&gt;::</span><span class="n">value</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// maybe false</span>
+
+<span class="w">    </span><span class="c1">// same tests as above, except using C++17's std::is_same_v&lt;T, U&gt; format</span>
+<span class="w">    </span><span class="n">SHOW</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// maybe true</span>
+<span class="w">    </span><span class="n">SHOW</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// maybe false</span>
+
+<span class="w">    </span><span class="c1">// compare the types of a couple variables</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">num1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">num2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="n">num2</span><span class="p">)</span><span class="o">&gt;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 'float' is never an integral type</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">int32_t</span><span class="o">&gt;::</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 'int' is implicitly 'signed'</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">signed</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// unlike other types, 'char' is neither 'unsigned' nor 'signed'</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span><span class="w"> </span><span class="kt">signed</span><span class="w"> </span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// const-qualified type T is not same as non-const T</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#undef SHOW</span>
+</pre></div>
+<p>Possible output:
+</p>
+<div class="mw-highlight mw-highlight-lang-text mw-content-ltr" dir="ltr"><pre><span></span>std::is_same&lt;int, std::int32_t&gt;::value : true
+std::is_same&lt;int, std::int64_t&gt;::value : false
+std::is_same_v&lt;int, std::int32_t&gt; : true
+std::is_same_v&lt;int, std::int64_t&gt; : false
+</pre></div>
+</div>
+<h3><span class="mw-headline" id="See_also">See also</span></h3>
+<table class="t-dsc-begin">
+<tbody><tr class="t-dsc">
+<td><a href="/cpp/language/decltype" title="cpp/language/decltype"> <code>decltype</code> specifier</a><span class="t-mark-rev t-since-cxx11">(C++11)</span>
+</td>
+<td>obtains the type of an expression or an entity<span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/language/dsc_decltype&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/concepts/same_as" title="cpp/concepts/same as"> <span class="t-lines"><span>same_as</span></span></a></div><div><span class="t-lines"><span><span class="t-mark-rev t-since-cxx20">(C++20)</span></span></span></div></div>
+</td>
+<td>specifies that a type is the same as another type <br/> <span class="t-mark">(concept)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/concepts/dsc_same_as&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/meta/is_same_type" title="cpp/meta/is same type"> <span class="t-lines"><span>is_same_type</span></span></a></div><div><span class="t-lines"><span><span class="t-mark-rev t-since-cxx26">(C++26)</span></span></span></div></div>
+</td>
+<td>checks if two reflections represent the same type <br/> <span class="t-mark">(function)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/meta/dsc_is_same_type&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+</tbody></table>
+<!-- 
+NewPP limit report
+Cached time: 20261104224054
+Cache expiry: 2592000
+Reduced expiry: false
+Complications: [show‐toc]
+CPU time usage: 0.211 seconds
+Real time usage: 0.216 seconds
+Preprocessor visited node count: 9376/1000000
+Post‐expand include size: 267224/4194304 bytes
+Template argument size: 55103/4194304 bytes
+Highest expansion depth: 24/100
+Expensive parser function count: 18/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 15138/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  150.545      1 -total
+ 58.37%   87.879      1 Template:cpp/meta/type_traits/navbar
+ 57.85%   87.090      1 Template:navbar
+ 47.80%   71.960      1 Template:cpp/meta/navbar/type_traits_content
+ 41.76%   62.874     95 Template:nv_ln
+ 40.49%   60.952    123 Template:nv
+ 14.90%   22.430      1 Template:cpp/types/integral_constant/inherit
+ 14.38%   21.655      1 Template:include
+ 13.14%   19.782      1 Template:cpp/types/integral_constant/inherit2
+ 12.47%   18.775      1 Template:inherited
+-->
+<!-- Saved in parser cache with key en:pcache:idhash:2729-0!canonical and timestamp 20261104224054 and revision id 187186. Rendering was triggered because: page-view
+ -->
+</div></div></body></html>

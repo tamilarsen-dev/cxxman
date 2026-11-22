@@ -56,6 +56,31 @@ def test_render_document_covers_supported_blocks() -> None:
         assert expected in output
 
 
+def test_declaration_annotations_render_beside_the_signature() -> None:
+    sink = StringIO()
+    console = Console(file=sink, width=60, color_system=None, highlight=False)
+    document = Document(
+        identifier="cpp/sort",
+        title="std::sort",
+        canonical_topic="sort",
+        source_url="https://example.test/sort",
+        blocks=(
+            CodeBlock(
+                "void sort();",
+                language="cpp",
+                label="(1)",
+                availability="(since C++20)",
+            ),
+        ),
+    )
+
+    render_document(document, console=console)
+
+    output = sink.getvalue()
+    assert "(1) (since C++20)" in output
+    assert "void sort();" in output
+
+
 def test_render_manual_page_shows_only_present_sections_and_source() -> None:
     sink = StringIO()
     console = Console(file=sink, width=60, color_system=None, highlight=False)
@@ -72,6 +97,8 @@ def test_render_manual_page_shows_only_present_sections_and_source() -> None:
             ManualSection("COMPLEXITY", (Paragraph("Amortized constant."),)),
             ManualSection("FUTURE SECTION", (Paragraph("Unknown sections render safely."),)),
         ),
+        topic="vector::push_back",
+        purpose="Appends the given element value to the end of the container.",
     )
 
     render_manual_page(page, console=console)
@@ -83,8 +110,29 @@ def test_render_manual_page_shows_only_present_sections_and_source() -> None:
     assert "Unknown sections render safely." in output
     assert "PARAMETERS" not in output
     assert "<vector>" in output
-    assert "REFERENCES" in output
+    assert "More: cxxman vector::push_back --full" in output
     assert "https://example.test/vector/push_back" in output
+    assert "#include <vector>" in output
+    assert "— Appends the given element value" in output
+
+
+def test_manual_hint_without_content_has_no_empty_heading() -> None:
+    sink = StringIO()
+    console = Console(file=sink, width=60, color_system=None, highlight=False)
+    page = ManualPage(
+        "std::sort",
+        "algorithm",
+        "<algorithm>",
+        "https://example.test/sort",
+        (ManualSection("EXAMPLE", (), "Example has 30 lines — cxxman sort --example"),),
+        topic="sort",
+    )
+
+    render_manual_page(page, console=console)
+
+    output = sink.getvalue()
+    assert "EXAMPLE\n" not in output
+    assert "Example has 30 lines — cxxman sort --example" in output
 
 
 def test_render_manual_page_merges_source_into_existing_references_section() -> None:
@@ -142,6 +190,38 @@ def test_render_pagination_is_ignored_for_piped_output() -> None:
     render_document(document, console=console, paginate=True)
 
     assert "Text" in sink.getvalue()
+
+
+def test_manual_page_skips_pager_when_card_fits_terminal(monkeypatch) -> None:
+    sink = StringIO()
+    console = Console(
+        file=sink,
+        width=100,
+        height=40,
+        color_system=None,
+        force_terminal=True,
+        highlight=False,
+    )
+    pager_calls: list[bool] = []
+
+    @contextmanager
+    def fake_pager(*, styles: bool = False):
+        pager_calls.append(styles)
+        yield
+
+    monkeypatch.setattr(console, "pager", fake_pager)
+    page = ManualPage(
+        "std::sort",
+        "algorithm",
+        "<algorithm>",
+        "https://example.test/sort",
+        (ManualSection("SYNOPSIS", (CodeBlock("void sort();", language="cpp"),)),),
+        topic="sort",
+    )
+
+    render_manual_page(page, console=console, paginate=True)
+
+    assert pager_calls == []
 
 
 def test_render_uses_pager_for_terminal_output(monkeypatch) -> None:

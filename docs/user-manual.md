@@ -1,19 +1,23 @@
 # cxxman User Manual
 
-`cxxman` is a terminal reference viewer for a small, curated set of C++
-library pages. It downloads pages only when you explicitly request an
-update. Viewing, searching, and listing pages use the local database and
-work offline.
+`cxxman` is a terminal reference viewer for C++ standard-library pages. It
+downloads pages only when you explicitly request an update. Viewing,
+searching, and listing pages use the local database and work offline.
 
 ## Current scope
 
-The default catalog contains 50 curated pages covering sequence and
-associative containers, container adaptors, common algorithms, utility
-types, strings, views, and smart pointers. Run `cxxman topics` to see every
-topic and its header. This is a focused selection, not a complete copy of
-cppreference; only catalog topics can be downloaded.
+The published `v0.2.0` standalone release contains the 50-page catalog
+available when it was built. The current source tree has a generated
+catalog of 2,496 names across 111 headers, mapping to 2,167 unique source
+routes in the supported cppreference `/cpp/` scope. Run `cxxman topics` to
+see the catalog available in the version you are using. The catalog is not
+the entirety of cppreference: it excludes C-language pages, C++
+language-reference pages, experimental/TS routes, compiler-support tables,
+and pure library-overview pages. See
+[`project-history-and-features.md`](project-history-and-features.md) for the
+full history and release/source distinction.
 
-The catalog includes:
+The original 50-page release catalog included these representative topics:
 
 - **Containers, strings, and views:** `vector`, `vector::push_back`,
   `string`, `array`, `deque`, `forward_list`, `list`, `map`, `multimap`,
@@ -77,7 +81,10 @@ cxxman topics
 This is the downloadable catalog. `cxxman list` shows only pages already
 stored in your local database.
 
-Run an explicit update to fetch and store all 50 catalog pages:
+Run an explicit update to fetch and store every page in the catalog
+supported by the installed version. In the current source tree this is the
+full generated catalog; the published `v0.2.0` executable has the earlier
+50-page catalog:
 
 ```powershell
 cxxman update
@@ -100,8 +107,9 @@ To download only one page, pass its topic, for example
 The `std::` prefix is accepted too, for example
 `cxxman update std::vector::push_back`. Updates require an internet
 connection and retrieve documentation from cppreference. If a download or
-parse fails, the update reports an error; database writes are committed
-atomically so a failed batch does not partially replace cached pages.
+parse fails, the update reports that page's error and continues. Successful
+pages are committed individually, and a failed page does not replace its
+previously stored version.
 
 ## Read a page
 

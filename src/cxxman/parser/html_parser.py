@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from copy import deepcopy
 from collections.abc import Iterator
 
 from bs4 import BeautifulSoup, Tag
@@ -27,6 +28,9 @@ _SKIP_CLASSES = {
     "mw-editsection",
     "t-navbar",
     "t-page-template",
+    "ambox",
+    "mbox-small-left",
+    "mw-cite-backlink",
 }
 
 
@@ -59,6 +63,11 @@ def parse_html(
             node.get("id") in _SKIP_IDS
             or bool(classes & _SKIP_CLASSES)
             or node.name in {"nav", "script", "style", "footer"}
+            or (
+                node.name == "a"
+                and node.get("href", "").startswith("#cite_ref-")
+                and _text(node) == "↑"
+            )
         )
         if is_chrome:
             node.decompose()
@@ -95,6 +104,13 @@ def _parse_children(parent: Tag) -> Iterator[ContentBlock]:
                     yield Reference(_text(links[0]), str(links[0]["href"]))
                 else:
                     yield Paragraph(text)
+        elif name == "div" and any(
+            re.fullmatch(r"t-li\d*", class_name)
+            for class_name in child.get("class", [])
+        ):
+            text = _text(child)
+            if text:
+                yield Paragraph(text)
         elif name == "pre":
             code = _text(child, preserve=True)
             if code:
@@ -117,7 +133,7 @@ def _parse_children(parent: Tag) -> Iterator[ContentBlock]:
 
 
 def _parse_table(tag: Tag) -> Table | None:
-    row_tags = tag.find_all("tr")
+    row_tags = [row for row in tag.find_all("tr") if row.find_parent("table") is tag]
     if not row_tags:
         return None
     parsed = [
@@ -129,7 +145,9 @@ def _parse_table(tag: Tag) -> Table | None:
         return None
     has_header = bool(row_tags[0].find_all("th", recursive=False))
     headers = parsed.pop(0) if has_header else ()
-    width = len(headers) if headers else max(map(len, parsed), default=0)
+    width = max(len(headers), max(map(len, parsed), default=0))
+    if headers:
+        headers = headers + ("",) * (width - len(headers))
     rows = tuple(row + ("",) * (width - len(row)) for row in parsed)
     return Table(rows=rows, headers=headers)
 
@@ -137,18 +155,68 @@ def _parse_table(tag: Tag) -> Table | None:
 def _parse_declarations(tag: Tag) -> Iterator[CodeBlock]:
     """Preserve cppreference declaration rows as function signatures."""
     for row in tag.find_all("tr"):
+        if row.find_parent("table") is not tag:
+            continue
         classes = set(row.get("class", []))
         if not classes & {"t-dcl", "t-dcl-rev"}:
             continue
         cells = row.find_all(["th", "td"], recursive=False)
         if cells:
-            signature = _text(cells[0])
+            signature_node = cells[0].find("pre") or cells[0]
+            signature = " ".join(_text(signature_node, preserve=True).split())
             if signature:
-                yield CodeBlock(signature, language="cpp")
+                label = _text(cells[1]) if len(cells) > 1 else ""
+                availability = _text(cells[2]) if len(cells) > 2 else ""
+                yield CodeBlock(
+                    signature,
+                    language="cpp",
+                    label=label or None,
+                    availability=availability or None,
+                )
 
 
 def _text(tag: Tag, *, preserve: bool = False) -> str:
-    text = tag.get_text("", strip=False)
+    revision_tables = tag.find_all("table", class_="t-rev-begin")
+    if revision_tables and not preserve:
+        outer = deepcopy(tag)
+        for table in outer.find_all("table", class_="t-rev-begin"):
+            table.decompose()
+        base = " ".join(outer.get_text(" ", strip=True).split())
+        revisions: list[str] = []
+        for table in revision_tables:
+            for row in table.find_all("tr"):
+                if row.find_parent("table") is not table:
+                    continue
+                cells = row.find_all(["th", "td"], recursive=False)
+                parts = [_text(cell) for cell in cells]
+                value = " ".join(part for part in parts if part)
+                if value:
+                    revisions.append(value)
+        return "\n".join(part for part in (base, *revisions) if part)
+    line_groups = tag.select(".t-lines")
+    if line_groups and not preserve:
+        line_text: list[str] = []
+        revisions: list[str] = []
+        for group in line_groups:
+            for child in group.find_all(recursive=False):
+                value = child.get_text("", strip=True)
+                if value:
+                    revision_marks = child.select(".t-mark-rev")
+                    if revision_marks and not child.get_text("", strip=True).replace(
+                        " ".join(mark.get_text(" ", strip=True) for mark in revision_marks), ""
+                    ).strip():
+                        revisions.extend(mark.get_text(" ", strip=True) for mark in revision_marks)
+                    else:
+                        line_text.append(value)
+        text = ", ".join(line_text)
+        for mark in tag.select(".t-mark-rev"):
+            value = mark.get_text(" ", strip=True)
+            if value and value not in revisions:
+                revisions.append(value)
+        if revisions:
+            text = f"{text} {' '.join(revisions)}".strip()
+    else:
+        text = tag.get_text("", strip=False)
     if preserve:
         return text.strip("\n\r")
     return " ".join(text.split())

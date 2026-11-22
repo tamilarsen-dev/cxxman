@@ -1,0 +1,283 @@
+<!doctype html>
+<html><head><title>std::sort</title></head><body><div id="mw-content-text"><div class="mw-content-ltr mw-parser-output" dir="ltr" lang="en">
+<table class="t-dcl-begin">
+<tbody><tr class="t-dsc-header">
+<td> <div>Defined in header <code><a href="/cpp/header/algorithm" title="cpp/header/algorithm">&lt;algorithm&gt;</a></code>
+</div></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="t-dcl">
+<td><div><span id="Version_1"></span><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RandomIt</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">sort</span><span class="p">(</span><span class="w"> </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="p">);</span>
+</pre></div></div></td>
+<td> (1)</td>
+<td><span class="t-mark-rev t-since-cxx20">(constexpr since C++20)</span></td>
+</tr>
+<tr class="t-dcl">
+<td><div><span id="Version_2"></span><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RandomIt</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Compare</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">sort</span><span class="p">(</span><span class="w"> </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">Compare</span><span class="w"> </span><span class="n">comp</span><span class="w"> </span><span class="p">);</span>
+</pre></div></div></td>
+<td> (2)</td>
+<td><span class="t-mark-rev t-since-cxx20">(constexpr since C++20)</span></td>
+</tr>
+<tr class="t-dcl t-since-cxx17">
+<td><div><span id="Version_3"></span><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ExecutionPolicy</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RandomIt</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">sort</span><span class="p">(</span><span class="w"> </span><span class="n">ExecutionPolicy</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">policy</span><span class="p">,</span>
+<span class="w">           </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="p">);</span>
+</pre></div></div></td>
+<td> (3)</td>
+<td><span class="t-mark-rev t-since-cxx17">(since C++17)</span></td>
+</tr>
+<tr class="t-dcl t-since-cxx17">
+<td> <div><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ExecutionPolicy</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RandomIt</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Compare</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">sort</span><span class="p">(</span><span class="w"> </span><span class="n">ExecutionPolicy</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">policy</span><span class="p">,</span>
+<span class="w">           </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">RandomIt</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">Compare</span><span class="w"> </span><span class="n">comp</span><span class="w"> </span><span class="p">);</span>
+</pre></div></div></td>
+<td> (4) </td>
+<td> <span class="t-mark-rev t-since-cxx17">(since C++17)</span> </td>
+</tr>
+<tr class="t-dcl-sep"><td></td><td></td><td></td></tr>
+</tbody></table>
+<p>Sorts the elements in the target range <span style="display: inline-block;"><code>[</code><span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">first</span></code></span><code>, </code><span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">last</span></code></span><code>)</code></span>. The order of equivalent elements is not guaranteed to be preserved.
+</p>
+<div class="t-li1"><span class="t-li">1)</span> Elements are <a href="/cpp/algorithm#Requirements" title="cpp/algorithm">sorted</a> with respect to <span class="t-rev-inl t-until-cxx20"><span><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="k">operator</span><span class="o">&lt;</span></code></span><span><span class="t-mark-rev t-until-cxx20">(until C++20)</span></span></span><span class="t-rev-inl t-since-cxx20"><span><span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">std</span><span class="o">::</span><span class="n">less</span><span class="p">{}</span></code></span></span><span><span class="t-mark-rev t-since-cxx20">(since C++20)</span></span></span>.</div>
+<div class="t-li1"><span class="t-li">2)</span> Elements are sorted with respect to <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">comp</span></code></span>.</div>
+<div class="t-li1"><span class="t-li">3,4)</span> Same as <span class="t-v">(1,2)</span>, but executed according to <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">policy</span></code></span>.</div>
+<div class="t-li1"><span class="t-li"></span> These overloads participate in overload resolution only if the value of the following expression is <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="nb">true</span></code></span>:
+<table class="t-rev-begin">
+<tbody><tr class="t-rev t-until-cxx20"><td>
+<p><span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">std</span><span class="o">::</span><span class="n">is_execution_policy_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">decay_t</span><span class="o">&lt;</span><span class="n">ExecutionPolicy</span><span class="o">&gt;&gt;</span></code></span>
+</p>
+</td>
+<td><span class="t-mark-rev t-until-cxx20">(until C++20)</span></td></tr>
+<tr class="t-rev t-since-cxx20"><td>
+<p><span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">std</span><span class="o">::</span><span class="n">is_execution_policy_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">remove_cvref_t</span><span class="o">&lt;</span><span class="n">ExecutionPolicy</span><span class="o">&gt;&gt;</span></code></span>
+</p>
+</td>
+<td><span class="t-mark-rev t-since-cxx20">(since C++20)</span></td></tr>
+</tbody></table></div>
+<p>If any of the following conditions is satisfied, the behavior is undefined:
+</p>
+<table class="t-rev-begin">
+<tbody><tr class="t-rev t-until-cxx11"><td>
+<ul><li>The type of <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="o">*</span><span class="n">first</span></code></span> is not <a href="/cpp/named_req/Swappable" title="cpp/named req/Swappable"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">Swappable</span></a>.</li></ul>
+</td>
+<td><span class="t-mark-rev t-until-cxx11">(until C++11)</span></td></tr>
+<tr class="t-rev t-since-cxx11"><td>
+<ul><li><code>RandomIt</code> is not <a href="/cpp/named_req/ValueSwappable" title="cpp/named req/ValueSwappable"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">ValueSwappable</span></a>.</li>
+<li>The type of <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="o">*</span><span class="n">first</span></code></span> is not <a href="/cpp/named_req/MoveConstructible" title="cpp/named req/MoveConstructible"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">MoveConstructible</span></a>.</li>
+<li>The type of <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="o">*</span><span class="n">first</span></code></span> is not <a href="/cpp/named_req/MoveAssignable" title="cpp/named req/MoveAssignable"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">MoveAssignable</span></a>.</li></ul>
+</td>
+<td><span class="t-mark-rev t-since-cxx11">(since C++11)</span></td></tr>
+</tbody></table>
+
+<h3><span class="mw-headline" id="Parameters">Parameters</span></h3>
+<table class="t-par-begin">
+<tbody><tr class="t-par">
+<td>first, last
+</td>
+<td>-
+</td>
+<td>the pair of iterators defining the target <a href="/cpp/iterator#Ranges" title="cpp/iterator">range</a>
+</td></tr>
+<tr class="t-par">
+<td>comp
+</td>
+<td>-
+</td>
+<td>comparison function object (i.e. an object that satisfies the requirements of <a href="/cpp/named_req/Compare" title="cpp/named req/Compare"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">Compare</span></a>) which returns ​<span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="nb">true</span></code></span> if the first argument is <i>less</i> than (i.e. is ordered <i>before</i>) the second. <br/>
+<p>The signature of the comparison function should be equivalent to the following:
+</p><p><span class="t-cc"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre; padding: 0; border: none; background-color: transparent;"><span class="kt">bool</span><span class="w"> </span><span class="nf">cmp</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Type1</span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Type2</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">);</span></code></span>
+</p><p>While the signature does not need to have <code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="k">const</span><span class="o">&amp;</span></code>, the function must not modify the objects passed to it and must be able to accept all values of type (possibly const) <code>Type1</code> and <code>Type2</code> regardless of <a href="/cpp/language/value_category" title="cpp/language/value category">value category</a> (thus, <code>Type1&amp;</code> is not allowed<span class="t-rev-inl t-since-cxx11"><span>, nor is <code>Type1</code> unless for <code>Type1</code> a move is equivalent to a copy</span><span><span class="t-mark-rev t-since-cxx11">(since C++11)</span></span></span>).<br/>
+The types <code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="n">Type1</span></code> and <code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="n">Type2</span></code> must be such that an object of type <code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="n">RandomIt</span></code> can be dereferenced and then implicitly converted to both of them.
+​
+</p>
+</td></tr>
+<tr class="t-par">
+<td>policy
+</td>
+<td>-
+</td>
+<td>the <a href="/cpp/algorithm/execution_policy_tag_t" title="cpp/algorithm/execution policy tag t">execution policy</a> to use
+</td></tr>
+<tr class="t-par-hitem">
+<td colspan="3">Type requirements
+</td></tr>
+<tr class="t-par-req">
+<td colspan="3">-<div class="spacer"></div><code>RandomIt</code> must meet the requirements of <a href="/cpp/named_req/RandomAccessIterator" title="cpp/named req/RandomAccessIterator"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">LegacyRandomAccessIterator</span></a>.
+</td></tr>
+<tr class="t-par-req">
+<td colspan="3">-<div class="spacer"></div><code>Compare</code> must meet the requirements of <a href="/cpp/named_req/Compare" title="cpp/named req/Compare"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">Compare</span></a>.
+</td></tr></tbody></table>
+<h3><span class="mw-headline" id="Complexity">Complexity</span></h3>
+<p>Given <span class="mjax" style="display:none">\(\scriptsize N\)</span><span class="mjax-fallback texhtml" style="white-space: nowrap;">N</span> as <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">last</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">first</span></code></span>:
+</p>
+<div class="t-li1"><span class="t-li">1,3)</span> <span class="mjax" style="display:none">\(\scriptsize \mathcal{O}(N \cdot \log(N))\)</span><span class="mjax-fallback texhtml" style="white-space: nowrap;">𝓞(N·log(N))</span> comparisons using <span class="t-rev-inl t-until-cxx20"><span><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr" style="white-space: pre;"><span class="k">operator</span><span class="o">&lt;</span></code></span><span><span class="t-mark-rev t-until-cxx20">(until C++20)</span></span></span><span class="t-rev-inl t-since-cxx20"><span><span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">std</span><span class="o">::</span><span class="n">less</span><span class="p">{}</span></code></span></span><span><span class="t-mark-rev t-since-cxx20">(since C++20)</span></span></span>.</div>
+<div class="t-li1"><span class="t-li">2,4)</span> <span class="mjax" style="display:none">\(\scriptsize \mathcal{O}(N \cdot \log(N))\)</span><span class="mjax-fallback texhtml" style="white-space: nowrap;">𝓞(N·log(N))</span> applications of the comparator <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">comp</span></code></span>.</div>
+<h3><span class="mw-headline" id="Exceptions">Exceptions</span></h3>
+<div class="t-li1"><span class="t-li">3,4)</span> During the execution process:
+<ul><li>If the temporary memory resources required for parallelization are not available, <a href="/cpp/memory/new/bad_alloc" title="cpp/memory/new/bad alloc"><tt>std::bad_alloc</tt></a> is thrown.</li>
+<li>If an uncaught exception is thrown while accessing objects via an algorithm argument, the behavior is determined by the execution policy (for <a href="/cpp/algorithm/execution_policy_tag_t" title="cpp/algorithm/execution policy tag t">standard policies</a>, <a href="/cpp/error/terminate" title="cpp/error/terminate"><tt>std::terminate</tt></a> is invoked).</li></ul></div>
+<h3><span class="mw-headline" id="Notes">Notes</span></h3>
+<p>Before <a class="external text" href="https://cplusplus.github.io/LWG/issue713" rel="nofollow">LWG713</a>, the complexity requirement allowed <code>sort()</code> to be implemented using only <a class="extiw" href="https://en.wikipedia.org/wiki/Quicksort" title="enwiki:Quicksort">Quicksort</a>, which may need <span class="mjax" style="display:none">\(\scriptsize \mathcal{O}(N^2)\)</span><span class="mjax-fallback texhtml" style="white-space: nowrap;">𝓞(N<span class="t-su">2<br/></span>)</span> comparisons in the worst case.
+</p><p><a class="extiw" href="https://en.wikipedia.org/wiki/Introsort" title="enwiki:Introsort">Introsort</a> can handle all cases with <span class="mjax" style="display:none">\(\scriptsize \mathcal{O}(N \cdot \log(N))\)</span><span class="mjax-fallback texhtml" style="white-space: nowrap;">𝓞(N·log(N))</span> comparisons (without incurring additional overhead in the average case), and thus is usually used for implementing <code>sort()</code>.
+</p><p>libc++ has not implemented the corrected time complexity requirement <a class="external text" href="https://reviews.llvm.org/D113413" rel="nofollow">until LLVM 14</a>.
+</p>
+<table class="wikitable ftm-begin">
+<tbody><tr>
+<th><a href="/cpp/utility/feature_test" title="cpp/utility/feature test">Feature-test</a> macro
+</th>
+<th><abbr title="The year/month in which the feature was adopted. The hyperlink under each value opens a compiler support page with entry for given feature.">Value</abbr>
+</th>
+<th><abbr title="Standard in which the feature is introduced; DR means defect report against that revision">Std</abbr>
+</th>
+<th>Feature
+</th></tr>
+<tr>
+<td><a href="/cpp/feature_test#cpp_lib_parallel_algorithm" title="cpp/feature test"><code>__cpp_lib_parallel_algorithm</code></a></td>
+<td><a href="/cpp/compiler_support/17#cpp_lib_parallel_algorithm_201603L" title="cpp/compiler support/17"><code>201603L</code></a></td>
+<td><span style="white-space:nowrap"><span class="t-mark">(C++17)</span></span></td>
+<td>Parallel algorithms, overloads <span class="t-v">(<a href="#Version_3">3,4</a>)</span>
+</td></tr></tbody></table>
+<h3><span class="mw-headline" id="Possible_implementation">Possible implementation</span></h3>
+<p>See also the implementations in <a class="external text" href="https://github.com/gcc-mirror/gcc/blob/d9375e490072d1aae73a93949aa158fcd2a27018/libstdc%2B%2B-v3/include/bits/stl_algo.h#L1950" rel="nofollow">libstdc++</a> and <a class="external text" href="https://github.com/llvm/llvm-project/blob/e7fc254875ca9e82b899d5354fae9b5b779ff485/libcxx/include/__algorithm/sort.h#L264" rel="nofollow">libc++</a>.
+</p>
+<h3><span class="mw-headline" id="Example">Example</span></h3>
+<div class="t-example"><div class="t-example-live-link"><div class="coliru-btn coliru-btn-run-init">Run this code</div></div>
+<div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;array&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;functional&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;print&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="o">&gt;</span><span class="w"> </span><span class="n">s</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="s">"{} : sorted with the default operator&lt;</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">());</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="s">"{} : sorted with the standard library compare function object</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">struct</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">customLess</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">customLess</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="s">"{} : sorted with a custom function object</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="p">[](</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="w">                                  </span><span class="p">{</span>
+<span class="w">                                      </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">                                  </span><span class="p">});</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="s">"{} : sorted with a lambda expression</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p>Output:
+</p>
+<div class="mw-highlight mw-highlight-lang-text mw-content-ltr" dir="ltr"><pre><span></span>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9] : sorted with the default operator&lt;
+[9, 8, 7, 6, 5, 4, 3, 2, 1, 0] : sorted with the standard library compare function object
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9] : sorted with a custom function object
+[9, 8, 7, 6, 5, 4, 3, 2, 1, 0] : sorted with a lambda expression
+</pre></div>
+</div>
+<h3><span class="mw-headline" id="Defect_reports">Defect reports</span></h3>
+<p>The following behavior-changing defect reports were applied retroactively to previously published C++ standards.
+</p>
+<table class="dsctable" style="font-size:0.8em">
+<tbody><tr>
+<th>DR
+</th>
+<th>Applied to
+</th>
+<th>Behavior as published
+</th>
+<th>Correct behavior
+</th></tr>
+<tr>
+<td><a class="external text" href="https://cplusplus.github.io/LWG/issue713" rel="nofollow">LWG 713</a>
+</td>
+<td>C++98
+</td>
+<td>the <span class="mjax" style="display:none">\(\scriptsize \mathcal{O}(N \cdot \log(N))\)</span><span class="mjax-fallback texhtml" style="white-space: nowrap;">𝓞(N·log(N))</span> time complexity was only required on the average
+</td>
+<td>it is required for the worst case
+</td></tr></tbody></table>
+<h3><span class="mw-headline" id="See_also">See also</span></h3>
+<table class="t-dsc-begin">
+<tbody><tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/algorithm/ranges/sort" title="cpp/algorithm/ranges/sort"> <span class="t-lines"><span>ranges::sort</span></span></a></div><div><span class="t-lines"><span><span class="t-mark-rev t-since-cxx20">(C++20)</span></span></span></div></div>
+</td>
+<td>sorts a range of elements<br/><span class="t-mark">(algorithm function object)</span><span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/algorithm/ranges/dsc_sort&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/algorithm/partial_sort" title="cpp/algorithm/partial sort"> <span class="t-lines"><span>partial_sort</span></span></a></div></div>
+</td>
+<td rowspan="2">sorts the first N elements of a range<br/><span class="t-mark">(function template &amp; algorithm function object)</span><span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/algorithm/dsc_partial_sort&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/algorithm/ranges/partial_sort" title="cpp/algorithm/ranges/partial sort"> <span class="t-lines"><span>ranges::partial_sort</span></span></a></div><div><span class="t-lines"><span><span class="t-mark-rev t-since-cxx20">(C++20)</span></span></span></div></div>
+</td>
+<td style="display: none;">
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/algorithm/stable_sort" title="cpp/algorithm/stable sort"> <span class="t-lines"><span>stable_sort</span></span></a></div></div>
+</td>
+<td rowspan="2">sorts a range of elements while preserving relative order between equivalent elements<br/><span class="t-mark">(function template &amp; algorithm function object)</span><span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/algorithm/dsc_stable_sort&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/algorithm/ranges/stable_sort" title="cpp/algorithm/ranges/stable sort"> <span class="t-lines"><span>ranges::stable_sort</span></span></a></div><div><span class="t-lines"><span><span class="t-mark-rev t-since-cxx20">(C++20)</span></span></span></div></div>
+</td>
+<td style="display: none;">
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/container/list/sort" title="cpp/container/list/sort"> <span class="t-lines"><span>sort</span></span></a></div></div>
+</td>
+<td>sorts the elements <br/> <span class="t-mark">(public member function of <code>std::list&lt;T,Allocator&gt;</code>)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/container/dsc_sort&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/container/forward_list/sort" title="cpp/container/forward list/sort"> <span class="t-lines"><span>sort</span></span></a></div></div>
+</td>
+<td>sorts the elements <br/> <span class="t-mark">(public member function of <code>std::forward_list&lt;T,Allocator&gt;</code>)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/container/dsc_sort&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/container/hive/sort" title="cpp/container/hive/sort"> <span class="t-lines"><span>sort</span></span></a></div></div>
+</td>
+<td>sorts the elements <br/> <span class="t-mark">(public member function of <code>std::hive&lt;T,Allocator&gt;</code>)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/container/dsc_sort&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+</tbody></table>
+<!-- 
+NewPP limit report
+Cached time: 20261117035057
+Cache expiry: 2592000
+Reduced expiry: false
+Complications: [show‐toc]
+CPU time usage: 0.197 seconds
+Real time usage: 0.205 seconds
+Preprocessor visited node count: 12541/1000000
+Post‐expand include size: 326669/4194304 bytes
+Template argument size: 62970/4194304 bytes
+Highest expansion depth: 33/100
+Expensive parser function count: 28/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 15273/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  150.292      1 -total
+ 44.41%   66.743      1 Template:cpp/algorithm/navbar
+ 44.06%   66.218      1 Template:navbar
+ 38.61%   58.024      1 Template:cpp/algorithm/navbar_content
+ 26.89%   40.414    126 Template:nv
+ 25.92%   38.955     97 Template:nv_ln
+ 11.65%   17.503      6 Template:dsc_inc
+  8.00%   12.020    139 Template:trim
+  6.23%    9.363      4 Template:dsc
+  5.36%    8.051      3 Template:cpp/container/dsc_sort
+-->
+<!-- Saved in parser cache with key en:pcache:idhash:783-0!canonical and timestamp 20261117035057 and revision id 189154. Rendering was triggered because: page-view
+ -->
+</div></div></body></html>

@@ -31,6 +31,8 @@ class CodeBlock:
 
     code: str
     language: str | None = None
+    label: str | None = None
+    availability: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,3 +78,5 @@ class Document:
     blocks: tuple[ContentBlock, ...]
     header: str | None = None
     updated_at: str | None = None
+    purpose: str | None = None
+    aliases: tuple[str, ...] = ()

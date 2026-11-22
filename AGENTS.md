@@ -761,6 +761,32 @@ For future work:
    audit.
 7. std::vector::push_back has previously been implemented; verify its
    current state and tests before modifying it.
+8. The active work queue is `docs/quick-reference-spec.md` (target
+   page format, discovery UX, full-library coverage, milestones M1–M8)
+   together with the defect list in
+   `docs/audit-2026-11-manual-quality.md`. The spec's milestone order
+   supersedes the audit's. Work one milestone per change, starting with
+   the first incomplete milestone, and update status in those files.
+   - The default page is a short "quick card": purpose line, `#include`,
+     numbered signatures with standard tags (return type visible), one-line
+     parameters, return value, complexity, at most 3 verbatim pitfalls, a
+     short source example, see-also names, and a `--full` / source footer.
+     Everything else moves behind `--full`, with a hint line whenever
+     something is hidden.
+   - Brevity comes from selecting and hiding source text, never from
+     rewording, summarizing, or truncating a sentence or example.
+   - Coverage goal is now the whole C++ standard library under
+     cppreference `/cpp/` (scope and exclusions in the spec, section 5.1),
+     via a generated catalog. Prebuilt-database distribution (spec 5.3)
+     needs explicit owner approval first because of CC-BY-SA/GFDL terms.
+9. Parser and projection tests must include trimmed copies of real
+   cppreference HTML, not only synthetic fixtures. The synthetic
+   fixtures did not exercise real markup (`t-dcl` revision cells,
+   `t-li1`, nested `t-rev-begin`, `t-lines`) and let fact-losing bugs
+   ship. Keep source attribution with saved fixtures.
+10. Any change to the stored document format must come with a stored
+    format/parser version and a migration or "re-run update" hint; the
+    read path must still never parse HTML.
    Final principle
    CXXMAN should behave like a local C++ manual reference, not a
    terminal copy of cppreference.

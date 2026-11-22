@@ -1,0 +1,140 @@
+<!doctype html>
+<html><head><title>std::vector&lt;T,Allocator&gt;::push_back</title></head><body><div id="mw-content-text"><div class="mw-content-ltr mw-parser-output" dir="ltr" lang="en"><div class="t-page-template" style="">
+<p>
+</p>
+<span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/container/push_back&amp;action=edit" rel="nofollow">[edit template]</a></span></div>
+
+<table class="t-dcl-begin">
+<tbody><tr class="t-dcl">
+<td><div><span id="Version_1"></span><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">push_back</span><span class="p">(</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="p">);</span>
+</pre></div></div></td>
+<td> (1)</td>
+<td><span class="t-mark-rev t-since-cxx20">(constexpr since C++20)</span></td>
+</tr>
+<tr class="t-dcl t-since-cxx11">
+<td><div><span id="Version_2"></span><div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="p">);</span>
+</pre></div></div></td>
+<td> (2)</td>
+<td><span class="t-mark-rev t-since-cxx11">(since C++11)</span> <br/><span class="t-mark-rev t-since-cxx20">(constexpr since C++20)</span></td>
+</tr>
+<tr class="t-dcl-sep"><td></td><td></td><td></td></tr>
+</tbody></table>
+<p>Appends the given element <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">value</span></code></span> to the end of the container.
+</p>
+<div class="t-li1"><span class="t-li">1)</span> The new element is initialized as a copy of <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">value</span></code></span>.</div>
+<div class="t-li1"><span class="t-li">2)</span> <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="n">value</span></code></span> is moved into the new element.</div>
+<p>If after the operation the new <a href="/cpp/container/vector/size" title="cpp/container/vector/size"><code>size()</code></a> is greater than old <a href="/cpp/container/vector/capacity" title="cpp/container/vector/capacity"><code>capacity()</code></a> a reallocation takes place, in which case all iterators (including the <a href="/cpp/container/vector/end" title="cpp/container/vector/end"><code>end()</code></a> iterator) and all references to the elements are invalidated. Otherwise only the <a href="/cpp/container/vector/end" title="cpp/container/vector/end"><code>end()</code></a> iterator is invalidated.
+</p>
+
+<h3><span class="mw-headline" id="Parameters">Parameters</span></h3>
+<table class="t-par-begin">
+<tbody><tr class="t-par">
+<td>value
+</td>
+<td>-
+</td>
+<td>the value of the element to append
+</td></tr>
+<tr class="t-par-hitem">
+<td colspan="3">Type requirements
+</td></tr>
+<tr class="t-par-req">
+<td colspan="3">-<div class="spacer"></div><code>T</code> must meet the requirements of <a href="/cpp/named_req/CopyInsertable" title="cpp/named req/CopyInsertable"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">CopyInsertable</span></a> in order to use overload (1).
+</td></tr>
+<tr class="t-par-req">
+<td colspan="3">-<div class="spacer"></div><code>T</code> must meet the requirements of <a href="/cpp/named_req/MoveInsertable" title="cpp/named req/MoveInsertable"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">MoveInsertable</span></a> in order to use overload (2).
+</td></tr></tbody></table>
+<h3><span class="mw-headline" id="Complexity">Complexity</span></h3>
+<p>Amortized constant.
+</p>
+<h3><span class="mw-headline" id="Exceptions">Exceptions</span></h3>
+<p>If an exception is thrown (which can be due to <code>Allocator::allocate()</code> or element copy/move constructor/assignment), this function has no effect (<a href="/cpp/language/exceptions#Exception_safety" title="cpp/language/exceptions">strong exception guarantee</a>).
+</p>
+<table class="t-rev-begin">
+<tbody><tr class="t-rev t-since-cxx11"><td>
+<p>If the move constructor of <code>T</code> is not <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="k">noexcept</span></code></span> and <code>T</code> is not <a href="/cpp/named_req/CopyInsertable" title="cpp/named req/CopyInsertable"><span style="font-family: Georgia, 'DejaVu Serif', serif; font-style:italic">CopyInsertable</span></a> into <span class="t-c"><code class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><span class="o">*</span><span class="k">this</span></code></span>, vector will use the throwing move constructor. If it throws, the guarantee is waived and the effects are unspecified.
+</p>
+</td>
+<td><span class="t-mark-rev t-since-cxx11">(since C++11)</span></td></tr>
+</tbody></table>
+<h3><span class="mw-headline" id="Notes">Notes</span></h3>
+<p>Some implementations throw <span class="t-lc"><a href="/cpp/error/length_error" title="cpp/error/length error">std::length_error</a></span> when <code>push_back</code> causes a reallocation that exceeds <span class="t-lc"><a href="/cpp/container/vector/max_size" title="cpp/container/vector/max size">max_size</a></span> (due to an implicit call to an equivalent of <span class="t-lc"><a href="/cpp/container/vector/reserve" title="cpp/container/vector/reserve">reserve</a></span><code>(</code><span class="t-lc"><a href="/cpp/container/vector/size" title="cpp/container/vector/size">size</a></span><code>() + 1))</code>.
+</p>
+<h3><span class="mw-headline" id="Example">Example</span></h3>
+<div class="t-example"><div class="t-example-live-link"><div class="coliru-btn coliru-btn-run-init">Run this code</div></div>
+<div class="mw-highlight mw-highlight-lang-cpp mw-content-ltr" dir="ltr"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iomanip&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">letters</span><span class="p">;</span>
+<span class="w"> </span>
+<span class="w">    </span><span class="n">letters</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">"abc"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">{</span><span class="s">"def"</span><span class="p">};</span>
+<span class="w">    </span><span class="n">letters</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"std::vector letters holds: "</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">letters</span><span class="p">)</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">quoted</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">' '</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"</span><span class="se">\n</span><span class="s">Moved-from string s holds: "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">quoted</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">'\n'</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Possible output:
+</p>
+<div class="mw-highlight mw-highlight-lang-text mw-content-ltr" dir="ltr"><pre><span></span>std::vector letters holds: "abc" "def"
+Moved-from string s holds: ""
+</pre></div>
+</div>
+<h3><span class="mw-headline" id="See_also">See also</span></h3>
+<table class="t-dsc-begin">
+<tbody><tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/container/vector/emplace_back" title="cpp/container/vector/emplace back"> <span class="t-lines"><span>emplace_back</span></span></a></div><div><span class="t-lines"><span><span class="t-mark-rev t-since-cxx11">(C++11)</span></span></span></div></div>
+</td>
+<td>constructs an element in-place at the end <br/> <span class="t-mark">(public member function)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/container/dsc_emplace_back&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/container/vector/pop_back" title="cpp/container/vector/pop back"> <span class="t-lines"><span>pop_back</span></span></a></div></div>
+</td>
+<td>removes the last element <br/> <span class="t-mark">(public member function)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/container/dsc_pop_back&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+<tr class="t-dsc">
+<td><div class="t-dsc-member-div"><div><a href="/cpp/iterator/back_inserter" title="cpp/iterator/back inserter"> <span class="t-lines"><span>back_inserter</span></span></a></div></div>
+</td>
+<td>creates a <span class="t-lc"><a href="/cpp/iterator/back_insert_iterator" title="cpp/iterator/back insert iterator">std::back_insert_iterator</a></span> of type inferred from the argument <br/> <span class="t-mark">(function template)</span> <span class="editsection noprint plainlinks" title="Edit this template"><a class="external text" href="https://cppreference.com/index.php?title=Template:cpp/iterator/dsc_back_inserter&amp;action=edit" rel="nofollow">[edit]</a></span>
+</td></tr>
+</tbody></table>
+<!-- 
+NewPP limit report
+Cached time: 20261117083315
+Cache expiry: 2592000
+Reduced expiry: false
+Complications: [show‐toc]
+CPU time usage: 0.149 seconds
+Real time usage: 0.159 seconds
+Preprocessor visited node count: 7590/1000000
+Post‐expand include size: 269432/4194304 bytes
+Template argument size: 37337/4194304 bytes
+Highest expansion depth: 24/100
+Expensive parser function count: 9/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 5284/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  122.888      1 -total
+ 98.44%  120.977      1 Template:include_page
+ 97.26%  119.523      1 Template:cpp/container/push_back
+ 43.59%   53.561      1 Template:cpp/container/vector/navbar
+ 43.15%   53.023      1 Template:navbar
+ 26.95%   33.114     89 Template:nv
+ 22.23%   27.319      1 Template:cpp/container/vector/navbar_content
+ 13.88%   17.060      5 Template:lc
+ 13.84%   17.012     32 Template:nv_mem_ln
+ 13.05%   16.032      1 Template:cpp/container/navbar_content
+-->
+<!-- Saved in parser cache with key en:pcache:idhash:463-0!canonical and timestamp 20261117083315 and revision id 98164. Rendering was triggered because: page-view
+ -->
+</div></div></body></html>

@@ -22,7 +22,7 @@ from cxxman.core.document import (
     Reference,
     Table,
 )
-from cxxman.core.manual import ManualPage
+from cxxman.core.manual import ManualPage, manual_page_line_count
 
 ColorMode = Literal["auto", "always", "never"]
 
@@ -67,34 +67,48 @@ def render_manual_page(
 ) -> None:
     """Render a projected page using concise, optional manual sections."""
     output = console or create_console()
-    use_pager = paginate and output.is_terminal
+    use_pager = paginate and output.is_terminal and not _manual_page_fits(page, output)
     pager = output.pager(styles=True) if use_pager else nullcontext()
     with pager:
-        output.print(Text(page.name, style="bold cyan"))
+        title = Text(page.name, style="bold cyan")
+        if page.purpose:
+            title.append(" — ")
+            title.append(page.purpose)
+        output.print(title, soft_wrap=True)
         if page.header:
-            output.print(Text("LIBRARY", style="bold cyan"))
-            output.print(Text(f"    {page.header}"))
+            output.print(Text(f"#include {page.header}"))
         output.print()
-        rendered_references = False
         for section in page.sections:
-            output.print(Text(section.title, style="bold cyan"))
-            for block in section.blocks:
-                _render_block(output, block)
-            if section.title == "REFERENCES" and page.source_url:
-                output.print(Text(f"    Source: {page.source_url}", style="dim"))
-                rendered_references = True
-        if page.source_url and not rendered_references:
-            output.print(Text("REFERENCES", style="bold cyan"))
-            output.print(Text(f"    {page.source_url}", style="dim"))
+            if section.blocks:
+                output.print(Text(section.title, style="bold cyan"))
+                for block in section.blocks:
+                    _render_block(output, block, trailing_blank=False)
+            if section.hint:
+                output.print(Text(section.hint, style="dim"), soft_wrap=True)
+        if page.source_url:
+            output.print(
+                Text(
+                    f"More: cxxman {page.topic or page.name} --full · {page.source_url}",
+                    style="dim",
+                ),
+                soft_wrap=True,
+            )
 
 
-def _render_block(console: Console, block: ContentBlock) -> None:
+def _render_block(
+    console: Console, block: ContentBlock, *, trailing_blank: bool = True
+) -> None:
     if isinstance(block, Heading):
         style = "bold cyan" if block.level <= 2 else "bold"
         console.print(Text(block.text, style=style))
     elif isinstance(block, Paragraph):
         console.print(Text(block.text))
     elif isinstance(block, CodeBlock):
+        if block.label or block.availability:
+            annotation = " ".join(
+                part for part in (block.label, block.availability) if part
+            )
+            console.print(Text(annotation, style="dim"))
         syntax = Syntax(
             block.code,
             block.language or "text",
@@ -111,7 +125,8 @@ def _render_block(console: Console, block: ContentBlock) -> None:
         _render_table(console, block)
     elif isinstance(block, Reference):
         console.print(Text(f"{block.label} ({block.target})", style="underline blue"))
-    console.print()
+    if trailing_blank:
+        console.print()
 
 
 def _render_table(console: Console, table: Table) -> None:
@@ -125,3 +140,12 @@ def _render_table(console: Console, table: Table) -> None:
     for row in table.rows:
         rendered.add_row(*row)
     console.print(rendered)
+
+
+def _manual_page_fits(page: ManualPage, console: Console) -> bool:
+    """Avoid opening a pager when this card is likely to fit one screen."""
+    width = max(20, console.width)
+    height = console.height
+    if height <= 0:
+        return False
+    return manual_page_line_count(page, width) <= height

@@ -56,3 +56,67 @@ def test_search_rejects_nonpositive_limit(tmp_path) -> None:
     with Database(tmp_path / "docs.sqlite3") as database:
         with pytest.raises(ValueError, match="at least 1"):
             search_documents(database, "vector", limit=0)
+
+
+def test_search_ranks_exact_names_before_prefix_purpose_and_body(tmp_path) -> None:
+    with Database(tmp_path / "docs.sqlite3") as database:
+        database.save_documents(
+            [
+                Document(
+                    "cpp/remove",
+                    "std::remove",
+                    "remove",
+                    "url",
+                    (Paragraph("Unrelated body."),),
+                ),
+                Document(
+                    "cpp/remove_duplicates_helper",
+                    "std::remove_duplicates_helper",
+                    "remove_duplicates_helper",
+                    "url",
+                    (Paragraph("Remove duplicates in this body."),),
+                ),
+                Document(
+                    "cpp/unique",
+                    "std::unique",
+                    "unique",
+                    "url",
+                    (Paragraph("Algorithm body."),),
+                    purpose="Removes consecutive duplicate elements from a range.",
+                    header="<algorithm>",
+                ),
+            ]
+        )
+
+        results = search_documents(database, "remove duplicates")
+        name_ranked = search_documents(database, "remove")
+
+    assert [result.canonical_topic for result in results] == [
+        "unique",
+        "remove_duplicates_helper",
+    ]
+    assert results[0].purpose == "Removes consecutive duplicate elements from a range."
+    assert results[0].header == "<algorithm>"
+    assert [result.canonical_topic for result in name_ranked] == [
+        "remove",
+        "remove_duplicates_helper",
+        "unique",
+    ]
+
+
+def test_exact_alias_lookup_and_search_resolve_to_owning_page(tmp_path) -> None:
+    document = Document(
+        "cpp/algorithm/remove",
+        "std::remove",
+        "remove",
+        "url",
+        (Paragraph("Moves elements."),),
+        aliases=("erase_value",),
+    )
+    with Database(tmp_path / "docs.sqlite3") as database:
+        database.save_document(document)
+
+        assert database.get_document("erase_value") == document
+        assert search_documents(database, "erase_value")[0].canonical_topic == "remove"
+        database._fts_enabled = False
+        assert search_documents(database, "erase_value")[0].canonical_topic == "remove"

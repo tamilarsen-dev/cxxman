@@ -16,6 +16,8 @@ class SearchResult:
     identifier: str
     title: str
     canonical_topic: str
+    purpose: str | None = None
+    header: str | None = None
 
 
 def search_documents(database: Database, query: str, limit: int = 20) -> list[SearchResult]:

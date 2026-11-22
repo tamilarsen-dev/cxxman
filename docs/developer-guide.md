@@ -67,9 +67,9 @@ Update:  CLI -> HTTPX -> Beautiful Soup parser -> SQLite transaction
 ```
 
 Keep page display, search, and listing offline. Do not add network access
-or HTML parsing to those commands. Updates fetch only topics in
-`core/update.py`'s curated `SOURCE_PAGES` catalog and save parsed documents
-through the database transaction. Parsing should remain independent from
+or HTML parsing to those commands. Updates fetch only topics in the generated
+`SOURCE_PAGES` catalog and save parsed documents through the database
+transaction. Parsing should remain independent from
 terminal output and persistence. Manual projection consumes the generic
 `Document`, stays deterministic and offline, and leaves the stored source
 document intact. Rich renders the prepared manual page; it does not classify
@@ -82,21 +82,26 @@ Page lookup loads one page; search returns bounded metadata results.
 
 ## Adding a supported reference topic
 
-The 50-page default download catalog is `SOURCE_PAGES` in
-`src/cxxman/core/catalog.py`. Each entry includes its topic, stable source
-identifier and URL, header, and entity kind. To add a topic:
+The generated catalog is loaded lazily as `SOURCE_PAGES` by
+`src/cxxman/core/catalog.py`; its checked-in data is
+`src/cxxman/data/catalog.json`, built by `tools/build_catalog.py`. Each
+entry includes its topic, stable source identifier and URL, header, entity
+kind, and available aliases/purpose metadata. The original 50 topics remain
+marked as the historical default-update set, while a no-topic update in the
+current source tree fetches the full generated catalog. To add a topic:
 
-1. Add its topic name, stable identifier, cppreference URL, header, and
-   entity kind to the catalog. Keep topic, identifier, and URL values unique.
+1. Update the catalog source/builder data and regenerate the catalog. Keep
+   topic, identifier, and URL values unique.
 2. Save a representative HTML fixture under `tests/fixtures/`.
 3. Add parser coverage for any source structures not already represented.
 4. Add update tests for URL selection, persistence, and failure behavior.
 5. Mention the topic and command in `docs/user-manual.md`.
 
-The catalog count is checked in `tests/test_catalog.py`. A no-topic update
-fetches every catalog page, so keep that default list intentionally
-curated. Some cppreference pages cover multiple related functions; use one
-source page entry for a shared page instead of duplicating its URL.
+Catalog shape and resolution are checked in `tests/test_catalog.py` and
+`tests/test_catalog_parser.py`. Some cppreference pages cover multiple
+related functions; use one source page entry for a shared page instead of
+duplicating its URL. Review catalog scope and attribution rules in
+`docs/quick-reference-spec.md` before changing the builder.
 
 The parser should preserve semantic content blocks and degrade gracefully
 when page markup changes. Never use live network access in ordinary unit

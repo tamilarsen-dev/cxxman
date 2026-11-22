@@ -15,6 +15,8 @@ def test_help(capsys: pytest.CaptureFixture[str]) -> None:
     assert "usage: cxxman" in output
     assert "cxxman topics" in output
     assert "cxxman update vector::push_back" in output
+    assert "--full" in output
+    assert "--example" in output
 
 
 def test_topics_lists_downloadable_pages(capsys: pytest.CaptureFixture[str]) -> None:
@@ -24,6 +26,35 @@ def test_topics_lists_downloadable_pages(capsys: pytest.CaptureFixture[str]) -> 
     assert "Topics available to download" in output
     assert "vector::push_back" in output
     assert "<vector>" in output
+
+
+def test_header_lists_catalog_entries(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["header", "<vector>"]) == 0
+
+    output = capsys.readouterr().out
+    assert "<vector>" in output
+    assert "vector" in output
+
+
+def test_header_name_lists_entities_while_entity_name_keeps_precedence(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.storage.database import Database
+
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(tmp_path / "docs.sqlite3"))
+    with Database(tmp_path / "docs.sqlite3") as database:
+        from cxxman.core.document import Document, Paragraph
+
+        database.save_document(
+            Document("id", "std::vector", "vector", "url", (Paragraph("sequence"),))
+        )
+
+    assert main(["<vector>"]) == 0
+    assert "vector" in capsys.readouterr().out
+    assert main(["algorithm"]) == 0
+    assert "algorithm" in capsys.readouterr().out
+    assert main(["vector"]) == 0
+    assert "std::vector" in capsys.readouterr().out
 
 
 def test_no_arguments_show_quick_start(capsys: pytest.CaptureFixture[str]) -> None:
@@ -86,7 +117,7 @@ def test_unknown_topic_suggests_supported_topic(
     assert main(["vectro"]) == 1
 
     error = capsys.readouterr().err
-    assert "Did you mean 'vector'?" in error
+    assert "'vector' (cxxman vector)" in error
     assert "cxxman topics" in error
 
 
@@ -184,6 +215,149 @@ def test_manual_page_color_option_controls_terminal_styles(
     assert "answer" in plain_output
 
 
+def test_full_and_example_options_show_the_selected_source_content(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from pathlib import Path
+
+    from cxxman.parser.html_parser import parse_html
+    from cxxman.storage.database import Database
+
+    fixture_path = Path(__file__).parent / "fixtures" / "real" / "sort.html"
+    document = parse_html(
+        fixture_path.read_text(encoding="utf-8"),
+        source_url="https://en.cppreference.com/cpp/algorithm/sort",
+        identifier="cppref/algorithm/sort",
+        canonical_topic="sort",
+        header="<algorithm>",
+    )
+    database_path = tmp_path / "docs.sqlite3"
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(database_path))
+    with Database(database_path) as database:
+        database.save_document(document)
+
+    assert main(["sort", "--full", "--color", "never"]) == 0
+    full_output = capsys.readouterr().out
+    assert "Possible implementation" in full_output
+    assert "Defect reports" in full_output
+
+    assert main(["sort", "--example", "--color", "never"]) == 0
+    example_output = capsys.readouterr().out
+    assert "Examples for std::sort" in example_output
+    assert "std::sort(s.begin(), s.end());" in example_output
+    assert "template< class RandomIt >" not in example_output
+
+
+def test_example_option_reports_when_no_source_example_is_stored(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.core.document import Document, Paragraph
+    from cxxman.storage.database import Database
+
+    database_path = tmp_path / "docs.sqlite3"
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(database_path))
+    with Database(database_path) as database:
+        database.save_document(
+            Document("id", "std::vector", "vector", "url", (Paragraph("sequence"),))
+        )
+
+    assert main(["vector", "--example"]) == 1
+    assert "No source example is stored" in capsys.readouterr().err
+
+
+def test_broken_pipe_exits_quietly(monkeypatch: pytest.MonkeyPatch) -> None:
+    import sys
+
+    class ClosedPipe:
+        def write(self, _: str) -> int:
+            raise BrokenPipeError()
+
+        def flush(self) -> None:
+            raise BrokenPipeError()
+
+        def close(self) -> None:
+            return None
+
+    monkeypatch.setattr(sys, "stdout", ClosedPipe())
+    assert main(["topics"]) == 0
+
+
+def test_header_name_gets_header_match_in_not_found_guidance(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(tmp_path / "docs.sqlite3"))
+
+    assert main(["algorithm"]) == 0
+    assert "<algorithm>" in capsys.readouterr().out
+
+
+def test_search_prints_header_and_source_purpose(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.core.document import Document, Paragraph
+    from cxxman.storage.database import Database
+
+    database_path = tmp_path / "docs.sqlite3"
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(database_path))
+    with Database(database_path) as database:
+        database.save_document(
+            Document(
+                "cpp/unique",
+                "std::unique",
+                "unique",
+                "url",
+                (Paragraph("Algorithm details."),),
+                header="<algorithm>",
+                purpose="Removes consecutive duplicate elements.",
+            )
+        )
+
+    assert main(["search", "duplicates"]) == 0
+    output = capsys.readouterr().out
+    assert "unique  <algorithm>  Removes consecutive duplicate elements." in output
+
+
+def test_not_found_suggestions_include_catalog_aliases(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from dataclasses import replace
+
+    from cxxman.core import catalog
+
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(tmp_path / "docs.sqlite3"))
+    page = catalog.SOURCE_PAGES["vector"]
+    monkeypatch.setitem(
+        catalog.SOURCE_PAGES,
+        "vector",
+        replace(page, aliases=("dynamic_sequence",)),
+    )
+
+    assert main(["dynamic_sequenc"]) == 1
+    assert "'vector' (cxxman vector)" in capsys.readouterr().err
+
+
+def test_old_document_format_shows_targeted_update_hint(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.core.document import Document, Paragraph
+    from cxxman.storage.database import Database
+
+    database_path = tmp_path / "docs.sqlite3"
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(database_path))
+    with Database(database_path) as database:
+        database.save_document(
+            Document("cppref/vector", "std::vector", "vector", "url", (Paragraph("sequence"),))
+        )
+        with database._connection:
+            database._connection.execute(
+                "UPDATE documents SET format_version = 2 WHERE identifier = ?",
+                ("cppref/vector",),
+            )
+
+    assert main(["vector"]) == 0
+    assert "Run 'cxxman update vector' to refresh it." in capsys.readouterr().err
+
+
 def test_read_commands_never_call_http(
     capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -240,13 +414,30 @@ def test_update_command_fetches_requested_page(
     monkeypatch.setattr(httpx.Client, "get", fake_get)
     assert main(["update", "vector"]) == 0
     captured = capsys.readouterr()
-    assert "Updated 1 page(s): vector" in captured.out
+    assert "Update complete: 1 updated, 0 failed, 0 skipped." in captured.out
     assert "Open a page with: cxxman vector" in captured.out
     assert "Downloading vector from cppreference" in captured.err
     assert requested_urls == ["https://en.cppreference.com/cpp/container/vector"]
 
     with Database(database_path) as database:
         assert database.get_document("vector") is not None
+
+
+def test_update_command_reports_partial_failures(
+    capsys: pytest.CaptureFixture[str], tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from cxxman.core.update import UpdateFailure, UpdateReport
+
+    monkeypatch.setenv("CXXMAN_DB_PATH", str(tmp_path / "docs.sqlite3"))
+    monkeypatch.setattr(
+        "cxxman.core.update.update_documents",
+        lambda *args, **kwargs: UpdateReport((), (UpdateFailure("sort", "HTTP 503"),)),
+    )
+
+    assert main(["update"]) == 1
+    captured = capsys.readouterr()
+    assert "0 updated, 1 failed, 0 skipped" in captured.out
+    assert "Failed sort: HTTP 503" in captured.err
 
 
 def test_corrupt_local_page_has_a_useful_error(
