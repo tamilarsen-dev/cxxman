@@ -362,7 +362,12 @@ def _fit_quick_card(page: ManualPage) -> ManualPage:
             return
         section = sections.pop(section_index)
         hint = section.hint
-        append_hint("SYNOPSIS", message)
+        existing_hint_covers_message = bool(hint) and (
+            (title == "EXAMPLE" and "example" in hint.casefold())
+            or (title == "SEE ALSO" and "related name" in hint.casefold())
+        )
+        if not existing_hint_covers_message:
+            append_hint("SYNOPSIS", message)
         if hint:
             append_hint("SYNOPSIS", hint)
 
@@ -379,9 +384,35 @@ def _fit_quick_card(page: ManualPage) -> ManualPage:
         hidden = len(section.blocks) - limit
         message = f"+{hidden} {label} block(s) — cxxman {page.topic} --full"
         hints = [hint for hint in (section.hint, message) if hint]
+        selected_blocks = section.blocks[:limit]
+        if title == "MEMBERS":
+            priorities = {
+                "element access": 0,
+                "modifiers": 1,
+                "capacity": 2,
+                "operations": 3,
+                "observers": 4,
+                "iterators": 5,
+            }
+            ranked_blocks = sorted(
+                enumerate(section.blocks),
+                key=lambda item: (
+                    priorities.get(
+                        item[1].text.split(":", 1)[0].strip().casefold(),
+                        len(priorities),
+                    ),
+                    item[0],
+                ),
+            )[:limit]
+            selected_indices = {index for index, _ in ranked_blocks}
+            selected_blocks = tuple(
+                block
+                for index, block in enumerate(section.blocks)
+                if index in selected_indices
+            )
         sections[section_index] = replace(
             section,
-            blocks=section.blocks[:limit],
+            blocks=selected_blocks,
             hint="; ".join(dict.fromkeys(hints)),
         )
 

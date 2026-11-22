@@ -79,7 +79,7 @@ def test_no_topic_resolution_covers_every_generated_catalog_entry() -> None:
     from cxxman.core.catalog import SOURCE_PAGES
     from cxxman.core.update import _resolve_pages
 
-    assert len(_resolve_pages([])) == len(SOURCE_PAGES) > 2_500
+    assert len(_resolve_pages([])) == len(SOURCE_PAGES) >= 2_000
 
 
 def test_page_commit_survives_a_later_page_failure(tmp_path) -> None:

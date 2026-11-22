@@ -198,13 +198,14 @@ def test_real_vector_card_keeps_purpose_invalidation_members_and_hints() -> None
         "SYNOPSIS",
         "DESCRIPTION",
         "MEMBERS",
-        "NON-MEMBERS",
         "WATCH OUT",
         "COMPLEXITY",
-        "EXAMPLE",
-        "SEE ALSO",
         "NOTES",
     ]
+    synopsis_hint = sections["SYNOPSIS"].hint
+    assert "Example has 20 lines" in synopsis_hint
+    assert "Related names:" in synopsis_hint
+    assert "Non-member operations:" in synopsis_hint
     declarations = [
         block for block in sections["SYNOPSIS"].blocks if isinstance(block, CodeBlock)
     ]
@@ -221,14 +222,19 @@ def test_real_vector_card_keeps_purpose_invalidation_members_and_hints() -> None
         ("clear, operator=, assign", "Always."),
     )
     assert sections["WATCH OUT"].hint.startswith("+6 watch-out")
-    assert "push_back" in " ".join(
+    member_text = " ".join(
         block.text for block in sections["MEMBERS"].blocks if isinstance(block, Paragraph)
     )
+    assert "Element access:" in member_text
+    assert "Capacity:" in member_text
+    assert "Modifiers:" in member_text
+    assert "push_back" in member_text
     assert "public member function" not in " ".join(
         block.text for block in sections["MEMBERS"].blocks if isinstance(block, Paragraph)
     )
-    assert sections["EXAMPLE"].blocks == ()
-    assert "--example" in sections["EXAMPLE"].hint
+    assert "EXAMPLE" not in sections
+    assert "Example has 20 lines" in sections["SYNOPSIS"].hint
+    assert "--example" in sections["SYNOPSIS"].hint
     assert sections["NOTES"].blocks == (
         Paragraph("In libstdc++, shrink_to_fit() is not available in C++98 mode."),
     )
@@ -264,8 +270,9 @@ def test_real_sort_card_selects_overloads_and_hides_long_source_details() -> Non
         not isinstance(block, Paragraph) or "std::bad_alloc" not in block.text
         for block in sections["WATCH OUT"].blocks
     )
-    assert sections["EXAMPLE"].blocks == ()
-    assert "30 lines" in sections["EXAMPLE"].hint
+    assert "EXAMPLE" not in sections
+    assert "30 lines" in sections["SYNOPSIS"].hint
+    assert "--example" in sections["SYNOPSIS"].hint
 
 
 def test_real_quick_cards_fit_soft_line_budgets_at_100_columns() -> None:

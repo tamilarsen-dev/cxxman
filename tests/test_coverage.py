@@ -19,11 +19,11 @@ def _document(topic: str, blocks) -> Document:
     )
 
 
-def test_inspector_reports_missing_purpose_and_synopsis() -> None:
+def test_inspector_reports_missing_purpose_without_inventing_missing_synopsis() -> None:
     findings = inspect_document(_document("sort", ()))
 
     assert "missing_purpose" in findings
-    assert "missing_synopsis" in findings
+    assert "missing_synopsis" not in findings
 
 
 def test_inspector_reports_duplicate_rows_and_concatenated_member_names() -> None:
@@ -66,9 +66,10 @@ def test_real_vector_fixture_passes_current_synopsis_name_and_budget_checks() ->
 
 
 def test_inspector_checks_rendered_function_card_budget() -> None:
-    declarations = tuple(CodeBlock("void sort();") for _ in range(35))
+    declarations = (CodeBlock("void sort();"),)
+    long_source_sentence = " ".join(["sourceword"] * 600) + "."
     findings = inspect_document(
-        _document("sort", (Paragraph("Sorts a range."), *declarations))
+        _document("sort", (Paragraph(long_source_sentence), *declarations))
     )
 
     assert findings["over_budget"].endswith("budget is 30")

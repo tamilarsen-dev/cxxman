@@ -74,7 +74,7 @@ def render_manual_page(
         if page.purpose:
             title.append(" — ")
             title.append(page.purpose)
-        output.print(title, soft_wrap=True)
+        output.print(title)
         if page.header:
             output.print(Text(f"#include {page.header}"))
         output.print()
@@ -84,14 +84,13 @@ def render_manual_page(
                 for block in section.blocks:
                     _render_block(output, block, trailing_blank=False)
             if section.hint:
-                output.print(Text(section.hint, style="dim"), soft_wrap=True)
+                output.print(Text(section.hint, style="dim"))
         if page.source_url:
             output.print(
                 Text(
                     f"More: cxxman {page.topic or page.name} --full · {page.source_url}",
                     style="dim",
-                ),
-                soft_wrap=True,
+                )
             )
 
 
