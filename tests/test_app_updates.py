@@ -76,7 +76,7 @@ def test_fetch_latest_release_rejects_an_untrusted_release_url() -> None:
     ],
 )
 def test_detect_platform(system: str, machine: str, expected: str) -> None:
-    assert detect_platform(system, machine) == expected
+    assert detect_platform(system, machine, pointer_bits=64) == expected
 
 
 def test_detect_windows_32_bit_process_on_64_bit_host() -> None:
@@ -154,11 +154,11 @@ def test_linux_update_verifies_archive_and_replaces_executable(tmp_path) -> None
 
 
 @pytest.mark.parametrize(
-    ("machine", "platform_name"),
-    [("AMD64", "windows-x64"), ("x86", "windows-x86")],
+    ("machine", "platform_name", "pointer_bits"),
+    [("AMD64", "windows-x64", 64), ("x86", "windows-x86", 32)],
 )
 def test_windows_update_launches_checksum_verified_setup(
-    tmp_path, machine: str, platform_name: str
+    tmp_path, machine: str, platform_name: str, pointer_bits: int
 ) -> None:
     executable = tmp_path / "cxxman.exe"
     executable.write_bytes(b"current")
@@ -184,6 +184,7 @@ def test_windows_update_launches_checksum_verified_setup(
         frozen=True,
         system="Windows",
         machine=machine,
+        pointer_bits=pointer_bits,
         client=client,
         launch=launched.append,
     )

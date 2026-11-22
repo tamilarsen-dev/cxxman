@@ -153,6 +153,7 @@ def install_release_update(
     frozen: bool | None = None,
     system: str | None = None,
     machine: str | None = None,
+    pointer_bits: int | None = None,
     client: httpx.Client | None = None,
     launch: Callable[[list[str]], object] = subprocess.Popen,
 ) -> str:
@@ -162,7 +163,7 @@ def install_release_update(
         raise AppUpdateError(
             "this installation is managed by Python; update it with pip or reinstall from source"
         )
-    platform_key = detect_platform(system, machine)
+    platform_key = detect_platform(system, machine, pointer_bits=pointer_bits)
     target = (executable_path or Path(sys.argv[0])).resolve()
     if not target.is_file():
         raise AppUpdateError(f"could not locate the installed executable at {target}")
