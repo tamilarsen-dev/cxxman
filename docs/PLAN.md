@@ -1136,4 +1136,5 @@ of usefulness so every release is good, not half-done.
 | 2026-11-26 | The linter resolves `see_also`, `uses`, compare subjects and header-file groups, not class `member_group` names | Member groups list member names (`at`, `operator[]`) that are not lookup keys |
 | 2026-11-26 | M1's `data.cpp` holds the tables, the key table and the changelog; the search postings come with M3 | The postings layout depends on M3's scoring |
 | 2026-11-26 | `cxxman-gen` always lints; `--check` also prints the warnings | Keeps §7.3's command line and makes warnings visible in the build |
+| 2026-11-27 | macOS CI runs on `macos-15` (arm64, Xcode 16.4, AppleClang 17) instead of `macos-14` (§11.1); `actions/checkout@v7` | GitHub retired all macOS 14 images on 2026-11-02; checkout v4 runs on the deprecated Node 20. AppleClang 15–16 (§7.1) is no longer tested in CI; the x64 release build (M7) needs `macos-15-intel` |
 | 2026-11-26 | Recipe `split-string`: second gotcha shortened to "views::split over a string literal keeps its '\0': use string_view" | It was 74 characters; the budget is 72 |

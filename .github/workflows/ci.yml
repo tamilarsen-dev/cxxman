@@ -31,12 +31,12 @@ jobs:
             arch: Win32
             build_only: true
           - name: macos-appleclang
-            os: macos-14
+            os: macos-15
     env:
       CC: ${{ matrix.cc }}
       CXX: ${{ matrix.cxx }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # The build lints data/; with CXXMAN_CHECK_SNIPPETS it also compiles every
       # card example and recipe variant (PLAN 5.5).
