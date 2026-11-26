@@ -1,0 +1,50 @@
+id         = "vector::erase"
+name       = "std::vector::erase"
+kind       = "member"
+parent     = "vector"
+header     = "vector"
+since      = "C++98"
+badges     = ["constexpr C++20"]
+summary    = "Remove elements at a position or in a range."
+tags       = ["remove", "delete", "erase", "remove element", "remove if"]
+complexity = "O(elements after the erased ones)"
+url        = "container/vector/erase"
+see_also   = ["vector::clear", "vector::pop_back", "remove", "unique"]
+
+[[signature]]
+text = "erase(pos) -> iterator"
+
+[[signature]]
+text = "erase(first, last) -> iterator"
+note = "returns iterator after the last removed element"
+
+[[example]]
+code    = "v.erase(v.begin() + 1);"
+comment = "remove index 1"
+
+[[example]]
+code    = """
+for (auto it = v.begin(); it != v.end(); )
+    it = (*it % 2 == 0) ? v.erase(it) : it + 1;"""
+comment = "erase while looping"
+
+[[example]]
+code    = "std::erase_if(v, [](int x) { return x % 2 == 0; });"
+comment = "remove all matching"
+std     = "C++20"
+
+[[gotcha]]
+level = "ub"
+text  = "invalidates iterators and references at or after pos, including end()"
+
+[[gotcha]]
+level = "ub"
+text  = "erase(v.end()) is undefined: pos must point to an element"
+
+[[gotcha]]
+level = "perf"
+text  = "erasing near the front shifts every later element"
+
+[test]
+includes = ["vector"]
+prelude  = "std::vector<int> v{1, 2, 3, 4, 5};"

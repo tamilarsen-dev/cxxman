@@ -1,0 +1,30 @@
+id       = "map-vs-unordered_map"
+title    = "map vs unordered_map"
+subjects = ["map", "unordered_map"]
+tags     = ["hash map", "dictionary", "associative", "which map", "ordered map"]
+
+[[row]]
+label  = "Order"
+values = ["sorted by key", "unspecified"]
+
+[[row]]
+label  = "Lookup / insert"
+values = ["O(log n)", "O(1) average, O(n) worst"]
+
+[[row]]
+label  = "Key requires"
+values = ["operator< (or a comparator)", "std::hash<Key> and =="]
+
+[[row]]
+label  = "Insert invalidates"
+values = ["nothing", "iterators on rehash (references survive)"]
+
+[[row]]
+label  = "Range queries"
+values = ["lower_bound, upper_bound, equal_range", "none"]
+
+[[verdict]]
+text = "Default to unordered_map for key lookups in hot paths."
+
+[[verdict]]
+text = "Use map for ordered iteration, range queries, or keys without a hash."

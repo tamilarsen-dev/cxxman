@@ -1,0 +1,56 @@
+id         = "unique"
+name       = "std::unique"
+kind       = "algorithm"
+header     = "algorithm"
+since      = "C++98"
+badges     = ["constexpr C++20"]
+summary    = "Remove consecutive duplicates. Does not shrink the container."
+aliases    = ["ranges::unique", "std::ranges::unique"]
+tags       = ["duplicate", "duplicates", "dedupe", "deduplicate", "distinct", "remove duplicates", "unique elements"]
+complexity = "O(n): exactly n-1 comparisons for a non-empty range"
+url        = "algorithm/unique"
+see_also   = ["sort", "unique_copy", "remove", "vector::erase", "set"]
+
+[[signature]]
+text = "unique(first, last) -> iterator"
+note = "returns the new logical end"
+
+[[signature]]
+text = "unique(first, last, pred) -> iterator"
+note = "pred(a, b) -> bool: true if a and b are duplicates"
+
+[[signature]]
+text  = "ranges::unique(r, pred = {}, proj = {}) -> subrange"
+since = "C++20"
+note  = "subrange of the leftover tail"
+
+[[example]]
+code    = "v.erase(std::unique(v.begin(), v.end()), v.end());"
+comment = "drop adjacent dups"
+
+[[example]]
+code    = """
+std::sort(v.begin(), v.end());
+v.erase(std::unique(v.begin(), v.end()), v.end());"""
+comment = "drop all dups"
+
+[[example]]
+code    = "auto tail = std::ranges::unique(v);\nv.erase(tail.begin(), tail.end());"
+comment = "ranges form"
+std     = "C++20"
+
+[[gotcha]]
+level = "warn"
+text  = "size is unchanged: always erase from the returned iterator to end()"
+
+[[gotcha]]
+level = "warn"
+text  = "only adjacent duplicates are removed: sort first to remove all"
+
+[[gotcha]]
+level = "warn"
+text  = "elements after the new end hold valid but unspecified values"
+
+[test]
+includes = ["algorithm", "vector"]
+prelude  = "std::vector<int> v{1, 1, 2, 3, 3, 1};"

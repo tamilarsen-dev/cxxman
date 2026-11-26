@@ -1,0 +1,18 @@
+header  = "algorithm"
+summary = "Generic algorithms over ranges: search, sort, modify, partition."
+
+[[group]]
+title = "Search"
+names = ["find", "find_if", "count", "count_if", "search", "binary_search", "lower_bound", "upper_bound", "any_of", "all_of", "none_of"]
+
+[[group]]
+title = "Sort"
+names = ["sort", "stable_sort", "partial_sort", "nth_element", "is_sorted"]
+
+[[group]]
+title = "Modify"
+names = ["copy", "copy_if", "transform", "fill", "replace", "remove", "remove_if", "unique", "reverse", "rotate", "shuffle"]
+
+[[group]]
+title = "Min / max"
+names = ["min", "max", "minmax", "min_element", "max_element", "clamp"]

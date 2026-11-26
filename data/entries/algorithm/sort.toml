@@ -1,0 +1,57 @@
+id         = "sort"
+name       = "std::sort"
+kind       = "algorithm"
+header     = "algorithm"
+since      = "C++98"
+badges     = ["constexpr C++20", "parallel C++17"]
+summary    = "Sort a range in ascending order. Not stable."
+aliases    = ["ranges::sort", "std::ranges::sort"]
+tags       = ["sort", "order", "ascending", "descending", "arrange", "by key", "by member"]
+complexity = "O(n log n) comparisons"
+url        = "algorithm/sort"
+see_also   = ["stable_sort", "partial_sort", "nth_element", "is_sorted"]
+
+[[signature]]
+text = "sort(first, last)"
+
+[[signature]]
+text = "sort(first, last, comp)"
+note = "comp(a, b) -> bool: true if a goes before b"
+
+[[signature]]
+text  = "ranges::sort(r, comp = {}, proj = {})"
+since = "C++20"
+note  = "returns iterator to end of r"
+
+[[example]]
+code    = "std::sort(v.begin(), v.end());"
+comment = "ascending"
+
+[[example]]
+code    = "std::sort(v.begin(), v.end(), std::greater<>{});"
+comment = "descending"
+
+[[example]]
+code    = "std::ranges::sort(people, {}, &Person::age);"
+comment = "by member"
+std     = "C++20"
+
+[[gotcha]]
+level = "warn"
+text  = "needs random-access iterators: for std::list use l.sort()"
+
+[[gotcha]]
+level = "ub"
+text  = "comp must be a strict weak ordering: use <, never <="
+
+[[gotcha]]
+level = "warn"
+text  = "equal elements may change order: use stable_sort to keep it"
+
+[test]
+includes = ["algorithm", "functional", "string", "vector"]
+global   = "struct Person { std::string name; int age; };"
+prelude  = """
+std::vector<int> v{3, 1, 2};
+std::vector<Person> people{{"Ana", 30}, {"Budi", 25}};
+"""

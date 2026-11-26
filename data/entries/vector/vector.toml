@@ -1,0 +1,70 @@
+id         = "vector"
+name       = "std::vector"
+kind       = "class"
+header     = "vector"
+since      = "C++98"
+summary    = "Dynamic array with contiguous storage. The default container."
+tags       = ["array", "dynamic array", "list", "resizable", "contiguous", "container"]
+url        = "container/vector"
+see_also   = ["array", "deque", "span", "list"]
+
+[[signature]]
+text = "vector<T>"
+
+[[signature]]
+text  = "pmr::vector<T>"
+since = "C++17"
+note  = "uses a polymorphic allocator"
+
+[[member_group]]
+title   = "Access"
+members = ["at", "operator[]", "front", "back", "data"]
+
+[[member_group]]
+title   = "Capacity"
+members = ["empty", "size", "reserve", "capacity", "shrink_to_fit"]
+
+[[member_group]]
+title   = "Modifiers"
+members = ["push_back", "emplace_back", "pop_back", "insert", "emplace", "erase", "clear", "resize", "swap"]
+
+[[member_group]]
+title   = "Non-members"
+members = ["std::erase", "std::erase_if"]
+since   = "C++20"
+
+[[example]]
+code    = "std::vector<int> v{1, 2, 3};"
+comment = "init list"
+
+[[example]]
+code    = "v.push_back(4);\nv.emplace_back(5);"
+comment = "append"
+
+[[example]]
+code    = "v.reserve(1000);"
+comment = "avoid reallocations"
+
+[[example]]
+code    = "for (int x : v) { /* ... */ }"
+comment = "iterate"
+
+[[gotcha]]
+level = "warn"
+text  = "growth may reallocate: all iterators, pointers and references die"
+
+[[gotcha]]
+level = "ub"
+text  = "v[i] is unchecked; v.at(i) throws std::out_of_range"
+
+[[gotcha]]
+level = "warn"
+text  = "vector<bool> is packed bits, not a container of bool"
+
+[[gotcha]]
+level = "perf"
+text  = "reserve(n) changes capacity only; resize(n) creates n elements"
+
+[test]
+chain    = true   # example i also compiles examples 0..i-1
+includes = ["vector"]

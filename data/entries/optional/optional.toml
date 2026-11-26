@@ -1,0 +1,63 @@
+id         = "optional"
+name       = "std::optional"
+kind       = "class"
+header     = "optional"
+since      = "C++17"
+summary    = "A value that may or may not be present."
+tags       = ["maybe", "nullable", "optional value", "no value", "nothing"]
+url        = "utility/optional"
+see_also   = ["variant", "expected", "any"]
+
+[[signature]]
+text = "optional<T>"
+
+[[member_group]]
+title   = "Check"
+members = ["has_value", "operator bool"]
+
+[[member_group]]
+title   = "Access"
+members = ["value", "value_or", "operator*", "operator->"]
+
+[[member_group]]
+title   = "Modify"
+members = ["emplace", "reset", "swap"]
+
+[[member_group]]
+title   = "Monadic"
+members = ["and_then", "transform", "or_else"]
+since   = "C++23"
+
+[[example]]
+code    = "std::optional<int> a = 5, b = std::nullopt;"
+comment = "with / without value"
+
+[[example]]
+code    = "if (a) use(*a);"
+comment = "check, then use"
+
+[[example]]
+code    = "int n = b.value_or(0);"
+comment = "fallback"
+
+[[example]]
+code    = "auto s = a.transform([](int x) { return x * 2; });"
+comment = "map if present"
+std     = "C++23"
+
+[[gotcha]]
+level = "ub"
+text  = "*opt on an empty optional is undefined; opt.value() throws"
+
+[[gotcha]]
+level = "warn"
+text  = "for optional<bool>, if (opt) tests presence, not the bool"
+
+[[gotcha]]
+level = "warn"
+text  = "no optional<T&> before C++26: use T* or std::reference_wrapper"
+
+[test]
+chain    = true   # example i also compiles examples 0..i-1
+includes = ["optional"]
+global   = "void use(int) {}"

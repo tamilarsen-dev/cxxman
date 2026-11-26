@@ -1,0 +1,42 @@
+id       = "split-string"
+title    = "Split a string by a delimiter"
+summary  = "Break \"a,b,c\" into parts. Pick by standard and ownership needs."
+tags     = ["split", "tokenize", "explode", "delimiter", "separate", "csv", "comma"]
+uses     = ["getline", "istringstream", "views::split", "string_view"]
+
+[[variant]]
+title   = "Owning parts, any standard"
+since   = "C++98"
+code    = """
+std::istringstream in(s);
+std::vector<std::string> parts;
+for (std::string part; std::getline(in, part, ','); )
+    parts.push_back(part);"""
+
+[[variant]]
+title   = "Non-owning views, no allocation"
+since   = "C++20"
+code    = """
+for (auto part : std::views::split(sv, ',')) {
+    std::string_view piece(part.begin(), part.end());
+    use(piece);
+}"""
+
+[[gotcha]]
+level = "warn"
+text  = "getline drops a trailing empty field: \"a,b,\" gives 2 parts, not 3"
+
+[[gotcha]]
+level = "warn"
+text  = "views::split on a string literal also splits off its '\\0': use string_view"
+
+[[gotcha]]
+level = "ub"
+text  = "views keep pointing into the source: don't let the string die first"
+
+[test]
+includes = ["iostream", "ranges", "sstream", "string", "string_view", "vector"]
+global   = "void use(std::string_view) {}"
+prelude  = """
+std::string s = "a,b,c";
+std::string_view sv = s;"""
