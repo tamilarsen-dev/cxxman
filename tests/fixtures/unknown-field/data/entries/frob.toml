@@ -1,0 +1,17 @@
+colour  = "red"
+id      = "frob"
+name    = "std::frob"
+kind    = "function"
+header  = "utility"
+since   = "C++11"
+summary = "Test fixture: a card with a field the schema does not know."
+url     = "utility/frob"
+
+[[signature]]
+text = "frob(x)"
+
+[[example]]
+code = "int x = 1;"
+
+[test]
+includes = ["utility"]

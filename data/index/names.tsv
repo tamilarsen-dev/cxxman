@@ -1,0 +1,3226 @@
+name	header	kind	since	url
+ATOMIC_BOOL_LOCK_FREE	atomic			atomic/atomic_is_lock_free
+ATOMIC_FLAG_INIT	atomic	constant		atomic/ATOMIC_FLAG_INIT
+ATOMIC_VAR_INIT	atomic	function		atomic/ATOMIC_VAR_INIT
+April	chrono			chrono/month
+CLOCKS_PER_SEC	ctime	constant		chrono/c/CLOCKS_PER_SEC
+EXIT_FAILURE	cstdlib	constant		utility/program/EXIT_status
+EXIT_SUCCESS	cstdlib	constant		utility/program/EXIT_status
+FE_ALL_EXCEPT	cfenv	constant		numeric/fenv/FE_exceptions
+FE_DFL_ENV	cfenv	constant		numeric/fenv/FE_DFL_ENV
+FE_DIVBYZERO	cfenv	constant		numeric/fenv/FE_exceptions
+FE_DOWNWARD	cfenv	constant		numeric/fenv/FE_round
+FE_INEXACT	cfenv	constant		numeric/fenv/FE_exceptions
+FE_INVALID	cfenv	constant		numeric/fenv/FE_exceptions
+FE_OVERFLOW	cfenv	constant		numeric/fenv/FE_exceptions
+FE_TONEAREST	cfenv	constant		numeric/fenv/FE_round
+FE_TOWARDZERO	cfenv	constant		numeric/fenv/FE_round
+FE_UNDERFLOW	cfenv	constant		numeric/fenv/FE_exceptions
+FE_UPWARD	cfenv	constant		numeric/fenv/FE_round
+FILE	cstdio			io/c/FILE
+FLT_EVAL_METHOD	cfloat	constant		types/climits/FLT_EVAL_METHOD
+FLT_ROUNDS	cfloat			types/climits/FLT_ROUNDS
+FP_FAST_FMA	cmath			numeric/math/fma
+FP_ILOGB0	cmath			numeric/math/ilogb
+FP_INFINITE	cmath	constant		numeric/math/FP_categories
+FP_NAN	cmath	constant		numeric/math/FP_categories
+FP_NORMAL	cmath	constant		numeric/math/FP_categories
+FP_SUBNORMAL	cmath	constant		numeric/math/FP_categories
+FP_ZERO	cmath	constant		numeric/math/FP_categories
+Friday	chrono			chrono/weekday
+HUGE_VAL	cmath	constant		numeric/math/HUGE_VAL
+HUGE_VALF	cmath	constant		numeric/math/HUGE_VAL
+HUGE_VALL	cmath	constant		numeric/math/HUGE_VAL
+INFINITY	cfloat	constant		numeric/math/INFINITY
+LC_ALL	clocale	constant		locale/LC_categories
+LC_COLLATE	clocale	constant		locale/LC_categories
+LC_CTYPE	clocale	constant		locale/LC_categories
+LC_MONETARY	clocale	constant		locale/LC_categories
+LC_NUMERIC	clocale	constant		locale/LC_categories
+LC_TIME	clocale	constant		locale/LC_categories
+MATH_ERREXCEPT	cmath	constant		numeric/math/math_errhandling
+MATH_ERRNO	cmath	constant		numeric/math/math_errhandling
+NAN	cfloat	constant		numeric/math/NAN
+NULL	cstddef	constant		types/NULL
+ONCE_FLAG_INIT	mutex			thread/call_once
+RAND_MAX	cstdlib	constant		numeric/random/RAND_MAX
+SIGABRT	csignal	constant		utility/program/SIG_types
+SIGFPE	csignal	constant		utility/program/SIG_types
+SIGILL	csignal	constant		utility/program/SIG_types
+SIGINT	csignal	constant		utility/program/SIG_types
+SIGSEGV	csignal	constant		utility/program/SIG_types
+SIGTERM	csignal	constant		utility/program/SIG_types
+SIG_DFL	csignal	constant		utility/program/SIG_strategies
+SIG_ERR	csignal	constant		utility/program/SIG_ERR
+SIG_IGN	csignal	constant		utility/program/SIG_strategies
+TIME_UTC	ctime			chrono/c/timespec_get
+_1	functional	constant		utility/functional/placeholders
+_2	functional	constant		utility/functional/placeholders
+_3	functional	constant		utility/functional/placeholders
+_4	functional	constant		utility/functional/placeholders
+_Atomic	stdatomic.h	function		atomic/atomic
+_Exit	cstdlib	function		utility/program/_Exit
+abort	cstdlib	function		utility/program/abort
+abs	chrono			chrono/duration/abs
+abs	cinttypes	function		numeric/math/abs
+abs	cmath	function		numeric/math/fabs
+abs	complex	function		numeric/complex/abs
+abs	cstdlib	function		numeric/math/abs
+abs	valarray	function		numeric/valarray/abs
+absolute	filesystem	function		filesystem/absolute
+access_context	meta	class		meta/access_context
+accumulate	numeric	function		algorithm/accumulate
+acos	cmath	function		numeric/math/acos
+acos	complex	function		numeric/complex/acos
+acos	valarray	function		numeric/valarray/acos
+acosf	cmath	function		numeric/math/acos
+acosh	cmath	function		numeric/math/acosh
+acosh	complex	function		numeric/complex/acosh
+acoshf	cmath	function		numeric/math/acosh
+acoshl	cmath	function		numeric/math/acosh
+acosl	cmath	function		numeric/math/acos
+add_const	meta	function		meta/add_cv
+add_cv	meta	function		meta/add_cv
+add_lvalue_reference	meta	function		meta/add_lvalue_reference
+add_pointer	meta	function		meta/add_pointer
+add_rvalue_reference	meta	function		meta/add_lvalue_reference
+add_volatile	meta	function		meta/add_cv
+addressof	memory	function		memory/addressof
+adjacent	ranges			ranges/adjacent_view
+adjacent_difference	numeric	function		algorithm/adjacent_difference
+adjacent_find	algorithm	algorithm		algorithm/adjacent_find
+adjacent_transform	ranges			ranges/adjacent_transform_view
+adjacent_transform_view	ranges			ranges/adjacent_transform_view
+adjacent_view	ranges			ranges/adjacent_view
+adopt_lock	mutex			thread/lock_tag
+adopt_lock_t	mutex			thread/lock_tag
+advance	iterator	function		iterator/advance
+align	memory	function		memory/align
+align_val_t	new	enum		memory/new/align_val_t
+aligned_alloc	cstdlib	function		memory/c/aligned_alloc
+aligned_storage	type_traits	class		types/aligned_storage
+aligned_union	type_traits	class		types/aligned_union
+alignment_of	meta	function		meta/alignment_of
+all	ranges			ranges/all_view
+all_of	algorithm	algorithm		algorithm/all_any_none_of
+allocate_shared_for_overwrite	memory	function		memory/shared_ptr/allocate_shared
+allocation_result	memory	class		memory/allocation_result
+allocator	memory	class		memory/allocator
+allocator_arg	memory			memory/allocator_arg
+allocator_arg_t	memory			memory/allocator_arg
+allocator_traits	memory	class		memory/allocator_traits
+ambiguous_local_time	chrono	class		chrono/ambiguous_local_time
+annotations_of	meta	function		meta/annotations_of
+annotations_of_with_type	meta	function		meta/annotations_of_with_type
+any	any	class		utility/any
+any::any_cast	any	function		utility/any/any_cast
+any::bad_any_cast	any	class		utility/any/bad_any_cast
+any::make_any	any	function		utility/any/make_any
+any_of	algorithm	algorithm		algorithm/all_any_none_of
+apply	tuple	function		utility/apply
+apply_result	meta	function		meta/apply_result
+approximately_sized_range	ranges			ranges/approximately_sized_range
+array	array	class		container/array
+array::operator==	array	function		container/array/operator_cmp
+array::to_array	array	function		container/array/to_array
+as_const	utility	function		utility/as_const
+as_const_view	ranges			ranges/as_const_view
+as_input	ranges			ranges/as_input_view
+as_input_view	ranges			ranges/as_input_view
+as_rvalue	ranges			ranges/as_rvalue_view
+as_rvalue_view	ranges			ranges/as_rvalue_view
+as_writable_bytes	span	function		container/span/as_bytes
+asctime	ctime	function		chrono/c/asctime
+asin	cmath	function		numeric/math/asin
+asin	complex	function		numeric/complex/asin
+asin	valarray	function		numeric/valarray/asin
+asinf	cmath	function		numeric/math/asin
+asinh	cmath	function		numeric/math/asinh
+asinh	complex	function		numeric/complex/asinh
+asinhf	cmath	function		numeric/math/asinh
+asinhl	cmath	function		numeric/math/asinh
+asinl	cmath	function		numeric/math/asin
+assert	cassert	function		error/assert
+assertion_kind	contracts	enum		contract/assertion_kind
+assignable_from	concepts	concept		concepts/assignable_from
+assoc_laguerre	cmath	function		numeric/special_functions/assoc_laguerre
+assoc_laguerref	cmath	function		numeric/special_functions/assoc_laguerre
+assoc_laguerrel	cmath	function		numeric/special_functions/assoc_laguerre
+assoc_legendre	cmath	function		numeric/special_functions/assoc_legendre
+assoc_legendref	cmath	function		numeric/special_functions/assoc_legendre
+assoc_legendrel	cmath	function		numeric/special_functions/assoc_legendre
+assume_aligned	memory	function		memory/assume_aligned
+async	future	function		thread/async
+at_quick_exit	cstdlib	function		utility/program/at_quick_exit
+atan	cmath	function		numeric/math/atan
+atan	complex	function		numeric/complex/atan
+atan	valarray	function		numeric/valarray/atan
+atan2	cmath	function		numeric/math/atan2
+atan2	valarray	function		numeric/valarray/atan2
+atan2f	cmath	function		numeric/math/atan2
+atan2l	cmath	function		numeric/math/atan2
+atanf	cmath	function		numeric/math/atan
+atanh	cmath	function		numeric/math/atanh
+atanh	complex	function		numeric/complex/atanh
+atanhf	cmath	function		numeric/math/atanh
+atanhl	cmath	function		numeric/math/atanh
+atanl	cmath	function		numeric/math/atan
+atexit	cstdlib	function		utility/program/atexit
+atof	cstdlib	function		string/byte/atof
+atoi	cstdlib	function		string/byte/atoi
+atol	cstdlib	function		string/byte/atoi
+atoll	cstdlib	function		string/byte/atoi
+atomic	memory	class		atomic/atomic
+atomic<std::shared_ptr>	memory	class		memory/shared_ptr/atomic2
+atomic<std::weak_ptr>	memory	class		memory/weak_ptr/atomic2
+atomic_bool	atomic			atomic/atomic
+atomic_char	atomic			atomic/atomic
+atomic_char16_t	atomic			atomic/atomic
+atomic_char32_t	atomic			atomic/atomic
+atomic_char8_t	atomic			atomic/atomic
+atomic_compare_exchange_strong	atomic	function		atomic/atomic_compare_exchange
+atomic_compare_exchange_strong	memory	function		memory/shared_ptr/atomic
+atomic_compare_exchange_strong_explicit	atomic	function		atomic/atomic_compare_exchange
+atomic_compare_exchange_strong_explicit	memory	function		memory/shared_ptr/atomic
+atomic_compare_exchange_weak	atomic	function		atomic/atomic_compare_exchange
+atomic_compare_exchange_weak	memory	function		memory/shared_ptr/atomic
+atomic_compare_exchange_weak_explicit	atomic	function		atomic/atomic_compare_exchange
+atomic_compare_exchange_weak_explicit	memory	function		memory/shared_ptr/atomic
+atomic_exchange	atomic	function		atomic/atomic_exchange
+atomic_exchange	memory	function		memory/shared_ptr/atomic
+atomic_exchange_explicit	atomic	function		atomic/atomic_exchange
+atomic_exchange_explicit	memory	function		memory/shared_ptr/atomic
+atomic_fetch_add	atomic	function		atomic/atomic_fetch_add
+atomic_fetch_add_explicit	atomic	function		atomic/atomic_fetch_add
+atomic_fetch_and	atomic	function		atomic/atomic_fetch_and
+atomic_fetch_and_explicit	atomic	function		atomic/atomic_fetch_and
+atomic_fetch_max	atomic	function		atomic/atomic_fetch_max
+atomic_fetch_max_explicit	atomic	function		atomic/atomic_fetch_max
+atomic_fetch_min	atomic	function		atomic/atomic_fetch_min
+atomic_fetch_min_explicit	atomic	function		atomic/atomic_fetch_min
+atomic_fetch_or	atomic	function		atomic/atomic_fetch_or
+atomic_fetch_or_explicit	atomic	function		atomic/atomic_fetch_or
+atomic_fetch_sub	atomic	function		atomic/atomic_fetch_sub
+atomic_fetch_sub_explicit	atomic	function		atomic/atomic_fetch_sub
+atomic_fetch_xor	atomic	function		atomic/atomic_fetch_xor
+atomic_fetch_xor_explicit	atomic	function		atomic/atomic_fetch_xor
+atomic_flag	atomic	class		atomic/atomic_flag
+atomic_flag_clear	atomic	function		atomic/atomic_flag_clear
+atomic_flag_clear_explicit	atomic	function		atomic/atomic_flag_clear
+atomic_flag_notify_all	atomic	function		atomic/atomic_flag_notify_all
+atomic_flag_notify_one	atomic	function		atomic/atomic_flag_notify_one
+atomic_flag_test	atomic	function		atomic/atomic_flag_test
+atomic_flag_test_and_set	atomic	function		atomic/atomic_flag_test_and_set
+atomic_flag_test_and_set_explicit	atomic	function		atomic/atomic_flag_test_and_set
+atomic_flag_test_explicit	atomic	function		atomic/atomic_flag_test
+atomic_flag_wait	atomic	function		atomic/atomic_flag_wait
+atomic_flag_wait_explicit	atomic	function		atomic/atomic_flag_wait
+atomic_init	atomic	function		atomic/atomic_init
+atomic_int	atomic			atomic/atomic
+atomic_int16_t	atomic			atomic/atomic
+atomic_int32_t	atomic			atomic/atomic
+atomic_int64_t	atomic			atomic/atomic
+atomic_int8_t	atomic			atomic/atomic
+atomic_int_fast16_t	atomic			atomic/atomic
+atomic_int_fast32_t	atomic			atomic/atomic
+atomic_int_fast64_t	atomic			atomic/atomic
+atomic_int_fast8_t	atomic			atomic/atomic
+atomic_int_least16_t	atomic			atomic/atomic
+atomic_int_least32_t	atomic			atomic/atomic
+atomic_int_least64_t	atomic			atomic/atomic
+atomic_int_least8_t	atomic			atomic/atomic
+atomic_intmax_t	atomic			atomic/atomic
+atomic_intptr_t	atomic			atomic/atomic
+atomic_is_lock_free	atomic	function		atomic/atomic_is_lock_free
+atomic_is_lock_free	memory	function		memory/shared_ptr/atomic
+atomic_llong	atomic			atomic/atomic
+atomic_load	atomic	function		atomic/atomic_load
+atomic_load	memory	function		memory/shared_ptr/atomic
+atomic_load_explicit	atomic	function		atomic/atomic_load
+atomic_load_explicit	memory	function		memory/shared_ptr/atomic
+atomic_long	atomic			atomic/atomic
+atomic_notify_all	atomic	function		atomic/atomic_notify_all
+atomic_notify_one	atomic	function		atomic/atomic_notify_one
+atomic_ptrdiff_t	atomic			atomic/atomic
+atomic_ref	atomic	class		atomic/atomic_ref
+atomic_schar	atomic			atomic/atomic
+atomic_short	atomic			atomic/atomic
+atomic_signal_fence	atomic	function		atomic/atomic_signal_fence
+atomic_signed_lock_free	atomic			atomic/atomic
+atomic_size_t	atomic			atomic/atomic
+atomic_store	atomic	function		atomic/atomic_store
+atomic_store	memory	function		memory/shared_ptr/atomic
+atomic_store_explicit	atomic	function		atomic/atomic_store
+atomic_store_explicit	memory	function		memory/shared_ptr/atomic
+atomic_thread_fence	atomic	function		atomic/atomic_thread_fence
+atomic_uchar	atomic			atomic/atomic
+atomic_uint	atomic			atomic/atomic
+atomic_uint16_t	atomic			atomic/atomic
+atomic_uint32_t	atomic			atomic/atomic
+atomic_uint64_t	atomic			atomic/atomic
+atomic_uint8_t	atomic			atomic/atomic
+atomic_uint_fast16_t	atomic			atomic/atomic
+atomic_uint_fast32_t	atomic			atomic/atomic
+atomic_uint_fast64_t	atomic			atomic/atomic
+atomic_uint_fast8_t	atomic			atomic/atomic
+atomic_uint_least16_t	atomic			atomic/atomic
+atomic_uint_least32_t	atomic			atomic/atomic
+atomic_uint_least64_t	atomic			atomic/atomic
+atomic_uint_least8_t	atomic			atomic/atomic
+atomic_uintmax_t	atomic			atomic/atomic
+atomic_uintptr_t	atomic			atomic/atomic
+atomic_ullong	atomic			atomic/atomic
+atomic_ulong	atomic			atomic/atomic
+atomic_unsigned_lock_free	atomic			atomic/atomic
+atomic_ushort	atomic			atomic/atomic
+atomic_wait	atomic	function		atomic/atomic_wait
+atomic_wait_explicit	atomic	function		atomic/atomic_wait
+atomic_wchar_t	atomic			atomic/atomic
+auto_ptr	memory	class		memory/auto_ptr
+awk	regex			regex/syntax_option_type
+back_insert_iterator	iterator	class		iterator/back_insert_iterator
+back_inserter	iterator	function		iterator/back_inserter
+bad_alloc	new	class		memory/new/bad_alloc
+bad_array_new_length	new	class		memory/new/bad_array_new_length
+bad_cast	typeinfo	class		types/bad_cast
+bad_exception	exception	class		error/bad_exception
+bad_function_call	functional	class		utility/functional/bad_function_call
+bad_typeid	typeinfo	class		types/bad_typeid
+bad_weak_ptr	memory	class		memory/bad_weak_ptr
+barrier	barrier	class		thread/barrier
+bases_of	meta	function		meta/bases_of
+basic_common_reference	meta	function		meta/common_reference
+basic_const_iterator	iterator	class		iterator/basic_const_iterator
+basic_filebuf	fstream	class		io/basic_filebuf
+basic_format_arg	format	class		utility/format/basic_format_arg
+basic_format_args	format	class		utility/format/basic_format_args
+basic_format_context	format	class		utility/format/basic_format_context
+basic_format_parse_context	format	class		utility/format/basic_format_parse_context
+basic_format_string	format	class		utility/format/basic_format_string
+basic_fstream	fstream	class		io/basic_fstream
+basic_ifstream	fstream	class		io/basic_ifstream
+basic_ios	iosfwd	class		io/basic_ios
+basic_iostream	iosfwd	class		io/basic_iostream
+basic_ispanstream	iosfwd	class		io/basic_ispanstream
+basic_istream	iosfwd	class		io/basic_istream
+basic_istream_view	ranges			ranges/basic_istream_view
+basic_istringstream	iosfwd	class		io/basic_istringstream
+basic_ofstream	fstream	class		io/basic_ofstream
+basic_ospanstream	iosfwd	class		io/basic_ospanstream
+basic_ostream	iosfwd	class		io/basic_ostream
+basic_ostream::print	ostream	function		io/basic_ostream/print
+basic_ostream::println	ostream	function		io/basic_ostream/println
+basic_ostream::vprint_nonunicode	ostream	function		io/basic_ostream/vprint_nonunicode
+basic_ostream::vprint_unicode	ostream	function		io/basic_ostream/vprint_unicode
+basic_ostringstream	iosfwd	class		io/basic_ostringstream
+basic_osyncstream	iosfwd	class		io/basic_osyncstream
+basic_regex	regex	class		regex/basic_regex
+basic_spanbuf	iosfwd	class		io/basic_spanbuf
+basic_spanstream	iosfwd	class		io/basic_spanstream
+basic_stacktrace	stacktrace	class		utility/basic_stacktrace
+basic_stacktrace::operator<<	stacktrace	function		utility/basic_stacktrace/operator_ltlt
+basic_stacktrace::to_string	stacktrace	function		utility/basic_stacktrace/to_string
+basic_streambuf	iosfwd	class		io/basic_streambuf
+basic_string	string	class		string/basic_string
+basic_string::getline	string	function		string/basic_string/getline
+basic_string::operator""s	string	function		string/basic_string/operator%22%22s
+basic_string::operator+	string	function		string/basic_string/operator%2B
+basic_string::operator<<	string	function		string/basic_string/operator_ltltgtgt
+basic_string::operator==	string	function		string/basic_string/operator_cmp
+basic_string::stof	string	function		string/basic_string/stof
+basic_string::stoi	string	function		string/basic_string/stol
+basic_string::stoul	string	function		string/basic_string/stoul
+basic_string::to_string	string	function		string/basic_string/to_string
+basic_string::to_wstring	string	function		string/basic_string/to_wstring
+basic_string_view	string_view	class		string/basic_string_view
+basic_string_view::hash<std::string_view>	string_view	class		string/basic_string_view/hash
+basic_string_view::operator""sv	string_view	function		string/basic_string_view/operator%22%22sv
+basic_string_view::operator<<	string_view	function		string/basic_string_view/operator_ltlt
+basic_string_view::operator==	string_view	function		string/basic_string_view/operator_cmp
+basic_stringbuf	iosfwd	class		io/basic_stringbuf
+basic_stringstream	iosfwd	class		io/basic_stringstream
+basic_syncbuf	iosfwd	class		io/basic_syncbuf
+begin	stacktrace	function		iterator/begin
+bernoulli_distribution	random	class		numeric/random/bernoulli_distribution
+beta	cmath	function		numeric/special_functions/beta
+betaf	cmath	function		numeric/special_functions/beta
+betal	cmath	function		numeric/special_functions/beta
+bfloat16_t	stdfloat			types/floating-point
+bidirectional_iterator	iterator	concept		iterator/bidirectional_iterator
+bidirectional_iterator_tag	iterator	class		iterator/iterator_tags
+bidirectional_range	ranges			ranges/bidirectional_range
+binary_function	functional	class		utility/functional/binary_function
+binary_negate	functional	class		utility/functional/binary_negate
+binary_search	algorithm	algorithm		algorithm/binary_search
+binary_semaphore	semaphore			thread/counting_semaphore
+binary_transform_result	algorithm			algorithm/ranges/transform
+bind	functional	function		utility/functional/bind
+bind1st	functional	function		utility/functional/bind12
+bind2nd	functional	function		utility/functional/bind12
+bind_back	functional	function		utility/functional/bind_front
+bind_front	functional	function		utility/functional/bind_front
+binder1st	functional	class		utility/functional/binder12
+binder2nd	functional	class		utility/functional/binder12
+binomial_distribution	random	class		numeric/random/binomial_distribution
+bit_and	functional	class		utility/functional/bit_and
+bit_cast	bit	function		numeric/bit_cast
+bit_ceil	bit	function		numeric/bit_ceil
+bit_compress	bit	function		numeric/bit_compress
+bit_expand	bit	function		numeric/bit_expand
+bit_floor	bit	function		numeric/bit_floor
+bit_not	functional	class		utility/functional/bit_not
+bit_or	functional	class		utility/functional/bit_or
+bit_repeat	bit	function		numeric/bit_repeat
+bit_reverse	bit	function		numeric/bit_reverse
+bit_size_of	meta	function		meta/bit_size_of
+bit_width	bit	function		numeric/bit_width
+bit_xor	functional	class		utility/functional/bit_xor
+bitset	bitset	class		utility/bitset
+bitset::operator&	bitset	function		utility/bitset/operator_logic2
+bitset::operator<<	bitset	function		utility/bitset/operator_ltltgtgt2
+bool_constant	type_traits	class		types/integral_constant
+boolalpha	ios	function		io/manip/boolalpha
+borrowed_iterator_t	ranges			ranges/borrowed_iterator_t
+borrowed_range	ranges			ranges/borrowed_range
+boyer_moore_horspool_searcher	functional	class		utility/functional/boyer_moore_horspool_searcher
+boyer_moore_searcher	functional	class		utility/functional/boyer_moore_searcher
+breakpoint	debugging	function		utility/breakpoint
+breakpoint_if_debugging	debugging	function		utility/breakpoint_if_debugging
+bsearch	cstdlib	function		algorithm/bsearch
+btowc	cwchar	function		string/multibyte/btowc
+bulk_item_receiver_proxy	execution	class		execution/receiver_proxy
+byte	cstddef	enum		types/byte
+byteswap	bit	function		numeric/byteswap
+c16rtomb	cuchar	function		string/multibyte/c16rtomb
+c32rtomb	cuchar	function		string/multibyte/c32rtomb
+c8rtomb	cuchar	function		string/multibyte/c8rtomb
+cache_latest	ranges			ranges/cache_latest_view
+cache_latest_view	ranges			ranges/cache_latest_view
+call_once	mutex	function		thread/call_once
+calloc	cstdlib	function		memory/c/calloc
+can_substitute	meta	function		meta/can_substitute
+canonical	filesystem	function		filesystem/canonical
+cartesian_product	ranges			ranges/cartesian_product_view
+cartesian_product_view	ranges			ranges/cartesian_product_view
+cauchy_distribution	random	class		numeric/random/cauchy_distribution
+cbegin	ranges			ranges/cbegin
+cbegin	stacktrace	function		iterator/begin
+cbrt	cmath	function		numeric/math/cbrt
+cbrtf	cmath	function		numeric/math/cbrt
+cbrtl	cmath	function		numeric/math/cbrt
+cdata	ranges			ranges/cdata
+ceil	chrono			chrono/duration/ceil
+ceil	cmath	function		numeric/math/ceil
+ceilf	cmath	function		numeric/math/ceil
+ceill	cmath	function		numeric/math/ceil
+cend	ranges			ranges/cend
+cend	stacktrace	function		iterator/end
+cerr	iostream	object		io/cerr
+char_traits	string	class		string/char_traits
+chars_format	charconv	enum		utility/chars_format
+chi_squared_distribution	random	class		numeric/random/chi_squared_distribution
+choose	chrono	enum		chrono/choose
+chrono::duration	chrono			chrono/duration
+chrono::hours	chrono			chrono/duration
+chrono::microseconds	chrono			chrono/duration
+chrono::milliseconds	chrono			chrono/duration
+chrono::minutes	chrono			chrono/duration
+chrono::nanoseconds	chrono			chrono/duration
+chrono::seconds	chrono			chrono/duration
+chunk	ranges			ranges/chunk_view
+chunk_by	ranges			ranges/chunk_by_view
+chunk_by_view	ranges			ranges/chunk_by_view
+chunk_view	ranges			ranges/chunk_view
+cin	iostream	object		io/cin
+ckd_add	stdckdint.h	function		numeric/ckd_add
+ckd_mul	stdckdint.h	function		numeric/ckd_mul
+ckd_sub	stdckdint.h	function		numeric/ckd_sub
+clamp	algorithm	algorithm		algorithm/clamp
+clearerr	cstdio	function		io/c/clearerr
+clock	ctime	function		chrono/c/clock
+clock_cast	chrono	function		chrono/clock_cast
+clock_t	ctime			chrono/c/clock_t
+clock_time_conversion	chrono	class		chrono/clock_time_conversion
+clog	iostream	object		io/clog
+cmatch	regex			regex/match_results
+cmp_equal	utility	function		utility/intcmp
+cmp_greater	utility	function		utility/intcmp
+cmp_greater_equal	utility	function		utility/intcmp
+cmp_less	utility	function		utility/intcmp
+cmp_less_equal	utility	function		utility/intcmp
+cmp_not_equal	utility	function		utility/intcmp
+codecvt	locale	class		locale/codecvt
+codecvt_base	locale	class		locale/codecvt_base
+codecvt_byname	locale	class		locale/codecvt_byname
+codecvt_mode	codecvt	enum		locale/codecvt_mode
+codecvt_utf16	codecvt	class		locale/codecvt_utf16
+codecvt_utf8	codecvt	class		locale/codecvt_utf8
+codecvt_utf8_utf16	codecvt	class		locale/codecvt_utf8_utf16
+collate	locale	class		locale/collate
+collate_byname	locale	class		locale/collate_byname
+common	ranges			ranges/common_view
+common_comparison_category	compare	class		utility/compare/common_comparison_category
+common_iterator	iterator	class		iterator/common_iterator
+common_range	ranges			ranges/common_range
+common_reference	meta	function		meta/common_reference
+common_reference_with	concepts	concept		concepts/common_reference_with
+common_type	meta	function		meta/common_type
+common_view	ranges			ranges/common_view
+common_with	concepts	concept		concepts/common_with
+comp_ellint_1	cmath	function		numeric/special_functions/comp_ellint_1
+comp_ellint_1f	cmath	function		numeric/special_functions/comp_ellint_1
+comp_ellint_1l	cmath	function		numeric/special_functions/comp_ellint_1
+comp_ellint_2	cmath	function		numeric/special_functions/comp_ellint_2
+comp_ellint_2f	cmath	function		numeric/special_functions/comp_ellint_2
+comp_ellint_2l	cmath	function		numeric/special_functions/comp_ellint_2
+comp_ellint_3	cmath	function		numeric/special_functions/comp_ellint_3
+comp_ellint_3f	cmath	function		numeric/special_functions/comp_ellint_3
+comp_ellint_3l	cmath	function		numeric/special_functions/comp_ellint_3
+compare_partial_order_fallback	compare	object		utility/compare/compare_partial_order_fallback
+compare_strong_order_fallback	compare	object		utility/compare/compare_strong_order_fallback
+compare_three_way	compare	class		utility/compare/compare_three_way
+compare_three_way_result	compare	class		utility/compare/compare_three_way_result
+compare_weak_order_fallback	compare	object		utility/compare/compare_weak_order_fallback
+complex	complex	class		numeric/complex
+complex::arg	complex	function		numeric/complex/arg
+complex::conj	complex	function		numeric/complex/conj
+complex::imag	complex	function		numeric/complex/imag2
+complex::norm	complex	function		numeric/complex/norm
+complex::operator""if	complex	function		numeric/complex/operator%22%22i
+complex::operator+	complex	function		numeric/complex/operator_arith2
+complex::operator<<	complex	function		numeric/complex/operator_ltltgtgt
+complex::operator==	complex	function		numeric/complex/operator_cmp
+complex::polar	complex	function		numeric/complex/polar
+complex::proj	complex	function		numeric/complex/proj
+complex::real	complex	function		numeric/complex/real2
+concat	ranges			ranges/concat_view
+concat_view	ranges			ranges/concat_view
+condition_variable	condition_variable	class		thread/condition_variable
+condition_variable_any	condition_variable	class		thread/condition_variable_any
+conditional	type_traits	class		types/conditional
+conjunction	type_traits	class		types/conjunction
+const_iterator	iterator	alias		iterator/const_iterator
+const_iterator_t	ranges			ranges/iterator_t
+const_mem_fun1_ref_t	functional	class		utility/functional/mem_fun_ref_t
+const_mem_fun1_t	functional	class		utility/functional/mem_fun_t
+const_mem_fun_ref_t	functional	class		utility/functional/mem_fun_ref_t
+const_mem_fun_t	functional	class		utility/functional/mem_fun_t
+const_pointer_cast	memory	function		memory/shared_ptr/pointer_cast
+const_sentinel	iterator	alias		iterator/const_sentinel
+constant_of	meta	function		meta/constant_of
+constant_range	ranges			ranges/constant_range
+constant_wrapper	utility	class		utility/constant_wrapper
+construct_at	memory	algorithm		memory/construct_at
+constructible_from	concepts	concept		concepts/constructible_from
+contains	algorithm			algorithm/ranges/contains
+contiguous_iterator	iterator	concept		iterator/contiguous_iterator
+contiguous_iterator_tag	iterator	class		iterator/iterator_tags
+contiguous_range	ranges			ranges/contiguous_range
+contract_violation	contracts	class		contract/contract_violation
+convertible_to	concepts	concept		concepts/convertible_to
+copy	algorithm	algorithm		algorithm/copy
+copy_backward	algorithm	algorithm		algorithm/copy_backward
+copy_constructible	concepts	concept		concepts/copy_constructible
+copy_file	filesystem	function		filesystem/copy_file
+copy_if	algorithm	algorithm		algorithm/copy
+copy_n	algorithm	algorithm		algorithm/copy_n
+copy_options	filesystem	enum		filesystem/copy_options
+copy_symlink	filesystem	function		filesystem/copy_symlink
+copyable	concepts	concept		concepts/copyable
+copyable_function	functional	class		utility/functional/copyable_function
+copysign	cmath	function		numeric/math/copysign
+copysignf	cmath	function		numeric/math/copysign
+copysignl	cmath	function		numeric/math/copysign
+coroutine_handle	coroutine	class		coroutine/coroutine_handle
+coroutine_handle::operator==	coroutine	function		coroutine/coroutine_handle/operator_cmp
+coroutine_traits	coroutine	class		coroutine/coroutine_traits
+cos	cmath	function		numeric/math/cos
+cos	complex	function		numeric/complex/cos
+cos	valarray	function		numeric/valarray/cos
+cosf	cmath	function		numeric/math/cos
+cosh	cmath	function		numeric/math/cosh
+cosh	complex	function		numeric/complex/cosh
+cosh	valarray	function		numeric/valarray/cosh
+coshf	cmath	function		numeric/math/cosh
+coshl	cmath	function		numeric/math/cosh
+cosl	cmath	function		numeric/math/cos
+count	algorithm	algorithm		algorithm/count
+count_if	algorithm	algorithm		algorithm/count
+counted	ranges			ranges/view_counted
+counted_iterator	iterator	class		iterator/counted_iterator
+counted_iterator::operator+	iterator	function		iterator/counted_iterator/operator%2B
+counted_iterator::operator-	iterator	function		iterator/counted_iterator/operator-
+counted_iterator::operator==	iterator	function		iterator/counted_iterator/operator_cmp
+counting_semaphore	semaphore	class		thread/counting_semaphore
+countl_one	bit	function		numeric/countl_one
+countl_zero	bit	function		numeric/countl_zero
+countr_one	bit	function		numeric/countr_one
+countr_zero	bit	function		numeric/countr_zero
+cout	iostream	object		io/cout
+crbegin	ranges			ranges/crbegin
+crbegin	stacktrace	function		iterator/rbegin
+create_directories	filesystem	function		filesystem/create_directory
+create_directory	filesystem	function		filesystem/create_directory
+create_directory_symlink	filesystem	function		filesystem/create_symlink
+create_hard_link	filesystem	function		filesystem/create_hard_link
+create_symlink	filesystem	function		filesystem/create_symlink
+cref	functional	function		utility/functional/ref
+cregex_iterator	regex			regex/regex_iterator
+cregex_token_iterator	regex			regex/regex_token_iterator
+crend	ranges			ranges/crend
+crend	stacktrace	function		iterator/rend
+csub_match	regex			regex/sub_match
+ctime	ctime	function		chrono/c/ctime
+ctype	locale	class		locale/ctype
+ctype<char>	locale	class		locale/ctype_char
+ctype_base	locale	class		locale/ctype_base
+ctype_byname	locale	class		locale/ctype_byname
+current_class	meta	function		meta/current_class
+current_exception	exception	function		error/current_exception
+current_function	meta	function		meta/current_function
+current_namespace	meta	function		meta/current_namespace
+current_path	filesystem	function		filesystem/current_path
+current_zone	chrono	function		chrono/current_zone
+cv_status	condition_variable	enum		thread/cv_status
+cw	utility	class		utility/constant_wrapper
+cyl_bessel_i	cmath	function		numeric/special_functions/cyl_bessel_i
+cyl_bessel_if	cmath	function		numeric/special_functions/cyl_bessel_i
+cyl_bessel_il	cmath	function		numeric/special_functions/cyl_bessel_i
+cyl_bessel_j	cmath	function		numeric/special_functions/cyl_bessel_j
+cyl_bessel_jf	cmath	function		numeric/special_functions/cyl_bessel_j
+cyl_bessel_jl	cmath	function		numeric/special_functions/cyl_bessel_j
+cyl_bessel_k	cmath	function		numeric/special_functions/cyl_bessel_k
+cyl_bessel_kf	cmath	function		numeric/special_functions/cyl_bessel_k
+cyl_bessel_kl	cmath	function		numeric/special_functions/cyl_bessel_k
+cyl_neumann	cmath	function		numeric/special_functions/cyl_neumann
+cyl_neumannf	cmath	function		numeric/special_functions/cyl_neumann
+cyl_neumannl	cmath	function		numeric/special_functions/cyl_neumann
+d	chrono			chrono/operator%22%22d
+dangling	ranges			ranges/dangling
+data	stacktrace	function		iterator/data
+data_member_options	meta	class		meta/data_member_spec
+data_member_spec	meta	function		meta/data_member_spec
+day	chrono	class		chrono/day
+day::formatter<std::chrono::day>	chrono	class		chrono/day/formatter
+day::from_stream	chrono	function		chrono/day/from_stream
+day::hash<std::chrono::day>	chrono	class		chrono/day/hash
+day::operator+	chrono	function		chrono/day/operator_arith_2
+day::operator<<	chrono	function		chrono/day/operator_ltlt
+day::operator==	chrono	function		chrono/day/operator_cmp
+dealias	meta	function		meta/dealias
+dec	ios	function		io/manip/hex
+decay	meta	function		meta/decay
+declare_no_pointers	memory	function		memory/gc/declare_no_pointers
+declare_reachable	memory	function		memory/gc/declare_reachable
+declval	utility	function		utility/declval
+default_delete	memory	class		memory/default_delete
+default_initializable	concepts	concept		concepts/default_initializable
+default_searcher	functional	class		utility/functional/default_searcher
+default_sentinel	iterator	constant		iterator/default_sentinel_t
+default_sentinel_t	iterator	class		iterator/default_sentinel_t
+defaultfloat	ios	function		io/manip/fixed
+defer_lock	mutex			thread/lock_tag
+defer_lock_t	mutex			thread/lock_tag
+define_aggregate	meta	function		meta/define_aggregate
+define_static_array	meta	function		meta/define_static_array
+define_static_object	meta	function		meta/define_static_object
+define_static_string	meta	function		meta/define_static_string
+deque	deque	class		container/deque
+deque::operator==	deque	function		container/deque/operator_cmp
+derived_from	concepts	concept		concepts/derived_from
+destroy	memory	algorithm		memory/destroy
+destroy_at	memory	algorithm		memory/destroy_at
+destroy_n	memory	algorithm		memory/destroy_n
+destroying_delete	new			memory/new/destroying_delete
+destroying_delete_t	new			memory/new/destroying_delete
+destructible	concepts	concept		concepts/destructible
+detection_mode	contracts	enum		contract/detection_mode
+difftime	ctime	function		chrono/c/difftime
+dims	mdspan	alias		container/mdspan/extents
+directory_entry	filesystem	class		filesystem/directory_entry
+directory_iterator	filesystem	class		filesystem/directory_iterator
+directory_options	filesystem	enum		filesystem/directory_options
+disable_sized_range	ranges			ranges/sized_range
+discard_block_engine	random	class		numeric/random/discard_block_engine
+discrete_distribution	random	class		numeric/random/discrete_distribution
+disjunction	type_traits	class		types/disjunction
+display_string_of	meta	function		meta/display_string_of
+distance	iterator	function		iterator/distance
+div	cinttypes	function		numeric/math/div
+div	cstdlib	function		numeric/math/div
+div_t	cstdlib			numeric/math/div
+divides	functional	class		utility/functional/divides
+domain_error	stdexcept	class		error/domain_error
+drop	ranges			ranges/drop_view
+drop_view	ranges			ranges/drop_view
+drop_while	ranges			ranges/drop_while_view
+drop_while_view	ranges			ranges/drop_while_view
+duration	chrono	class		chrono/duration
+duration::abs	chrono	function		chrono/duration/abs
+duration::ceil	chrono	function		chrono/duration/ceil
+duration::common_type<std::chrono::duration>	chrono	class		chrono/duration/common_type
+duration::duration_cast	chrono	function		chrono/duration/duration_cast
+duration::floor	chrono	function		chrono/duration/floor
+duration::formatter<std::chrono::duration>	chrono	class		chrono/duration/formatter
+duration::hash<std::chrono::duration>	chrono	class		chrono/duration/hash
+duration::operator+	chrono	function		chrono/duration/operator_arith4
+duration::operator<<	chrono	function		chrono/duration/operator_ltlt
+duration::operator==	chrono	function		chrono/duration/operator_cmp
+duration::round	chrono	function		chrono/duration/round
+duration_cast	chrono			chrono/duration/duration_cast
+duration_values	chrono	class		chrono/duration_values
+dynamic_format	format	function		utility/format/dynamic_format
+dynamic_pointer_cast	memory	function		memory/shared_ptr/pointer_cast
+elements	ranges			ranges/elements_view
+elements_of	ranges			ranges/elements_of
+elements_view	ranges			ranges/elements_view
+ellint_1	cmath	function		numeric/special_functions/ellint_1
+ellint_1f	cmath	function		numeric/special_functions/ellint_1
+ellint_1l	cmath	function		numeric/special_functions/ellint_1
+ellint_2	cmath	function		numeric/special_functions/ellint_2
+ellint_2f	cmath	function		numeric/special_functions/ellint_2
+ellint_2l	cmath	function		numeric/special_functions/ellint_2
+ellint_3	cmath	function		numeric/special_functions/ellint_3
+ellint_3f	cmath	function		numeric/special_functions/ellint_3
+ellint_3l	cmath	function		numeric/special_functions/ellint_3
+emit_on_flush	ostream	function		io/manip/emit_on_flush
+empty	stacktrace	function		iterator/empty
+empty_view	ranges			ranges/empty_view
+enable_if	type_traits	class		types/enable_if
+enable_nonlocking_formatter_optimization	format	object		utility/format/enable_nonlocking_formatter_optimization
+enable_shared_from_this	memory	class		memory/enable_shared_from_this
+enable_view	ranges			ranges/view
+end	stacktrace	function		iterator/end
+endian	bit	enum		types/endian
+endl	ostream	function		io/manip/endl
+ends	ostream	function		io/manip/ends
+ends_with	algorithm			algorithm/ranges/ends_with
+enumerate	ranges			ranges/enumerate_view
+enumerate_view	ranges			ranges/enumerate_view
+enumerators_of	meta	function		meta/enumerators_of
+equal	algorithm	algorithm		algorithm/equal
+equal_range	algorithm	algorithm		algorithm/equal_range
+equal_to	functional	class		utility/functional/equal_to
+equality_comparable	concepts	concept		concepts/equality_comparable
+equality_comparable_with	concepts	concept		concepts/equality_comparable
+equivalence_relation	concepts	concept		concepts/equivalence_relation
+equivalent	filesystem	function		filesystem/equivalent
+erase	deque	function		container/deque/erase2
+erase	forward_list	function		container/forward_list/erase2
+erase	hive	function		container/hive/erase2
+erase	inplace_vector	function		container/inplace_vector/erase2
+erase	list	function		container/list/erase2
+erase	string	function		string/basic_string/erase2
+erase	vector	function		container/vector/erase2
+erase_if	deque	function		container/deque/erase2
+erase_if	flat_map	function		container/flat_map/erase_if
+erase_if	flat_map	function		container/flat_multimap/erase_if
+erase_if	flat_set	function		container/flat_multiset/erase_if
+erase_if	flat_set	function		container/flat_set/erase_if
+erase_if	forward_list	function		container/forward_list/erase2
+erase_if	hive	function		container/hive/erase2
+erase_if	inplace_vector	function		container/inplace_vector/erase2
+erase_if	list	function		container/list/erase2
+erase_if	map	function		container/map/erase_if
+erase_if	map	function		container/multimap/erase_if
+erase_if	set	function		container/multiset/erase_if
+erase_if	set	function		container/set/erase_if
+erase_if	string	function		string/basic_string/erase2
+erase_if	unordered_map	function		container/unordered_map/erase_if
+erase_if	unordered_map	function		container/unordered_multimap/erase_if
+erase_if	unordered_set	function		container/unordered_multiset/erase_if
+erase_if	unordered_set	function		container/unordered_set/erase_if
+erase_if	vector	function		container/vector/erase2
+erf	cmath	function		numeric/math/erf
+erfc	cmath	function		numeric/math/erfc
+erfcf	cmath	function		numeric/math/erfc
+erfcl	cmath	function		numeric/math/erfc
+erff	cmath	function		numeric/math/erf
+erfl	cmath	function		numeric/math/erf
+errc	system_error	class		error/errc
+errno	cerrno	object		error/errno
+error_backref	regex			regex/error_type
+error_category	system_error	class		error/error_category
+error_code	system_error	class		error/error_code
+error_code::is_error_code_enum	system_error	class		error/error_code/is_error_code_enum
+error_code::operator<<	system_error	function		error/error_code/operator_ltlt
+error_code::operator==	system_error	function		error/error_code/operator_cmp
+error_condition	system_error	class		error/error_condition
+error_condition::is_error_condition_enum	system_error	class		error/error_condition/is_error_condition_enum
+error_condition::operator==	system_error	function		error/error_condition/operator_cmp
+error_type	regex			regex/error_type
+evaluation_semantic	contracts	enum		contract/evaluation_semantic
+exception	exception	class		error/exception
+exception_ptr	exception			error/exception_ptr
+exchange	utility	function		utility/exchange
+exclusive_scan	numeric	function		algorithm/exclusive_scan
+execution::affine	execution	object		execution/affine
+execution::apply_sender	execution	function		execution/apply_sender
+execution::as_awaitable	execution	object		execution/as_awaitable
+execution::associate	execution	object		execution/associate
+execution::bulk	execution	object		execution/bulk
+execution::bulk_chunked	execution	object		execution/bulk
+execution::bulk_unchunked	execution	object		execution/bulk
+execution::completion_signatures	execution	class		execution/completion_signatures
+execution::completion_signatures_of_t	execution	function		execution/get_completion_signatures
+execution::connect	execution	object		execution/connect
+execution::continues_on	execution	object		execution/continues_on
+execution::counting_scope	execution	class		execution/counting_scope
+execution::default_domain	execution	class		execution/default_domain
+execution::dependent_sender	execution	concept		execution/dependent_sender
+execution::dependent_sender_error	execution	class		execution/dependent_sender_error
+execution::env	execution	class		execution/env
+execution::env_of_t	execution	object		execution/get_env
+execution::forward_progress_guarantee	execution	enum		execution/forward_progress_guarantee
+execution::get_await_completion_adaptor	execution	object		execution/get_await_completion_adaptor
+execution::get_completion_domain	execution	object		execution/get_completion_domain
+execution::get_completion_scheduler	execution	object		execution/get_completion_scheduler
+execution::get_completion_signatures	execution	function		execution/get_completion_signatures
+execution::get_delegation_scheduler	execution	object		execution/get_delegation_scheduler
+execution::get_domain	execution	object		execution/get_domain
+execution::get_env	execution	object		execution/get_env
+execution::get_forward_progress_guarantee	execution	object		execution/get_forward_progress_guarantee
+execution::get_parallel_scheduler	execution	function		execution/get_parallel_scheduler
+execution::get_scheduler	execution	object		execution/get_scheduler
+execution::get_start_scheduler	execution	object		execution/get_start_scheduler
+execution::indeterminate_domain	execution	class		execution/indeterminate_domain
+execution::inlinable_receiver	execution	concept		execution/inlinable_receiver
+execution::inline_scheduler	execution	class		execution/inline_scheduler
+execution::into_variant	execution	object		execution/into_variant
+execution::just	execution	object		execution/just
+execution::just_error	execution	object		execution/just_error
+execution::just_stopped	execution	object		execution/just_stopped
+execution::let_error	execution	object		execution/let_error
+execution::let_stopped	execution	object		execution/let_stopped
+execution::let_value	execution	object		execution/let_value
+execution::on	execution	object		execution/on
+execution::operation_state	execution	concept		execution/operation_state
+execution::parallel_scheduler	execution	class		execution/parallel_scheduler
+execution::prop	execution	class		execution/prop
+execution::read_env	execution	object		execution/read_env
+execution::receiver	execution	concept		execution/receiver
+execution::run_loop	execution	class		execution/run_loop
+execution::schedule	execution	object		execution/schedule
+execution::schedule_from	execution	object		execution/schedule_from
+execution::scheduler	execution	concept		execution/scheduler
+execution::scope_association	execution	concept		execution/scope_association
+execution::scope_token	execution	concept		execution/scope_token
+execution::sender	execution	concept		execution/sender
+execution::sender_adaptor_closure	execution	class		execution/sender_adaptor_closure
+execution::sender_in	execution	concept		execution/sender_in
+execution::set_error	execution	object		execution/set_error
+execution::set_stopped	execution	object		execution/set_stopped
+execution::set_value	execution	object		execution/set_value
+execution::simple_counting_scope	execution	class		execution/simple_counting_scope
+execution::spawn	execution	object		execution/spawn
+execution::spawn_future	execution	object		execution/spawn_future
+execution::start	execution	object		execution/start
+execution::starts_on	execution	object		execution/starts_on
+execution::stopped_as_error	execution	object		execution/stopped_as_error
+execution::stopped_as_optional	execution	object		execution/stopped_as_optional
+execution::task	execution	class		execution/task
+execution::task_scheduler	execution	class		execution/task_scheduler
+execution::then	execution	object		execution/then
+execution::transform_sender	execution	function		execution/transform_sender
+execution::unstoppable	execution	object		execution/unstoppable
+execution::upon_error	execution	object		execution/upon_error
+execution::upon_stopped	execution	object		execution/upon_stopped
+execution::when_all	execution	object		execution/when_all
+execution::when_all_with_variant	execution	object		execution/when_all_with_variant
+execution::with_awaitable_senders	execution	class		execution/with_awaitable_senders
+execution::with_error	execution	class		execution/with_error
+execution::write_env	execution	object		execution/write_env
+exists	filesystem	function		filesystem/exists
+exit	cstdlib	function		utility/program/exit
+exp	cmath	function		numeric/math/exp
+exp	complex	function		numeric/complex/exp
+exp	valarray	function		numeric/valarray/exp
+exp2	cmath	function		numeric/math/exp2
+exp2f	cmath	function		numeric/math/exp2
+exp2l	cmath	function		numeric/math/exp2
+expected	expected	class		utility/expected
+expected::bad_expected_access	expected	class		utility/expected/bad_expected_access
+expected::unexpect	expected			utility/expected/unexpect_t
+expected::unexpected	expected	class		utility/expected/unexpected
+expf	cmath	function		numeric/math/exp
+expint	cmath	function		numeric/special_functions/expint
+expintf	cmath	function		numeric/special_functions/expint
+expintl	cmath	function		numeric/special_functions/expint
+expl	cmath	function		numeric/math/exp
+expm1	cmath	function		numeric/math/expm1
+expm1f	cmath	function		numeric/math/expm1
+expm1l	cmath	function		numeric/math/expm1
+exponential_distribution	random	class		numeric/random/exponential_distribution
+extent	meta	function		meta/extent
+extract	meta	function		meta/extract
+extreme_value_distribution	random	class		numeric/random/extreme_value_distribution
+fabs	cmath	function		numeric/math/fabs
+fabsf	cmath	function		numeric/math/fabs
+fabsl	cmath	function		numeric/math/fabs
+fclose	cstdio	function		io/c/fclose
+fdim	cmath	function		numeric/math/fdim
+fdimf	cmath	function		numeric/math/fdim
+fdiml	cmath	function		numeric/math/fdim
+feclearexcept	cfenv	function		numeric/fenv/feclearexcept
+fegetenv	cfenv	function		numeric/fenv/feenv
+fegetexceptflag	cfenv	function		numeric/fenv/feexceptflag
+fegetround	cfenv	function		numeric/fenv/feround
+feholdexcept	cfenv	function		numeric/fenv/feholdexcept
+feof	cstdio	function		io/c/feof
+feraiseexcept	cfenv	function		numeric/fenv/feraiseexcept
+ferror	cstdio	function		io/c/ferror
+fesetenv	cfenv	function		numeric/fenv/feenv
+fesetexceptflag	cfenv	function		numeric/fenv/feexceptflag
+fesetround	cfenv	function		numeric/fenv/feround
+fetestexcept	cfenv	function		numeric/fenv/fetestexcept
+feupdateenv	cfenv	function		numeric/fenv/feupdateenv
+fflush	cstdio	function		io/c/fflush
+fgetc	cstdio	function		io/c/fgetc
+fgetpos	cstdio	function		io/c/fgetpos
+fgets	cstdio	function		io/c/fgets
+fgetwc	cwchar	function		io/c/fgetwc
+fgetws	cwchar	function		io/c/fgetws
+file_clock	chrono			chrono/file_clock
+file_size	filesystem	function		filesystem/file_size
+file_status	filesystem	class		filesystem/file_status
+file_time_type	filesystem			filesystem/file_time_type
+file_type	filesystem	enum		filesystem/file_type
+filesystem_error	filesystem	class		filesystem/filesystem_error
+fill	algorithm	algorithm		algorithm/fill
+fill_n	algorithm	algorithm		algorithm/fill_n
+filter	ranges			ranges/filter_view
+filter_view	ranges			ranges/filter_view
+find	algorithm	algorithm		algorithm/find
+find_end	algorithm	algorithm		algorithm/find_end
+find_first_of	algorithm	algorithm		algorithm/find_first_of
+find_if	algorithm	algorithm		algorithm/find
+find_if_not	algorithm	algorithm		algorithm/find
+find_last	algorithm			algorithm/ranges/find_last
+fisher_f_distribution	random	class		numeric/random/fisher_f_distribution
+fixed	ios	function		io/manip/fixed
+flat_map	flat_map	class		container/flat_map
+flat_multimap	flat_map	class		container/flat_multimap
+flat_multiset	flat_set	class		container/flat_multiset
+flat_set	flat_set	class		container/flat_set
+float128_t	stdfloat			types/floating-point
+float16_t	stdfloat			types/floating-point
+float32_t	stdfloat			types/floating-point
+float64_t	stdfloat			types/floating-point
+floating_point	concepts	concept		concepts/floating_point
+floor	chrono			chrono/duration/floor
+floor	cmath	function		numeric/math/floor
+floorf	cmath	function		numeric/math/floor
+floorl	cmath	function		numeric/math/floor
+flush	ostream	function		io/manip/flush
+flush_emit	ostream	function		io/manip/flush_emit
+fma	cmath	function		numeric/math/fma
+fmaf	cmath	function		numeric/math/fma
+fmal	cmath	function		numeric/math/fma
+fmax	cmath	function		numeric/math/fmax
+fmaxf	cmath	function		numeric/math/fmax
+fmaxl	cmath	function		numeric/math/fmax
+fmin	cmath	function		numeric/math/fmin
+fminf	cmath	function		numeric/math/fmin
+fminl	cmath	function		numeric/math/fmin
+fmod	cmath	function		numeric/math/fmod
+fmodf	cmath	function		numeric/math/fmod
+fmodl	cmath	function		numeric/math/fmod
+fold_left	algorithm			algorithm/ranges/fold_left
+fold_left_first	algorithm			algorithm/ranges/fold_left_first
+fold_left_first_with_iter	algorithm			algorithm/ranges/fold_left_first_with_iter
+fold_left_with_iter	algorithm			algorithm/ranges/fold_left_with_iter
+fold_right	algorithm			algorithm/ranges/fold_right
+fold_right_last	algorithm			algorithm/ranges/fold_right_last
+fopen	cstdio	function		io/c/fopen
+for_each	algorithm	algorithm		algorithm/for_each
+for_each_n	algorithm	algorithm		algorithm/for_each_n
+format	format	function		utility/format/format
+format_args	format	class		utility/format/basic_format_args
+format_context	format	class		utility/format/basic_format_context
+format_default	regex			regex/match_flag_type
+format_error	format	class		utility/format/format_error
+format_kind	format	object		utility/format/format_kind
+format_parse_context	format	class		utility/format/basic_format_parse_context
+format_string	format	class		utility/format/basic_format_string
+format_to	format	function		utility/format/format_to
+format_to_n	format	function		utility/format/format_to_n
+formattable	format	concept		utility/format/formattable
+formatted_size	format	function		utility/format/formatted_size
+formatter	format	class		utility/format/formatter
+formatter<range>	format	class		utility/format/ranges_formatter
+formatter<std::chrono::file_time>	chrono	class		chrono/file_clock/formatter
+forward	utility	function		utility/forward
+forward_iterator	iterator	concept		iterator/forward_iterator
+forward_iterator_tag	iterator	class		iterator/iterator_tags
+forward_like	utility	function		utility/forward_like
+forward_list	forward_list	class		container/forward_list
+forward_list::operator==	forward_list	function		container/forward_list/operator_cmp
+forward_range	ranges			ranges/forward_range
+forwarding_query	execution	object		execution/forwarding_query
+fpclassify	cmath	function		numeric/math/fpclassify
+fpos	iosfwd	class		io/fpos
+fpos_t	cstdio			io/c/fpos_t
+fprintf	cstdio	function		io/c/fprintf
+fputc	cstdio	function		io/c/fputc
+fputs	cstdio	function		io/c/fputs
+fputwc	cwchar	function		io/c/fputwc
+fputws	cwchar	function		io/c/fputws
+fread	cstdio	function		io/c/fread
+free	cstdlib	function		memory/c/free
+freopen	cstdio	function		io/c/freopen
+frexp	cmath	function		numeric/math/frexp
+frexpf	cmath	function		numeric/math/frexp
+frexpl	cmath	function		numeric/math/frexp
+from_chars	charconv	function		utility/from_chars
+from_chars_result	charconv	class		utility/from_chars_result
+from_range	ranges			ranges/from_range
+from_range_t	ranges			ranges/from_range
+from_stream	chrono			chrono/day/from_stream
+from_stream	chrono	function		chrono/file_clock/from_stream
+front_insert_iterator	iterator	class		iterator/front_insert_iterator
+front_inserter	iterator	function		iterator/front_inserter
+fscanf	cstdio	function		io/c/fscanf
+fseek	cstdio	function		io/c/fseek
+fsetpos	cstdio	function		io/c/fsetpos
+ftell	cstdio	function		io/c/ftell
+full_extent_t	mdspan			container/mdspan/full_extent
+function	functional	class		utility/functional/function
+function_ref	functional	class		utility/functional/function_ref
+future	future	class		thread/future
+future_category	future	function		thread/future_category
+future_errc	future	enum		thread/future_errc
+future_error	future	class		thread/future_error
+future_status	future	enum		thread/future_status
+fwide	cwchar	function		io/c/fwide
+fwprintf	cwchar	function		io/c/fwprintf
+fwrite	cstdio	function		io/c/fwrite
+fwscanf	cwchar	function		io/c/fwscanf
+gamma_distribution	random	class		numeric/random/gamma_distribution
+gcd	numeric	function		numeric/gcd
+generate	algorithm	algorithm		algorithm/generate
+generate_canonical	random	function		numeric/random/generate_canonical
+generate_n	algorithm	algorithm		algorithm/generate_n
+generate_random	random			algorithm/ranges/generate_random
+generator	generator	class		coroutine/generator
+generic_category	system_error	function		error/generic_category
+geometric_distribution	random	class		numeric/random/geometric_distribution
+get	array	function		container/array/get
+get	ranges			ranges/subrange/get
+get	tuple	function		utility/tuple/get
+get	utility	function		utility/pair/get
+get	variant	function		utility/variant/get
+get_allocator	execution	object		execution/get_allocator
+get_default_resource	memory_resource	function		memory/get_default_resource
+get_id	thread	function		thread/get_id
+get_leap_second_info	chrono			chrono/utc_clock/get_leap_second_info
+get_money	iomanip	function		io/manip/get_money
+get_new_handler	new	function		memory/new/get_new_handler
+get_pointer_safety	memory	function		memory/gc/get_pointer_safety
+get_stop_token	execution	object		execution/get_stop_token
+get_temporary_buffer	memory	function		memory/get_temporary_buffer
+get_terminate	exception	function		error/get_terminate
+get_time	iomanip	function		io/manip/get_time
+get_tzdb	chrono	function		chrono/tzdb_functions
+get_tzdb_list	chrono	function		chrono/tzdb_functions
+get_unexpected	exception	function		error/get_unexpected
+getc	cstdio	function		io/c/fgetc
+getchar	cstdio	function		io/c/getchar
+getenv	cstdlib	function		utility/program/getenv
+getline	string	function		string/basic_string/getline
+gets	cstdio	function		io/c/gets
+getwc	cwchar	function		io/c/fgetwc
+getwchar	cwchar	function		io/c/getwchar
+gmtime	ctime	function		chrono/c/gmtime
+gmtime_r	ctime	function		chrono/c/gmtime
+gps_clock	chrono	class		chrono/gps_clock
+gps_clock::formatter<std::chrono::gps_time>	chrono	class		chrono/gps_clock/formatter
+gps_clock::from_stream	chrono	function		chrono/gps_clock/from_stream
+gps_clock::operator<<	chrono	function		chrono/gps_clock/operator_ltlt
+greater	functional	class		utility/functional/greater
+greater_equal	functional	class		utility/functional/greater_equal
+h	chrono			chrono/operator%22%22h
+hard_link_count	filesystem	function		filesystem/hard_link_count
+hardware_constructive_interference_size	new	constant		thread/hardware_destructive_interference_size
+hardware_destructive_interference_size	new	constant		thread/hardware_destructive_interference_size
+has_automatic_storage_duration	meta	function		meta/has_storage_duration
+has_c_language_linkage	meta	function		meta/has_c_language_linkage
+has_default_argument	meta	function		meta/has_default_argument
+has_default_member_initializer	meta	function		meta/has_default_member_initializer
+has_external_linkage	meta	function		meta/has_linkage
+has_facet	locale	function		locale/has_facet
+has_identifier	meta	function		meta/has_identifier
+has_inaccessible_bases	meta	function		meta/has_inaccessible_bases
+has_inaccessible_nonstatic_data_members	meta	function		meta/has_inaccessible_nonstatic_data_members
+has_inaccessible_subobjects	meta	function		meta/has_inaccessible_subobjects
+has_internal_linkage	meta	function		meta/has_linkage
+has_linkage	meta	function		meta/has_linkage
+has_module_linkage	meta	function		meta/has_linkage
+has_parent	meta	function		meta/has_parent
+has_single_bit	bit	function		numeric/has_single_bit
+has_static_storage_duration	meta	function		meta/has_storage_duration
+has_template_arguments	meta	function		meta/has_template_arguments
+has_thread_storage_duration	meta	function		meta/has_storage_duration
+has_unique_object_representations	meta	function		meta/has_unique_object_representations
+has_virtual_destructor	meta	function		meta/has_virtual_destructor
+hash	stacktrace	class		utility/hash
+hash<Arithmetic>	functional	class		utility/hash
+hash<Enumeration>	functional	class		utility/hash
+hash<T*>	functional	class		utility/hash
+hash<std::basic_stacktrace>	stacktrace	class		utility/basic_stacktrace/hash
+hash<std::basic_string>	string	class		string/basic_string/hash
+hash<std::bitset>	bitset	class		utility/bitset/hash
+hash<std::coroutine_handle>	coroutine	class		coroutine/coroutine_handle/hash
+hash<std::error_code>	system_error	class		error/error_code/hash
+hash<std::indirect>	memory	class		memory/indirect/hash
+hash<std::nullptr_t>	functional	class		utility/hash
+hash<std::optional>	optional	class		utility/optional/hash
+hash<std::shared_ptr>	memory	class		memory/shared_ptr/hash
+hash<std::stacktrace_entry>	stacktrace	class		utility/stacktrace_entry/hash
+hash<std::text_encoding>	text_encoding	class		text/text_encoding/hash
+hash<std::thread::id>	thread	class		thread/thread/id/hash
+hash<std::type_index>	typeindex	class		types/type_index/hash
+hash<std::u16string_view>	string_view	class		string/basic_string_view/hash
+hash<std::u32string_view>	string_view	class		string/basic_string_view/hash
+hash<std::u8string_view>	string_view	class		string/basic_string_view/hash
+hash<std::unique_ptr>	memory	class		memory/unique_ptr/hash
+hash<std::variant>	variant	class		utility/variant/hash
+hash<std::wstring_view>	string_view	class		string/basic_string_view/hash
+hermite	cmath	function		numeric/special_functions/hermite
+hermitef	cmath	function		numeric/special_functions/hermite
+hermitel	cmath	function		numeric/special_functions/hermite
+hex	ios	function		io/manip/hex
+hexfloat	ios	function		io/manip/fixed
+hh_mm_ss	chrono	class		chrono/hh_mm_ss
+hh_mm_ss::formatter<std::chrono::hh_mm_ss>	chrono	class		chrono/hh_mm_ss/formatter
+hh_mm_ss::operator<<	chrono	function		chrono/hh_mm_ss/operator_ltlt
+high_resolution_clock	chrono	class		chrono/high_resolution_clock
+hive	hive	class		container/hive
+hive_limits	hive	class		container/hive/hive_limits
+hypot	cmath	function		numeric/math/hypot
+hypotf	cmath	function		numeric/math/hypot
+hypotl	cmath	function		numeric/math/hypot
+i	complex			numeric/complex/operator%22%22i
+identifier_of	meta	function		meta/identifier_of
+identity	functional	class		utility/functional/identity
+ilogb	cmath	function		numeric/math/ilogb
+ilogbf	cmath	function		numeric/math/ilogb
+ilogbl	cmath	function		numeric/math/ilogb
+imaxabs	cinttypes	function		numeric/math/abs
+imaxdiv	cinttypes	function		numeric/math/div
+imaxdiv_t	cinttypes			numeric/math/div
+in_found_result	algorithm			algorithm/ranges/return_types/in_found_result
+in_fun_result	algorithm			algorithm/ranges/return_types/in_fun_result
+in_in_out_result	algorithm			algorithm/ranges/return_types/in_in_out_result
+in_in_result	algorithm			algorithm/ranges/return_types/in_in_result
+in_out_out_result	algorithm			algorithm/ranges/return_types/in_out_out_result
+in_out_result	algorithm			algorithm/ranges/return_types/in_out_result
+in_place	utility			utility/in_place
+in_place_index	utility			utility/in_place
+in_place_index_t	utility			utility/in_place
+in_place_t	utility			utility/in_place
+in_place_type	utility			utility/in_place
+in_place_type_t	utility			utility/in_place
+in_range	utility	function		utility/in_range
+in_value_result	algorithm			algorithm/ranges/return_types/in_value_result
+includes	algorithm	algorithm		algorithm/includes
+inclusive_scan	numeric	function		algorithm/inclusive_scan
+incrementable	iterator	concept		iterator/incrementable
+incrementable_traits	iterator	class		iterator/incrementable_traits
+independent_bits_engine	random	class		numeric/random/independent_bits_engine
+indices	ranges			ranges/iota_view
+indirect	memory	class		memory/indirect
+indirect_binary_predicate	iterator	concept		iterator/indirect_binary_predicate
+indirect_equivalence_relation	iterator	concept		iterator/indirect_equivalence_relation
+indirect_result_t	iterator	alias		iterator/indirect_result_t
+indirect_strict_weak_order	iterator	concept		iterator/indirect_strict_weak_order
+indirect_unary_predicate	iterator	concept		iterator/indirect_unary_predicate
+indirectly_comparable	iterator	concept		iterator/indirectly_comparable
+indirectly_copyable	iterator	concept		iterator/indirectly_copyable
+indirectly_copyable_storable	iterator	concept		iterator/indirectly_copyable_storable
+indirectly_movable	iterator	concept		iterator/indirectly_movable
+indirectly_movable_storable	iterator	concept		iterator/indirectly_movable_storable
+indirectly_readable	iterator	concept		iterator/indirectly_readable
+indirectly_readable_traits	iterator	class		iterator/indirectly_readable_traits
+indirectly_regular_unary_invocable	iterator	concept		iterator/indirectly_unary_invocable
+indirectly_swappable	iterator	concept		iterator/indirectly_swappable
+indirectly_unary_invocable	iterator	concept		iterator/indirectly_unary_invocable
+indirectly_writable	iterator	concept		iterator/indirectly_writable
+info	meta			meta/info
+initializer_list	initializer_list	class		utility/initializer_list
+inner_product	numeric	function		algorithm/inner_product
+inout_ptr_t	memory	class		memory/inout_ptr_t
+inout_ptr_t::inout_ptr	memory	function		memory/inout_ptr_t/inout_ptr
+inplace_merge	algorithm	algorithm		algorithm/inplace_merge
+inplace_stop_callback	stop_token	class		thread/inplace_stop_callback
+inplace_stop_source	stop_token	class		thread/inplace_stop_source
+inplace_stop_token	stop_token	class		thread/inplace_stop_token
+inplace_vector	inplace_vector	class		container/inplace_vector
+input_iterator	iterator	concept		iterator/input_iterator
+input_iterator_tag	iterator	class		iterator/iterator_tags
+input_or_output_iterator	iterator	concept		iterator/input_or_output_iterator
+input_range	ranges			ranges/input_range
+insert_iterator	iterator	class		iterator/insert_iterator
+inserter	iterator	function		iterator/inserter
+integer_sequence	utility	class		utility/integer_sequence
+integral	concepts	concept		concepts/integral
+integral_constant	type_traits	class		types/integral_constant
+internal	ios	function		io/manip/left
+invalid_argument	stdexcept	class		error/invalid_argument
+invocable	concepts	concept		concepts/invocable
+invoke	functional	function		utility/functional/invoke
+invoke_default_contract_violation_handler	contracts	function		contract/invoke_default_contract_violation_handler
+invoke_r	functional	function		utility/functional/invoke
+invoke_result	meta	function		meta/invoke_result
+invoke_result	type_traits	class		types/result_of
+io_errc	ios	enum		io/io_errc
+io_state	ios			io/ios_base
+ios	ios			io/basic_ios
+ios_base	ios	class		io/ios_base
+iostream	istream			io/basic_iostream
+iostream_category	ios	function		io/iostream_category
+iota	numeric	algorithm		algorithm/iota
+iota_view	ranges			ranges/iota_view
+is_abstract	type_traits	class		types/is_abstract
+is_abstract_type	meta	function		meta/is_abstract_type
+is_accessible	meta	function		meta/is_accessible
+is_aggregate	type_traits	class		types/is_aggregate
+is_aggregate_type	meta	function		meta/is_aggregate_type
+is_alias_template	meta	function		meta/is_alias_template
+is_am	chrono	function		chrono/hour_fun
+is_annotation	meta	function		meta/is_annotation
+is_applicable	type_traits	class		types/is_applicable
+is_applicable_type	meta	function		meta/is_applicable_type
+is_arithmetic	type_traits	class		types/is_arithmetic
+is_arithmetic_type	meta	function		meta/is_arithmetic_type
+is_array	type_traits	class		types/is_array
+is_array_type	meta	function		meta/is_array_type
+is_assignable	type_traits	class		types/is_assignable
+is_assignable_type	meta	function		meta/is_assignable_type
+is_assignment	meta	function		meta/is_assignment
+is_base	meta	function		meta/is_base
+is_base_of	type_traits	class		types/is_base_of
+is_base_of_type	meta	function		meta/is_base_of_type
+is_bind_expression	functional	class		utility/functional/is_bind_expression
+is_bit_field	meta	function		meta/is_bit_field
+is_block_file	filesystem	function		filesystem/is_block_file
+is_bounded_array	type_traits	class		types/is_bounded_array
+is_bounded_array_type	meta	function		meta/is_bounded_array_type
+is_character_file	filesystem	function		filesystem/is_character_file
+is_class	type_traits	class		types/is_class
+is_class_member	meta	function		meta/is_class_member
+is_class_template	meta	function		meta/is_class_template
+is_class_type	meta	function		meta/is_class_type
+is_clock	chrono	class		chrono/is_clock
+is_clock_v	chrono	class		chrono/is_clock
+is_complete_type	meta	function		meta/is_complete_type
+is_compound	type_traits	class		types/is_compound
+is_compound_type	meta	function		meta/is_compound_type
+is_concept	meta	function		meta/is_concept
+is_const	meta	function		meta/is_const
+is_const_type	meta	function		meta/is_const_type
+is_constant_evaluated	type_traits	function		types/is_constant_evaluated
+is_constructible	type_traits	class		types/is_constructible
+is_constructible_type	meta	function		meta/is_constructible_type
+is_constructor	meta	function		meta/is_constructor
+is_constructor_template	meta	function		meta/is_constructor_template
+is_conversion_function	meta	function		meta/is_conversion_function
+is_conversion_function_template	meta	function		meta/is_conversion_function_template
+is_convertible	type_traits	class		types/is_convertible
+is_convertible_type	meta	function		meta/is_convertible_type
+is_copy_assignable	type_traits	class		types/is_copy_assignable
+is_copy_assignable_type	meta	function		meta/is_copy_assignable_type
+is_copy_assignment	meta	function		meta/is_assignment
+is_copy_constructible	type_traits	class		types/is_copy_constructible
+is_copy_constructible_type	meta	function		meta/is_copy_constructible_type
+is_copy_constructor	meta	function		meta/is_constructor
+is_corresponding_member	type_traits	function		types/is_corresponding_member
+is_data_member_spec	meta	function		meta/is_data_member_spec
+is_debugger_present	debugging	function		utility/is_debugger_present
+is_default_constructible	type_traits	class		types/is_default_constructible
+is_default_constructible_type	meta	function		meta/is_default_constructible_type
+is_default_constructor	meta	function		meta/is_constructor
+is_defaulted	meta	function		meta/is_defaulted
+is_deleted	meta	function		meta/is_deleted
+is_destructible	type_traits	class		types/is_destructible
+is_destructible_type	meta	function		meta/is_destructible_type
+is_destructor	meta	function		meta/is_destructor
+is_directory	filesystem	function		filesystem/is_directory
+is_empty	type_traits	class		types/is_empty
+is_empty_type	meta	function		meta/is_empty_type
+is_enum	type_traits	class		types/is_enum
+is_enum_type	meta	function		meta/is_enum_type
+is_enumerable_type	meta	function		meta/is_enumerable_type
+is_enumerator	meta	function		meta/is_enumerator
+is_eq	compare	function		utility/compare/named_comparison_functions
+is_error_code_enum<std::io_errc>	ios	class		io/io_errc/is_error_code_enum
+is_execution_policy	execution	class		algorithm/is_execution_policy
+is_explicit	meta	function		meta/is_explicit
+is_explicit_object_parameter	meta	function		meta/is_explicit_object_parameter
+is_fifo	filesystem	function		filesystem/is_fifo
+is_final	meta	function		meta/is_final
+is_final_type	meta	function		meta/is_final_type
+is_floating_point	type_traits	class		types/is_floating_point
+is_floating_point_type	meta	function		meta/is_floating_point_type
+is_function	meta	function		meta/is_function
+is_function_parameter	meta	function		meta/is_function_parameter
+is_function_template	meta	function		meta/is_function_template
+is_function_type	meta	function		meta/is_function_type
+is_fundamental	type_traits	class		types/is_fundamental
+is_fundamental_type	meta	function		meta/is_fundamental_type
+is_gt	compare	function		utility/compare/named_comparison_functions
+is_gteq	compare	function		utility/compare/named_comparison_functions
+is_heap	algorithm	algorithm		algorithm/is_heap
+is_heap_until	algorithm	algorithm		algorithm/is_heap_until
+is_implicit_lifetime	type_traits	class		types/is_implicit_lifetime
+is_implicit_lifetime_type	meta	function		meta/is_implicit_lifetime_type
+is_integral	type_traits	class		types/is_integral
+is_integral_type	meta	function		meta/is_integral_type
+is_invocable	type_traits	class		types/is_invocable
+is_invocable_r	type_traits	class		types/is_invocable
+is_invocable_r_type	meta	function		meta/is_invocable_type
+is_invocable_type	meta	function		meta/is_invocable_type
+is_layout_compatible	type_traits	class		types/is_layout_compatible
+is_layout_compatible_type	meta	function		meta/is_layout_compatible_type
+is_literal_operator	meta	function		meta/is_literal_operator
+is_literal_operator_template	meta	function		meta/is_literal_operator_template
+is_literal_type	type_traits	class		types/is_literal_type
+is_lt	compare	function		utility/compare/named_comparison_functions
+is_lteq	compare	function		utility/compare/named_comparison_functions
+is_lvalue_reference	type_traits	class		types/is_lvalue_reference
+is_lvalue_reference_qualified	meta	function		meta/is_lvalue_reference_qualified
+is_lvalue_reference_type	meta	function		meta/is_lvalue_reference_type
+is_member_function_pointer	type_traits	class		types/is_member_function_pointer
+is_member_function_pointer_type	meta	function		meta/is_member_function_pointer_type
+is_member_object_pointer	type_traits	class		types/is_member_object_pointer
+is_member_object_pointer_type	meta	function		meta/is_member_object_pointer_type
+is_member_pointer	type_traits	class		types/is_member_pointer
+is_member_pointer_type	meta	function		meta/is_member_pointer_type
+is_move_assignable	type_traits	class		types/is_move_assignable
+is_move_assignable_type	meta	function		meta/is_move_assignable_type
+is_move_assignment	meta	function		meta/is_assignment
+is_move_constructible	type_traits	class		types/is_move_constructible
+is_move_constructible_type	meta	function		meta/is_move_constructible_type
+is_move_constructor	meta	function		meta/is_constructor
+is_mutable_member	meta	function		meta/is_mutable_member
+is_namespace	meta	function		meta/is_namespace
+is_namespace_alias	meta	function		meta/is_namespace_alias
+is_namespace_member	meta	function		meta/is_namespace_member
+is_neq	compare	function		utility/compare/named_comparison_functions
+is_noexcept	meta	function		meta/is_noexcept
+is_nonstatic_data_member	meta	function		meta/is_nonstatic_data_member
+is_nothrow_applicable	type_traits	class		types/is_applicable
+is_nothrow_applicable_type	meta	function		meta/is_applicable_type
+is_nothrow_assignable	type_traits	class		types/is_assignable
+is_nothrow_assignable_type	meta	function		meta/is_assignable_type
+is_nothrow_constructible	type_traits	class		types/is_constructible
+is_nothrow_constructible_type	meta	function		meta/is_constructible_type
+is_nothrow_convertible	type_traits	class		types/is_convertible
+is_nothrow_convertible_type	meta	function		meta/is_convertible_type
+is_nothrow_copy_assignable	type_traits	class		types/is_copy_assignable
+is_nothrow_copy_assignable_type	meta	function		meta/is_copy_assignable_type
+is_nothrow_copy_constructible	type_traits	class		types/is_copy_constructible
+is_nothrow_copy_constructible_type	meta	function		meta/is_copy_constructible_type
+is_nothrow_default_constructible	type_traits	class		types/is_default_constructible
+is_nothrow_default_constructible_type	meta	function		meta/is_default_constructible_type
+is_nothrow_destructible	type_traits	class		types/is_destructible
+is_nothrow_destructible_type	meta	function		meta/is_destructible_type
+is_nothrow_invocable	type_traits	class		types/is_invocable
+is_nothrow_invocable_r	type_traits	class		types/is_invocable
+is_nothrow_invocable_r_type	meta	function		meta/is_invocable_type
+is_nothrow_invocable_type	meta	function		meta/is_invocable_type
+is_nothrow_move_assignable	type_traits	class		types/is_move_assignable
+is_nothrow_move_assignable_type	meta	function		meta/is_move_assignable_type
+is_nothrow_move_constructible	type_traits	class		types/is_move_constructible
+is_nothrow_move_constructible_type	meta	function		meta/is_move_constructible_type
+is_nothrow_swappable	type_traits	class		types/is_swappable
+is_nothrow_swappable_type	meta	function		meta/is_swappable_with_type
+is_nothrow_swappable_with	type_traits	class		types/is_swappable
+is_nothrow_swappable_with_type	meta	function		meta/is_swappable_with_type
+is_null_pointer	type_traits	class		types/is_null_pointer
+is_null_pointer_type	meta	function		meta/is_null_pointer_type
+is_object	meta	function		meta/is_object
+is_object_type	meta	function		meta/is_object_type
+is_operator_function	meta	function		meta/is_operator_function
+is_operator_function_template	meta	function		meta/is_operator_function_template
+is_other	filesystem	function		filesystem/is_other
+is_override	meta	function		meta/is_override
+is_partitioned	algorithm	algorithm		algorithm/is_partitioned
+is_permutation	algorithm	algorithm		algorithm/is_permutation
+is_placeholder	functional	class		utility/functional/is_placeholder
+is_pm	chrono	function		chrono/hour_fun
+is_pod	type_traits	class		types/is_pod
+is_pointer	type_traits	class		types/is_pointer
+is_pointer_interconvertible_base_of	type_traits	class		types/is_pointer_interconvertible_base_of
+is_pointer_interconvertible_base_of_type	meta	function		meta/is_pointer_interconvertible_base_of_type
+is_pointer_interconvertible_with_class	type_traits	function		types/is_pointer_interconvertible_with_class
+is_pointer_type	meta	function		meta/is_pointer_type
+is_polymorphic	type_traits	class		types/is_polymorphic
+is_polymorphic_type	meta	function		meta/is_polymorphic_type
+is_private	meta	function		meta/is_public
+is_protected	meta	function		meta/is_public
+is_public	meta	function		meta/is_public
+is_pure_virtual	meta	function		meta/is_pure_virtual
+is_reference	type_traits	class		types/is_reference
+is_reference_type	meta	function		meta/is_reference_type
+is_reflection	type_traits	class		types/is_reflection
+is_reflection_type	meta	function		meta/is_reflection_type
+is_regular_file	filesystem	function		filesystem/is_regular_file
+is_rvalue_reference	type_traits	class		types/is_rvalue_reference
+is_rvalue_reference_qualified	meta	function		meta/is_lvalue_reference_qualified
+is_rvalue_reference_type	meta	function		meta/is_rvalue_reference_type
+is_same	type_traits	class		types/is_same
+is_same_type	meta	function		meta/is_same_type
+is_scalar	type_traits	class		types/is_scalar
+is_scalar_type	meta	function		meta/is_scalar_type
+is_scoped_enum	type_traits	class		types/is_scoped_enum
+is_scoped_enum_type	meta	function		meta/is_scoped_enum_type
+is_signed	type_traits	class		types/is_signed
+is_signed_type	meta	function		meta/is_signed_type
+is_socket	filesystem	function		filesystem/is_socket
+is_sorted	algorithm	algorithm		algorithm/is_sorted
+is_sorted_until	algorithm	algorithm		algorithm/is_sorted_until
+is_special_member_function	meta	function		meta/is_special_member_function
+is_standard_layout	type_traits	class		types/is_standard_layout
+is_standard_layout_type	meta	function		meta/is_standard_layout_type
+is_static_member	meta	function		meta/is_static_member
+is_string_literal	meta	function		meta/is_string_literal
+is_structural_type	meta	function		meta/is_structural_type
+is_structured_binding	meta	function		meta/is_structured_binding
+is_sufficiently_aligned	memory	function		memory/is_sufficiently_aligned
+is_swappable	type_traits	class		types/is_swappable
+is_swappable_type	meta	function		meta/is_swappable_with_type
+is_swappable_with	type_traits	class		types/is_swappable
+is_swappable_with_type	meta	function		meta/is_swappable_with_type
+is_symlink	filesystem	function		filesystem/is_symlink
+is_template	meta	function		meta/is_template
+is_trivial	type_traits	class		types/is_trivial
+is_trivially_assignable	type_traits	class		types/is_assignable
+is_trivially_assignable_type	meta	function		meta/is_assignable_type
+is_trivially_constructible	type_traits	class		types/is_constructible
+is_trivially_constructible_type	meta	function		meta/is_constructible_type
+is_trivially_copy_assignable	type_traits	class		types/is_copy_assignable
+is_trivially_copy_assignable_type	meta	function		meta/is_copy_assignable_type
+is_trivially_copy_constructible	type_traits	class		types/is_copy_constructible
+is_trivially_copy_constructible_type	meta	function		meta/is_copy_constructible_type
+is_trivially_copyable	type_traits	class		types/is_trivially_copyable
+is_trivially_copyable_type	meta	function		meta/is_trivially_copyable_type
+is_trivially_default_constructible	type_traits	class		types/is_default_constructible
+is_trivially_default_constructible_type	meta	function		meta/is_default_constructible_type
+is_trivially_destructible	type_traits	class		types/is_destructible
+is_trivially_destructible_type	meta	function		meta/is_destructible_type
+is_trivially_move_assignable	type_traits	class		types/is_move_assignable
+is_trivially_move_assignable_type	meta	function		meta/is_move_assignable_type
+is_trivially_move_constructible	type_traits	class		types/is_move_constructible
+is_trivially_move_constructible_type	meta	function		meta/is_move_constructible_type
+is_type	meta	function		meta/is_type
+is_type_alias	meta	function		meta/is_type_alias
+is_unbounded_array	type_traits	class		types/is_unbounded_array
+is_unbounded_array_type	meta	function		meta/is_unbounded_array_type
+is_union	type_traits	class		types/is_union
+is_union_type	meta	function		meta/is_union_type
+is_unsigned	type_traits	class		types/is_unsigned
+is_unsigned_type	meta	function		meta/is_unsigned_type
+is_user_declared	meta	function		meta/is_user_declared
+is_user_provided	meta	function		meta/is_user_provided
+is_value	meta	function		meta/is_value
+is_vararg_function	meta	function		meta/is_vararg_function
+is_variable	meta	function		meta/is_variable
+is_variable_template	meta	function		meta/is_variable_template
+is_virtual	meta	function		meta/is_virtual
+is_virtual_base_of	type_traits	class		types/is_virtual_base_of
+is_virtual_base_of_type	meta	function		meta/is_virtual_base_of_type
+is_void	type_traits	class		types/is_void
+is_void_type	meta	function		meta/is_void_type
+is_volatile	meta	function		meta/is_volatile
+is_volatile_type	meta	function		meta/is_volatile_type
+is_within_lifetime	type_traits	function		types/is_within_lifetime
+isalnum	cctype	function		string/byte/isalnum
+isalnum	locale	function		locale/isalnum
+isalpha	cctype	function		string/byte/isalpha
+isalpha	locale	function		locale/isalpha
+isblank	cctype	function		string/byte/isblank
+isblank	locale	function		locale/isblank
+iscntrl	cctype	function		string/byte/iscntrl
+iscntrl	locale	function		locale/iscntrl
+isdigit	cctype	function		string/byte/isdigit
+isdigit	locale	function		locale/isdigit
+isfinite	cmath	function		numeric/math/isfinite
+isgraph	cctype	function		string/byte/isgraph
+isgraph	locale	function		locale/isgraph
+isgreater	cmath	function		numeric/math/isgreater
+isgreaterequal	cmath	function		numeric/math/isgreaterequal
+isinf	cmath	function		numeric/math/isinf
+isless	cmath	function		numeric/math/isless
+islessequal	cmath	function		numeric/math/islessequal
+islessgreater	cmath	function		numeric/math/islessgreater
+islower	cctype	function		string/byte/islower
+islower	locale	function		locale/islower
+isnan	cmath	function		numeric/math/isnan
+isnormal	cmath	function		numeric/math/isnormal
+isprint	cctype	function		string/byte/isprint
+isprint	locale	function		locale/isprint
+ispunct	cctype	function		string/byte/ispunct
+ispunct	locale	function		locale/ispunct
+isspace	cctype	function		string/byte/isspace
+isspace	locale	function		locale/isspace
+istream	istream			io/basic_istream
+istream_iterator	iterator	class		iterator/istream_iterator
+istream_iterator::operator==	iterator	function		iterator/istream_iterator/operator_cmp
+istreambuf_iterator	iterator	class		iterator/istreambuf_iterator
+istreambuf_iterator::operator==	iterator	function		iterator/istreambuf_iterator/operator_cmp
+istringstream	sstream	alias		io/basic_istringstream
+istrstream	iosfwd	class		io/istrstream
+isunordered	cmath	function		numeric/math/isunordered
+isupper	cctype	function		string/byte/isupper
+isupper	locale	function		locale/isupper
+iswalnum	cwctype	function		string/wide/iswalnum
+iswalpha	cwctype	function		string/wide/iswalpha
+iswblank	cwctype	function		string/wide/iswblank
+iswcntrl	cwctype	function		string/wide/iswcntrl
+iswctype	cwctype	function		string/wide/iswctype
+iswdigit	cwctype	function		string/wide/iswdigit
+iswgraph	cwctype	function		string/wide/iswgraph
+iswlower	cwctype	function		string/wide/iswlower
+iswprint	cwctype	function		string/wide/iswprint
+iswpunct	cwctype	function		string/wide/iswpunct
+iswspace	cwctype	function		string/wide/iswspace
+iswupper	cwctype	function		string/wide/iswupper
+iswxdigit	cwctype	function		string/wide/iswxdigit
+isxdigit	cctype	function		string/byte/isxdigit
+isxdigit	locale	function		locale/isxdigit
+iter_common_reference_t	iterator	alias		iterator/iter_t
+iter_const_reference_t	iterator	alias		iterator/iter_t
+iter_difference_t	iterator	alias		iterator/iter_t
+iter_move	iterator			iterator/ranges/iter_move
+iter_reference_t	iterator	alias		iterator/iter_t
+iter_rvalue_reference_t	iterator	alias		iterator/iter_t
+iter_swap	algorithm	function		algorithm/iter_swap
+iter_value_t	iterator	alias		iterator/iter_t
+iterator	iterator	class		iterator/iterator
+iterator_traits	iterator	class		iterator/iterator_traits
+jmp_buf	csetjmp			utility/program/jmp_buf
+join	ranges			ranges/join_view
+join_view	ranges			ranges/join_view
+join_with	ranges			ranges/join_with_view
+join_with_view	ranges			ranges/join_with_view
+jthread	thread	class		thread/jthread
+keys	ranges			ranges/keys_view
+keys_view	ranges			ranges/keys_view
+kill_dependency	atomic	function		atomic/kill_dependency
+labs	cstdlib	function		numeric/math/abs
+laguerre	cmath	function		numeric/special_functions/laguerre
+laguerref	cmath	function		numeric/special_functions/laguerre
+laguerrel	cmath	function		numeric/special_functions/laguerre
+last	chrono	class		chrono/last_spec
+last_spec	chrono	class		chrono/last_spec
+last_write_time	filesystem	function		filesystem/last_write_time
+latch	latch	class		thread/latch
+launch	future	enum		thread/launch
+launder	new	function		utility/launder
+lazy_split	ranges			ranges/lazy_split_view
+lazy_split_view	ranges			ranges/lazy_split_view
+lcm	numeric	function		numeric/lcm
+lconv	clocale	class		locale/lconv
+ldexp	cmath	function		numeric/math/ldexp
+ldexpf	cmath	function		numeric/math/ldexp
+ldexpl	cmath	function		numeric/math/ldexp
+ldiv	cstdlib	function		numeric/math/div
+ldiv_t	cstdlib			numeric/math/div
+leap_second	chrono	class		chrono/leap_second
+leap_second::hash<std::chrono::leap_second>	chrono	class		chrono/leap_second/hash
+leap_second::operator==	chrono	function		chrono/leap_second/operator_cmp
+leap_second_info	chrono			chrono/utc_clock/leap_second_info
+left	ios	function		io/manip/left
+legendre	cmath	function		numeric/special_functions/legendre
+legendref	cmath	function		numeric/special_functions/legendre
+legendrel	cmath	function		numeric/special_functions/legendre
+length_error	stdexcept	class		error/length_error
+lerp	cmath	function		numeric/lerp
+less	functional	class		utility/functional/less
+less_equal	functional	class		utility/functional/less_equal
+lexicographical_compare	algorithm	algorithm		algorithm/lexicographical_compare
+lexicographical_compare_three_way	algorithm	function		algorithm/lexicographical_compare_three_way
+lgamma	cmath	function		numeric/math/lgamma
+lgammaf	cmath	function		numeric/math/lgamma
+lgammal	cmath	function		numeric/math/lgamma
+linear_congruential_engine	random	class		numeric/random/linear_congruential_engine
+list	list	class		container/list
+list::operator==	list	function		container/list/operator_cmp
+llabs	cstdlib	function		numeric/math/abs
+lldiv	cstdlib	function		numeric/math/div
+lldiv_t	cstdlib			numeric/math/div
+llrint	cmath	function		numeric/math/rint
+llrintf	cmath	function		numeric/math/rint
+llrintl	cmath	function		numeric/math/rint
+llround	cmath	function		numeric/math/round
+llroundf	cmath	function		numeric/math/round
+llroundl	cmath	function		numeric/math/round
+local_info	chrono	class		chrono/local_info
+local_info::formatter<std::chrono::local_info>	chrono	class		chrono/local_info/formatter
+local_info::operator<<	chrono	function		chrono/local_info/operator_ltlt
+local_seconds	chrono			chrono/local_t
+local_t	chrono	class		chrono/local_t
+local_t::formatter<std::chrono::local_time>	chrono	class		chrono/local_t/formatter
+local_t::from_stream	chrono	function		chrono/local_t/from_stream
+local_time_format	chrono			chrono/local_t/formatter
+locale	locale	class		locale/locale
+localeconv	clocale	function		locale/localeconv
+localtime	ctime	function		chrono/c/localtime
+localtime_r	ctime	function		chrono/c/localtime
+locate_zone	chrono	function		chrono/locate_zone
+lock	mutex	function		thread/lock
+lock_guard	mutex	class		thread/lock_guard
+log	cmath	function		numeric/math/log
+log	complex	function		numeric/complex/log
+log	valarray	function		numeric/valarray/log
+log10	cmath	function		numeric/math/log10
+log10	complex	function		numeric/complex/log10
+log10	valarray	function		numeric/valarray/log10
+log10f	cmath	function		numeric/math/log10
+log10l	cmath	function		numeric/math/log10
+log1p	cmath	function		numeric/math/log1p
+log1pf	cmath	function		numeric/math/log1p
+log1pl	cmath	function		numeric/math/log1p
+log2	cmath	function		numeric/math/log2
+log2f	cmath	function		numeric/math/log2
+log2l	cmath	function		numeric/math/log2
+logb	cmath	function		numeric/math/logb
+logbf	cmath	function		numeric/math/logb
+logbl	cmath	function		numeric/math/logb
+logf	cmath	function		numeric/math/log
+logic_error	stdexcept	class		error/logic_error
+logical_and	functional	class		utility/functional/logical_and
+logical_not	functional	class		utility/functional/logical_not
+logical_or	functional	class		utility/functional/logical_or
+logl	cmath	function		numeric/math/log
+lognormal_distribution	random	class		numeric/random/lognormal_distribution
+longjmp	csetjmp	function		utility/program/longjmp
+lower_bound	algorithm	algorithm		algorithm/lower_bound
+lrint	cmath	function		numeric/math/rint
+lrintf	cmath	function		numeric/math/rint
+lrintl	cmath	function		numeric/math/rint
+lround	cmath	function		numeric/math/round
+lroundf	cmath	function		numeric/math/round
+lroundl	cmath	function		numeric/math/round
+make12	chrono	function		chrono/hour_fun
+make24	chrono	function		chrono/hour_fun
+make_const_iterator	iterator	function		iterator/make_const_iterator
+make_const_sentinel	iterator	function		iterator/make_const_sentinel
+make_error_code	ios	function		io/io_errc/make_error_code
+make_error_code	system_error	function		error/errc/make_error_code
+make_error_condition	ios	function		io/io_errc/make_error_condition
+make_error_condition	system_error	function		error/errc/make_error_condition
+make_exception_ptr	exception	function		error/make_exception_ptr
+make_format_args	format	function		utility/format/make_format_args
+make_from_tuple	tuple	function		utility/make_from_tuple
+make_heap	algorithm	algorithm		algorithm/make_heap
+make_move_iterator	iterator	function		iterator/make_move_iterator
+make_obj_using_allocator	memory	function		memory/make_obj_using_allocator
+make_pair	utility	function		utility/pair/make_pair
+make_reverse_iterator	iterator	function		iterator/make_reverse_iterator
+make_shared_for_overwrite	memory	function		memory/shared_ptr/make_shared
+make_signed	meta	function		meta/make_signed
+make_unique_for_overwrite	memory	function		memory/unique_ptr/make_unique
+make_unsigned	meta	function		meta/make_unsigned
+make_wformat_args	format	function		utility/format/make_format_args
+malloc	cstdlib	function		memory/c/malloc
+map	map	class		container/map
+map::operator==	map	function		container/map/operator_cmp
+match_flag_type	regex			regex/match_flag_type
+match_results	regex	class		regex/match_results
+match_results::operator==	regex	function		regex/match_results/operator_cmp
+math_errhandling	cmath	constant		numeric/math/math_errhandling
+max	algorithm	algorithm		algorithm/max
+max_align_t	cstddef			types/max_align_t
+max_element	algorithm	algorithm		algorithm/max_element
+mblen	cstdlib	function		string/multibyte/mblen
+mbrlen	cwchar	function		string/multibyte/mbrlen
+mbrtoc16	cuchar	function		string/multibyte/mbrtoc16
+mbrtoc32	cuchar	function		string/multibyte/mbrtoc32
+mbrtoc8	cuchar	function		string/multibyte/mbrtoc8
+mbrtowc	cwchar	function		string/multibyte/mbrtowc
+mbsinit	cwchar	function		string/multibyte/mbsinit
+mbsrtowcs	cwchar	function		string/multibyte/mbsrtowcs
+mbstate_t	cuchar	class		string/multibyte/mbstate_t
+mbstowcs	cstdlib	function		string/multibyte/mbstowcs
+mbtowc	cstdlib	function		string/multibyte/mbtowc
+mdspan	mdspan	class		container/mdspan
+mdspan::default_accessor	mdspan	class		container/mdspan/default_accessor
+mdspan::dextents	mdspan	alias		container/mdspan/extents
+mdspan::extents	mdspan	class		container/mdspan/extents
+mdspan::full_extent	mdspan			container/mdspan/full_extent
+mdspan::layout_left	mdspan	class		container/mdspan/layout_left
+mdspan::layout_left_padded	mdspan	class		container/mdspan/layout_left_padded
+mdspan::layout_right	mdspan	class		container/mdspan/layout_right
+mdspan::layout_right_padded	mdspan	class		container/mdspan/layout_right_padded
+mdspan::layout_stride	mdspan	class		container/mdspan/layout_stride
+mdspan::strided_slice	mdspan	class		container/mdspan/strided_slice
+mdspan::submdspan_mapping_result	mdspan	class		container/mdspan/submdspan_mapping_result
+mem_fn	functional	function		utility/functional/mem_fn
+mem_fun	functional	function		utility/functional/mem_fun
+mem_fun1_ref_t	functional	class		utility/functional/mem_fun_ref_t
+mem_fun1_t	functional	class		utility/functional/mem_fun_t
+mem_fun_ref	functional	function		utility/functional/mem_fun_ref
+mem_fun_ref_t	functional	class		utility/functional/mem_fun_ref_t
+mem_fun_t	functional	class		utility/functional/mem_fun_t
+member_offset	meta	class		meta/member_offset
+members_of	meta	function		meta/members_of
+memchr	cstring	function		string/byte/memchr
+memcmp	cstring	function		string/byte/memcmp
+memcpy	cstring	function		string/byte/memcpy
+memmove	cstring	function		string/byte/memmove
+memory_order	atomic	enum		atomic/memory_order
+memory_resource	memory_resource	class		memory/memory_resource
+memset	cstring	function		string/byte/memset
+memset_explicit	cstring	function		string/byte/memset
+merge	algorithm	algorithm		algorithm/merge
+mergeable	iterator	concept		iterator/mergeable
+mersenne_twister_engine	random	class		numeric/random/mersenne_twister_engine
+messages	locale	class		locale/messages
+messages_base	locale	class		locale/messages_base
+messages_byname	locale	class		locale/messages_byname
+meta::exception	meta	class		meta/exception
+midpoint	numeric	function		numeric/midpoint
+min	algorithm	algorithm		algorithm/min
+min_element	algorithm	algorithm		algorithm/min_element
+min_max_result	algorithm			algorithm/ranges/return_types/min_max_result
+minmax	algorithm	algorithm		algorithm/minmax
+minmax_element	algorithm	algorithm		algorithm/minmax_element
+minus	functional	class		utility/functional/minus
+mismatch	algorithm	algorithm		algorithm/mismatch
+mktime	ctime	function		chrono/c/mktime
+modf	cmath	function		numeric/math/modf
+modff	cmath	function		numeric/math/modf
+modfl	cmath	function		numeric/math/modf
+modulus	functional	class		utility/functional/modulus
+money_base	locale	class		locale/money_base
+money_get	locale	class		locale/money_get
+money_put	locale	class		locale/money_put
+moneypunct	locale	class		locale/moneypunct
+moneypunct_byname	locale	class		locale/moneypunct_byname
+monostate	utility	class		utility/variant/monostate
+monotonic_buffer_resource	memory_resource	class		memory/monotonic_buffer_resource
+month	chrono	class		chrono/month
+month::formatter<std::chrono::month>	chrono	class		chrono/month/formatter
+month::from_stream	chrono	function		chrono/month/from_stream
+month::hash<std::chrono::month>	chrono	class		chrono/month/hash
+month::operator+	chrono	function		chrono/month/operator_arith_2
+month::operator<<	chrono	function		chrono/month/operator_ltlt
+month::operator==	chrono	function		chrono/month/operator_cmp
+month_day	chrono	class		chrono/month_day
+month_day::formatter<std::chrono::month_day>	chrono	class		chrono/month_day/formatter
+month_day::from_stream	chrono	function		chrono/month_day/from_stream
+month_day::hash<std::chrono::month_day>	chrono	class		chrono/month_day/hash
+month_day::operator<<	chrono	function		chrono/month_day/operator_ltlt
+month_day::operator==	chrono	function		chrono/month_day/operator_cmp
+month_day_last	chrono	class		chrono/month_day_last
+month_day_last::formatter<std::chrono::month_day_last>	chrono	class		chrono/month_day_last/formatter
+month_day_last::hash<std::chrono::month_day_last>	chrono	class		chrono/month_day_last/hash
+month_day_last::operator<<	chrono	function		chrono/month_day_last/operator_ltlt
+month_day_last::operator==	chrono	function		chrono/month_day_last/operator_cmp
+month_weekday	chrono	class		chrono/month_weekday
+month_weekday::formatter<std::chrono::month_weekday>	chrono	class		chrono/month_weekday/formatter
+month_weekday::hash<std::chrono::month_weekday>	chrono	class		chrono/month_weekday/hash
+month_weekday::operator<<	chrono	function		chrono/month_weekday/operator_ltlt
+month_weekday::operator==	chrono	function		chrono/month_weekday/operator_cmp
+month_weekday_last	chrono	class		chrono/month_weekday_last
+month_weekday_last::formatter<std::chrono::month_weekday_last>	chrono	class		chrono/month_weekday_last/formatter
+month_weekday_last::hash<std::chrono::month_weekday_last>	chrono	class		chrono/month_weekday_last/hash
+month_weekday_last::operator<<	chrono	function		chrono/month_weekday_last/operator_ltlt
+month_weekday_last::operator==	chrono	function		chrono/month_weekday_last/operator_cmp
+movable	concepts	concept		concepts/movable
+move	utility	function		utility/move
+move_backward	algorithm	algorithm		algorithm/move_backward
+move_constructible	concepts	concept		concepts/move_constructible
+move_if_noexcept	utility	function		utility/move_if_noexcept
+move_iterator	iterator	class		iterator/move_iterator
+move_iterator::operator+	iterator	function		iterator/move_iterator/operator%2B
+move_iterator::operator-	iterator	function		iterator/move_iterator/operator-
+move_iterator::operator==	iterator	function		iterator/move_iterator/operator_cmp
+move_only_function	functional	class		utility/functional/move_only_function
+move_sentinel	iterator	class		iterator/move_sentinel
+ms	chrono			chrono/operator%22%22ms
+multimap	map	class		container/multimap
+multimap::operator==	map	function		container/multimap/operator_cmp
+multiplies	functional	class		utility/functional/multiplies
+multiset	set	class		container/multiset
+multiset::operator==	set	function		container/multiset/operator_cmp
+mutex	mutex	class		thread/mutex
+nanf	cfloat	constant		numeric/math/NAN
+nanl	cfloat	constant		numeric/math/NAN
+nearbyint	cmath	function		numeric/math/nearbyint
+nearbyintf	cmath	function		numeric/math/nearbyint
+nearbyintl	cmath	function		numeric/math/nearbyint
+negate	functional	class		utility/functional/negate
+negation	type_traits	class		types/negation
+negative_binomial_distribution	random	class		numeric/random/negative_binomial_distribution
+nested_exception	exception	class		error/nested_exception
+never_stop_token	stop_token	class		thread/never_stop_token
+new_delete_resource	memory_resource	function		memory/new_delete_resource
+new_handler	new			memory/new/new_handler
+next	iterator	function		iterator/next
+next_permutation	algorithm	algorithm		algorithm/next_permutation
+nextafter	cmath	function		numeric/math/nextafter
+nextafterf	cmath	function		numeric/math/nextafter
+nextafterl	cmath	function		numeric/math/nextafter
+nexttoward	cmath	function		numeric/math/nextafter
+nexttowardf	cmath	function		numeric/math/nextafter
+nexttowardl	cmath	function		numeric/math/nextafter
+noboolalpha	ios	function		io/manip/boolalpha
+noemit_on_flush	ostream	function		io/manip/emit_on_flush
+none_of	algorithm	algorithm		algorithm/all_any_none_of
+nonexistent_local_time	chrono	class		chrono/nonexistent_local_time
+nonstatic_data_members_of	meta	function		meta/nonstatic_data_members_of
+nontype	utility			utility/nontype
+nontype_t	utility			utility/nontype
+noop_coroutine	coroutine	function		coroutine/noop_coroutine
+noop_coroutine_handle	coroutine			coroutine/coroutine_handle
+noop_coroutine_promise	coroutine	class		coroutine/noop_coroutine_promise
+normal_distribution	random	class		numeric/random/normal_distribution
+noshowbase	ios	function		io/manip/showbase
+noshowpoint	ios	function		io/manip/showpoint
+noshowpos	ios	function		io/manip/showpos
+noskipws	ios	function		io/manip/skipws
+nostopstate_t	stop_token			thread/stop_source/nostopstate
+not1	functional	function		utility/functional/not1
+not2	functional	function		utility/functional/not2
+not_equal_to	functional	class		utility/functional/not_equal_to
+not_fn	functional	function		utility/functional/not_fn
+nothrow	new			memory/new/nothrow
+nothrow_t	new			memory/new/nothrow
+notify_all_at_thread_exit	condition_variable	function		thread/notify_all_at_thread_exit
+nounitbuf	ios	function		io/manip/unitbuf
+nouppercase	ios	function		io/manip/uppercase
+ns	chrono			chrono/operator%22%22ns
+nth_element	algorithm	algorithm		algorithm/nth_element
+null_memory_resource	memory_resource	function		memory/null_memory_resource
+nullptr_t	cstddef			types/nullptr_t
+num_get	locale	class		locale/num_get
+num_put	locale	class		locale/num_put
+numeric_limits	limits	class		types/numeric_limits
+numeric_limits::float_denorm_style	limits	enum		types/numeric_limits/float_denorm_style
+numeric_limits::float_round_style	limits	enum		types/numeric_limits/float_round_style
+numpunct	locale	class		locale/numpunct
+numpunct_byname	locale	class		locale/numpunct_byname
+object_of	meta	function		meta/object_of
+oct	ios	function		io/manip/hex
+offset_of	meta	function		meta/offset_of
+offsetof	cstddef	function		types/offsetof
+once_flag	mutex	class		thread/once_flag
+operator	valarray	function		numeric/valarray/operator_arith3
+operator delete	new	function		memory/new/operator_delete
+operator delete[]	new	function		memory/new/operator_delete
+operator new	new	function		memory/new/operator_new
+operator new[]	new	function		memory/new/operator_new
+operator!=	array	function		container/array/operator_cmp
+operator!=	chrono	function		chrono/duration/operator_cmp
+operator!=	chrono	function		chrono/time_point/operator_cmp
+operator!=	complex	function		numeric/complex/operator_cmp
+operator!=	deque	function		container/deque/operator_cmp
+operator!=	forward_list	function		container/forward_list/operator_cmp
+operator!=	iterator	function		iterator/istream_iterator/operator_cmp
+operator!=	iterator	function		iterator/istreambuf_iterator/operator_cmp
+operator!=	iterator	function		iterator/move_iterator/operator_cmp
+operator!=	iterator	function		iterator/reverse_iterator/operator_cmp
+operator!=	list	function		container/list/operator_cmp
+operator!=	map	function		container/map/operator_cmp
+operator!=	map	function		container/multimap/operator_cmp
+operator!=	memory	function		memory/shared_ptr/operator_cmp
+operator!=	memory	function		memory/unique_ptr/operator_cmp
+operator!=	optional	function		utility/optional/operator_cmp
+operator!=	queue	function		container/queue/operator_cmp
+operator!=	regex	function		regex/match_results/operator_cmp
+operator!=	regex	function		regex/sub_match/operator_cmp
+operator!=	scoped_allocator	function		memory/scoped_allocator_adaptor/operator_cmp
+operator!=	set	function		container/multiset/operator_cmp
+operator!=	set	function		container/set/operator_cmp
+operator!=	stack	function		container/stack/operator_cmp
+operator!=	string	function		string/basic_string/operator_cmp
+operator!=	string_view	function		string/basic_string_view/operator_cmp
+operator!=	system_error	function		error/error_code/operator_cmp
+operator!=	system_error	function		error/error_condition/operator_cmp
+operator!=	tuple	function		utility/tuple/operator_cmp
+operator!=	unordered_map	function		container/unordered_map/operator_cmp
+operator!=	unordered_map	function		container/unordered_multimap/operator_cmp
+operator!=	unordered_set	function		container/unordered_multiset/operator_cmp
+operator!=	unordered_set	function		container/unordered_set/operator_cmp
+operator!=	utility	function		utility/pair/operator_cmp
+operator!=	utility	function		utility/rel_ops/operator_cmp
+operator!=	valarray	function		numeric/valarray/operator_cmp
+operator!=	variant	function		utility/variant/operator_cmp
+operator!=	vector	function		container/vector/operator_cmp
+operator""d	chrono	function		chrono/operator%22%22d
+operator""h	chrono	function		chrono/operator%22%22h
+operator""i	complex	function		numeric/complex/operator%22%22i
+operator""il	complex	function		numeric/complex/operator%22%22i
+operator""min	chrono	function		chrono/operator%22%22min
+operator""ms	chrono	function		chrono/operator%22%22ms
+operator""ns	chrono	function		chrono/operator%22%22ns
+operator""s	chrono	function		chrono/operator%22%22s
+operator""us	chrono	function		chrono/operator%22%22us
+operator""y	chrono	function		chrono/operator%22%22y
+operator%	chrono	function		chrono/duration/operator_arith4
+operator%	valarray	function		numeric/valarray/operator_arith3
+operator&	valarray	function		numeric/valarray/operator_arith3
+operator&&	valarray	function		numeric/valarray/operator_arith3
+operator*	chrono	function		chrono/duration/operator_arith4
+operator*	complex	function		numeric/complex/operator_arith2
+operator*	valarray	function		numeric/valarray/operator_arith3
+operator-	chrono	function		chrono/day/operator_arith_2
+operator-	chrono	function		chrono/duration/operator_arith4
+operator-	chrono	function		chrono/month/operator_arith_2
+operator-	chrono	function		chrono/time_point/operator_arith2
+operator-	chrono	function		chrono/weekday/operator_arith_2
+operator-	chrono	function		chrono/year/operator_arith_2
+operator-	chrono	function		chrono/year_month/operator_arith_2
+operator-	chrono	function		chrono/year_month_day/operator_arith_2
+operator-	chrono	function		chrono/year_month_day_last/operator_arith_2
+operator-	chrono	function		chrono/year_month_weekday/operator_arith_2
+operator-	chrono	function		chrono/year_month_weekday_last/operator_arith_2
+operator-	complex	function		numeric/complex/operator_arith2
+operator-	valarray	function		numeric/valarray/operator_arith3
+operator/	chrono	function		chrono/duration/operator_arith4
+operator/	chrono	function		chrono/operator_slash
+operator/	complex	function		numeric/complex/operator_arith2
+operator/	valarray	function		numeric/valarray/operator_arith3
+operator<	array	function		container/array/operator_cmp
+operator<	chrono	function		chrono/duration/operator_cmp
+operator<	chrono	function		chrono/leap_second/operator_cmp
+operator<	chrono	function		chrono/time_point/operator_cmp
+operator<	deque	function		container/deque/operator_cmp
+operator<	forward_list	function		container/forward_list/operator_cmp
+operator<	iterator	function		iterator/move_iterator/operator_cmp
+operator<	iterator	function		iterator/reverse_iterator/operator_cmp
+operator<	list	function		container/list/operator_cmp
+operator<	map	function		container/map/operator_cmp
+operator<	map	function		container/multimap/operator_cmp
+operator<	memory	function		memory/shared_ptr/operator_cmp
+operator<	memory	function		memory/unique_ptr/operator_cmp
+operator<	optional	function		utility/optional/operator_cmp
+operator<	queue	function		container/queue/operator_cmp
+operator<	regex	function		regex/sub_match/operator_cmp
+operator<	set	function		container/multiset/operator_cmp
+operator<	set	function		container/set/operator_cmp
+operator<	stack	function		container/stack/operator_cmp
+operator<	string	function		string/basic_string/operator_cmp
+operator<	string_view	function		string/basic_string_view/operator_cmp
+operator<	system_error	function		error/error_code/operator_cmp
+operator<	system_error	function		error/error_condition/operator_cmp
+operator<	tuple	function		utility/tuple/operator_cmp
+operator<	utility	function		utility/pair/operator_cmp
+operator<	valarray	function		numeric/valarray/operator_cmp
+operator<	variant	function		utility/variant/operator_cmp
+operator<	vector	function		container/vector/operator_cmp
+operator<<	chrono	function		chrono/file_clock/operator_ltlt
+operator<<	memory	function		memory/shared_ptr/operator_ltlt
+operator<<	memory	function		memory/unique_ptr/operator_ltlt
+operator<<	ostream	function		io/basic_ostream/operator_ltlt2
+operator<<	thread	function		thread/thread/id/operator_ltlt
+operator<<	valarray	function		numeric/valarray/operator_arith3
+operator<=	array	function		container/array/operator_cmp
+operator<=	chrono	function		chrono/duration/operator_cmp
+operator<=	chrono	function		chrono/leap_second/operator_cmp
+operator<=	chrono	function		chrono/time_point/operator_cmp
+operator<=	deque	function		container/deque/operator_cmp
+operator<=	forward_list	function		container/forward_list/operator_cmp
+operator<=	iterator	function		iterator/move_iterator/operator_cmp
+operator<=	iterator	function		iterator/reverse_iterator/operator_cmp
+operator<=	list	function		container/list/operator_cmp
+operator<=	map	function		container/map/operator_cmp
+operator<=	map	function		container/multimap/operator_cmp
+operator<=	memory	function		memory/shared_ptr/operator_cmp
+operator<=	memory	function		memory/unique_ptr/operator_cmp
+operator<=	optional	function		utility/optional/operator_cmp
+operator<=	queue	function		container/queue/operator_cmp
+operator<=	regex	function		regex/sub_match/operator_cmp
+operator<=	set	function		container/multiset/operator_cmp
+operator<=	set	function		container/set/operator_cmp
+operator<=	stack	function		container/stack/operator_cmp
+operator<=	string	function		string/basic_string/operator_cmp
+operator<=	string_view	function		string/basic_string_view/operator_cmp
+operator<=	tuple	function		utility/tuple/operator_cmp
+operator<=	utility	function		utility/pair/operator_cmp
+operator<=	utility	function		utility/rel_ops/operator_cmp
+operator<=	valarray	function		numeric/valarray/operator_cmp
+operator<=	variant	function		utility/variant/operator_cmp
+operator<=	vector	function		container/vector/operator_cmp
+operator<=>	array	function		container/array/operator_cmp
+operator<=>	chrono	function		chrono/day/operator_cmp
+operator<=>	chrono	function		chrono/duration/operator_cmp
+operator<=>	chrono	function		chrono/leap_second/operator_cmp
+operator<=>	chrono	function		chrono/month/operator_cmp
+operator<=>	chrono	function		chrono/month_day/operator_cmp
+operator<=>	chrono	function		chrono/month_day_last/operator_cmp
+operator<=>	chrono	function		chrono/time_point/operator_cmp
+operator<=>	chrono	function		chrono/time_zone/operator_cmp
+operator<=>	chrono	function		chrono/time_zone_link/operator_cmp
+operator<=>	chrono	function		chrono/year/operator_cmp
+operator<=>	chrono	function		chrono/year_month/operator_cmp
+operator<=>	chrono	function		chrono/year_month_day/operator_cmp
+operator<=>	chrono	function		chrono/year_month_day_last/operator_cmp
+operator<=>	coroutine	function		coroutine/coroutine_handle/operator_cmp
+operator<=>	deque	function		container/deque/operator_cmp
+operator<=>	forward_list	function		container/forward_list/operator_cmp
+operator<=>	iterator	function		iterator/counted_iterator/operator_cmp
+operator<=>	iterator	function		iterator/move_iterator/operator_cmp
+operator<=>	iterator	function		iterator/reverse_iterator/operator_cmp
+operator<=>	list	function		container/list/operator_cmp
+operator<=>	map	function		container/map/operator_cmp
+operator<=>	map	function		container/multimap/operator_cmp
+operator<=>	memory	function		memory/shared_ptr/operator_cmp
+operator<=>	memory	function		memory/unique_ptr/operator_cmp
+operator<=>	optional	function		utility/optional/operator_cmp
+operator<=>	queue	function		container/queue/operator_cmp
+operator<=>	regex	function		regex/sub_match/operator_cmp
+operator<=>	set	function		container/multiset/operator_cmp
+operator<=>	set	function		container/set/operator_cmp
+operator<=>	stack	function		container/stack/operator_cmp
+operator<=>	string	function		string/basic_string/operator_cmp
+operator<=>	string_view	function		string/basic_string_view/operator_cmp
+operator<=>	system_error	function		error/error_code/operator_cmp
+operator<=>	system_error	function		error/error_condition/operator_cmp
+operator<=>	tuple	function		utility/tuple/operator_cmp
+operator<=>	utility	function		utility/pair/operator_cmp
+operator<=>	variant	function		utility/variant/operator_cmp
+operator<=>	vector	function		container/vector/operator_cmp
+operator==	utility	function		utility/pair/operator_cmp
+operator>	array	function		container/array/operator_cmp
+operator>	chrono	function		chrono/duration/operator_cmp
+operator>	chrono	function		chrono/leap_second/operator_cmp
+operator>	chrono	function		chrono/time_point/operator_cmp
+operator>	deque	function		container/deque/operator_cmp
+operator>	forward_list	function		container/forward_list/operator_cmp
+operator>	iterator	function		iterator/move_iterator/operator_cmp
+operator>	iterator	function		iterator/reverse_iterator/operator_cmp
+operator>	list	function		container/list/operator_cmp
+operator>	map	function		container/map/operator_cmp
+operator>	map	function		container/multimap/operator_cmp
+operator>	memory	function		memory/shared_ptr/operator_cmp
+operator>	memory	function		memory/unique_ptr/operator_cmp
+operator>	optional	function		utility/optional/operator_cmp
+operator>	queue	function		container/queue/operator_cmp
+operator>	regex	function		regex/sub_match/operator_cmp
+operator>	set	function		container/multiset/operator_cmp
+operator>	set	function		container/set/operator_cmp
+operator>	stack	function		container/stack/operator_cmp
+operator>	string	function		string/basic_string/operator_cmp
+operator>	string_view	function		string/basic_string_view/operator_cmp
+operator>	tuple	function		utility/tuple/operator_cmp
+operator>	utility	function		utility/pair/operator_cmp
+operator>	utility	function		utility/rel_ops/operator_cmp
+operator>	valarray	function		numeric/valarray/operator_cmp
+operator>	variant	function		utility/variant/operator_cmp
+operator>	vector	function		container/vector/operator_cmp
+operator>=	array	function		container/array/operator_cmp
+operator>=	chrono	function		chrono/duration/operator_cmp
+operator>=	chrono	function		chrono/leap_second/operator_cmp
+operator>=	chrono	function		chrono/time_point/operator_cmp
+operator>=	deque	function		container/deque/operator_cmp
+operator>=	forward_list	function		container/forward_list/operator_cmp
+operator>=	iterator	function		iterator/move_iterator/operator_cmp
+operator>=	iterator	function		iterator/reverse_iterator/operator_cmp
+operator>=	list	function		container/list/operator_cmp
+operator>=	map	function		container/map/operator_cmp
+operator>=	map	function		container/multimap/operator_cmp
+operator>=	memory	function		memory/shared_ptr/operator_cmp
+operator>=	memory	function		memory/unique_ptr/operator_cmp
+operator>=	optional	function		utility/optional/operator_cmp
+operator>=	queue	function		container/queue/operator_cmp
+operator>=	regex	function		regex/sub_match/operator_cmp
+operator>=	set	function		container/multiset/operator_cmp
+operator>=	set	function		container/set/operator_cmp
+operator>=	stack	function		container/stack/operator_cmp
+operator>=	string	function		string/basic_string/operator_cmp
+operator>=	string_view	function		string/basic_string_view/operator_cmp
+operator>=	tuple	function		utility/tuple/operator_cmp
+operator>=	utility	function		utility/pair/operator_cmp
+operator>=	utility	function		utility/rel_ops/operator_cmp
+operator>=	valarray	function		numeric/valarray/operator_cmp
+operator>=	variant	function		utility/variant/operator_cmp
+operator>=	vector	function		container/vector/operator_cmp
+operator>>	bitset	function		utility/bitset/operator_ltltgtgt2
+operator>>	complex	function		numeric/complex/operator_ltltgtgt
+operator>>	istream	function		io/basic_istream/operator_gtgt2
+operator>>	string	function		string/basic_string/operator_ltltgtgt
+operator>>	valarray	function		numeric/valarray/operator_arith3
+operator^	bitset	function		utility/bitset/operator_logic2
+operator^	valarray	function		numeric/valarray/operator_arith3
+operator_of	meta	function		meta/operator_of
+operators	meta	enum		meta/operators
+operator|	bitset	function		utility/bitset/operator_logic2
+operator|	valarray	function		numeric/valarray/operator_arith3
+optional	optional	class		utility/optional
+optional::bad_optional_access	optional	class		utility/optional/bad_optional_access
+optional::make_optional	optional	function		utility/optional/make_optional
+optional::nullopt	optional	constant		utility/optional/nullopt
+optional::nullopt_t	optional	class		utility/optional/nullopt_t
+optional::operator==	optional	function		utility/optional/operator_cmp
+ostream	ostream			io/basic_ostream
+ostream_iterator	iterator	class		iterator/ostream_iterator
+ostreambuf_iterator	iterator	class		iterator/ostreambuf_iterator
+ostrstream	iosfwd	class		io/ostrstream
+out_of_range	stdexcept	class		error/out_of_range
+out_ptr_t	memory	class		memory/out_ptr_t
+out_ptr_t::out_ptr	memory	function		memory/out_ptr_t/out_ptr
+out_value_result	algorithm			algorithm/ranges/return_types/out_value_result
+output_iterator	iterator	concept		iterator/output_iterator
+output_iterator_tag	iterator	class		iterator/iterator_tags
+output_range	ranges			ranges/output_range
+overflow_error	stdexcept	class		error/overflow_error
+owner_equal	memory	class		memory/owner_equal
+owner_hash	memory	class		memory/owner_hash
+owner_less	memory	class		memory/owner_less
+owning_view	ranges			ranges/owning_view
+packaged_task	future	class		thread/packaged_task
+pair	utility	class		utility/pair
+par	execution	constant		algorithm/execution_policy_tag
+par_unseq	execution	constant		algorithm/execution_policy_tag
+parallel_policy	execution	class		algorithm/execution_policy_tag_t
+parallel_scheduler_backend	execution	class		execution/receiver_proxy
+parallel_scheduler_replacement::	execution	class		execution/receiver_proxy
+parallel_unsequenced_policy	execution	class		algorithm/execution_policy_tag_t
+parameters_of	meta	function		meta/parameters_of
+parent_of	meta	function		meta/parent_of
+parse	chrono	function		chrono/parse
+partial_order	compare	object		utility/compare/partial_order
+partial_ordering	compare	class		utility/compare/partial_ordering
+partial_sort	algorithm	algorithm		algorithm/partial_sort
+partial_sort_copy	algorithm	algorithm		algorithm/partial_sort_copy
+partial_sum	numeric	function		algorithm/partial_sum
+partition	algorithm	algorithm		algorithm/partition
+partition_copy	algorithm	algorithm		algorithm/partition_copy
+partition_point	algorithm	algorithm		algorithm/partition_point
+path	filesystem	class		filesystem/path
+path::hash<std::filesystem::path>	filesystem	class		filesystem/path/hash
+path::u8path	filesystem	function		filesystem/path/u8path
+perm_options	filesystem	enum		filesystem/perm_options
+permissions	filesystem	function		filesystem/permissions
+perms	filesystem	enum		filesystem/perms
+permutable	iterator	concept		iterator/permutable
+perror	cstdio	function		io/c/perror
+philox_engine	random	class		numeric/random/philox_engine
+piecewise_constant_distribution	random	class		numeric/random/piecewise_constant_distribution
+piecewise_construct	utility			utility/piecewise_construct
+piecewise_construct_t	utility			utility/piecewise_construct
+piecewise_linear_distribution	random	class		numeric/random/piecewise_linear_distribution
+placeholders	functional			utility/functional/placeholders
+plus	functional	class		utility/functional/plus
+pmr::basic_string	string	alias		string/basic_string
+pmr::stacktrace	stacktrace	alias		utility/basic_stacktrace
+pmr::string	string			string/basic_string
+pmr::u16string	string			string/basic_string
+pmr::u32string	string			string/basic_string
+pmr::u8string	string			string/basic_string
+pmr::wstring	string			string/basic_string
+pointer_safety	memory	enum		memory/gc/pointer_safety
+pointer_to_binary_function	functional	class		utility/functional/pointer_to_binary_function
+pointer_to_unary_function	functional	class		utility/functional/pointer_to_unary_function
+pointer_traits	memory	class		memory/pointer_traits
+poisson_distribution	random	class		numeric/random/poisson_distribution
+polymorphic	memory	class		memory/polymorphic
+polymorphic_allocator	memory_resource	class		memory/polymorphic_allocator
+pool_options	memory_resource	class		memory/pool_options
+pop_heap	algorithm	algorithm		algorithm/pop_heap
+popcount	bit	function		numeric/popcount
+pow	cmath	function		numeric/math/pow
+pow	complex	function		numeric/complex/pow
+pow	valarray	function		numeric/valarray/pow
+powf	cmath	function		numeric/math/pow
+powl	cmath	function		numeric/math/pow
+predicate	concepts	concept		concepts/predicate
+prev	iterator	function		iterator/prev
+prev_permutation	algorithm	algorithm		algorithm/prev_permutation
+print	print	function		io/print
+printf	cstdio	function		io/c/fprintf
+println	print	function		io/println
+priority_queue	queue	class		container/priority_queue
+projected	iterator	class		iterator/projected
+projected_value_t	iterator	alias		iterator/projected_value_t
+promise	future	class		thread/promise
+proximate	filesystem	function		filesystem/relative
+ptr_fun	functional	function		utility/functional/ptr_fun
+ptrdiff_t	cstddef			types/ptrdiff_t
+push_heap	algorithm	algorithm		algorithm/push_heap
+put_money	iomanip	function		io/manip/put_money
+put_time	iomanip	function		io/manip/put_time
+putc	cstdio	function		io/c/fputc
+putchar	cstdio	function		io/c/putchar
+puts	cstdio	function		io/c/puts
+putwc	cwchar	function		io/c/fputwc
+putwchar	cwchar	function		io/c/putwchar
+qsort	cstdlib	function		algorithm/qsort
+query_parallel_scheduler_backend	execution	class		execution/receiver_proxy
+queue	queue	class		container/queue
+queue::operator==	queue	function		container/queue/operator_cmp
+quick_exit	cstdlib	function		utility/program/quick_exit
+quoted	iomanip	function		io/manip/quoted
+raise	csignal	function		utility/program/raise
+rand	cstdlib	function		numeric/random/rand
+random_access_iterator	iterator	concept		iterator/random_access_iterator
+random_access_iterator_tag	iterator	class		iterator/iterator_tags
+random_access_range	ranges			ranges/random_access_range
+random_device	random	class		numeric/random/random_device
+random_shuffle	algorithm	algorithm		algorithm/shuffle
+range	ranges			ranges/range
+range_adaptor_closure	ranges			ranges/range_adaptor_closure
+range_common_reference_t	ranges			ranges/range_reference_t
+range_error	stdexcept	class		error/range_error
+range_format	format	enum		utility/format/range_format
+range_formatter	format	class		utility/format/range_formatter
+ranges::adjacent_find	algorithm			algorithm/ranges/adjacent_find
+ranges::adjacent_transform_view	ranges	class		ranges/adjacent_transform_view
+ranges::adjacent_view	ranges	class		ranges/adjacent_view
+ranges::advance	iterator	algorithm		iterator/ranges/advance
+ranges::all_of	algorithm			algorithm/ranges/all_any_none_of
+ranges::any_of	algorithm			algorithm/ranges/all_any_none_of
+ranges::approximately_sized_range	ranges	concept		ranges/approximately_sized_range
+ranges::as_const_view	ranges	class		ranges/as_const_view
+ranges::as_input_view	ranges	class		ranges/as_input_view
+ranges::as_rvalue_view	ranges	class		ranges/as_rvalue_view
+ranges::basic_istream_view	ranges	class		ranges/basic_istream_view
+ranges::begin	ranges	object		ranges/begin
+ranges::bidirectional_range	ranges	concept		ranges/bidirectional_range
+ranges::binary_search	algorithm			algorithm/ranges/binary_search
+ranges::borrowed_iterator_t	ranges	alias		ranges/borrowed_iterator_t
+ranges::borrowed_range	ranges	concept		ranges/borrowed_range
+ranges::borrowed_subrange_t	ranges	alias		ranges/borrowed_iterator_t
+ranges::cache_latest_view	ranges	class		ranges/cache_latest_view
+ranges::cartesian_product_view	ranges	class		ranges/cartesian_product_view
+ranges::cbegin	ranges	object		ranges/cbegin
+ranges::cdata	ranges	object		ranges/cdata
+ranges::cend	ranges	object		ranges/cend
+ranges::chunk_by_view	ranges	class		ranges/chunk_by_view
+ranges::chunk_view	ranges	class		ranges/chunk_view
+ranges::clamp	algorithm			algorithm/ranges/clamp
+ranges::common_range	ranges	concept		ranges/common_range
+ranges::common_view	ranges	class		ranges/common_view
+ranges::concat_view	ranges	class		ranges/concat_view
+ranges::const_iterator_t	ranges	alias		ranges/iterator_t
+ranges::const_sentinel_t	ranges	alias		ranges/iterator_t
+ranges::constant_range	ranges	concept		ranges/constant_range
+ranges::construct_at	memory			memory/ranges/construct_at
+ranges::contains	algorithm	algorithm		algorithm/ranges/contains
+ranges::contains_subrange	algorithm	algorithm		algorithm/ranges/contains
+ranges::contiguous_range	ranges	concept		ranges/contiguous_range
+ranges::copy	algorithm			algorithm/ranges/copy
+ranges::copy_backward	algorithm			algorithm/ranges/copy_backward
+ranges::copy_if	algorithm			algorithm/ranges/copy
+ranges::copy_n	algorithm			algorithm/ranges/copy_n
+ranges::count	algorithm			algorithm/ranges/count
+ranges::count_if	algorithm			algorithm/ranges/count
+ranges::crbegin	ranges	object		ranges/crbegin
+ranges::crend	ranges	object		ranges/crend
+ranges::dangling	ranges	class		ranges/dangling
+ranges::data	ranges	object		ranges/data
+ranges::destroy	memory			memory/ranges/destroy
+ranges::destroy_at	memory			memory/ranges/destroy_at
+ranges::destroy_n	memory			memory/ranges/destroy_n
+ranges::distance	iterator	algorithm		iterator/ranges/distance
+ranges::drop_view	ranges	class		ranges/drop_view
+ranges::drop_while_view	ranges	class		ranges/drop_while_view
+ranges::elements_of	ranges	class		ranges/elements_of
+ranges::elements_view	ranges	class		ranges/elements_view
+ranges::empty	ranges	object		ranges/empty
+ranges::empty_view	ranges	class		ranges/empty_view
+ranges::end	ranges	object		ranges/end
+ranges::ends_with	algorithm	algorithm		algorithm/ranges/ends_with
+ranges::enumerate_view	ranges	class		ranges/enumerate_view
+ranges::equal	algorithm			algorithm/ranges/equal
+ranges::equal_range	algorithm			algorithm/ranges/equal_range
+ranges::equal_to	functional	class		utility/functional/ranges/equal_to
+ranges::fill	algorithm			algorithm/ranges/fill
+ranges::fill_n	algorithm			algorithm/ranges/fill_n
+ranges::filter_view	ranges	class		ranges/filter_view
+ranges::find	algorithm			algorithm/ranges/find
+ranges::find_end	algorithm			algorithm/ranges/find_end
+ranges::find_first_of	algorithm			algorithm/ranges/find_first_of
+ranges::find_if	algorithm			algorithm/ranges/find
+ranges::find_if_not	algorithm			algorithm/ranges/find
+ranges::find_last	algorithm	algorithm		algorithm/ranges/find_last
+ranges::find_last_if	algorithm	algorithm		algorithm/ranges/find_last
+ranges::find_last_if_not	algorithm	algorithm		algorithm/ranges/find_last
+ranges::fold_left	algorithm	algorithm		algorithm/ranges/fold_left
+ranges::fold_left_first	algorithm	algorithm		algorithm/ranges/fold_left_first
+ranges::fold_left_first_with_iter	algorithm	algorithm		algorithm/ranges/fold_left_first_with_iter
+ranges::fold_left_with_iter	algorithm	algorithm		algorithm/ranges/fold_left_with_iter
+ranges::fold_right	algorithm	algorithm		algorithm/ranges/fold_right
+ranges::fold_right_last	algorithm	algorithm		algorithm/ranges/fold_right_last
+ranges::for_each	algorithm			algorithm/ranges/for_each
+ranges::for_each_n	algorithm			algorithm/ranges/for_each_n
+ranges::forward_range	ranges	concept		ranges/forward_range
+ranges::generate	algorithm			algorithm/ranges/generate
+ranges::generate_n	algorithm			algorithm/ranges/generate_n
+ranges::generate_random	random	algorithm		algorithm/ranges/generate_random
+ranges::greater	functional	class		utility/functional/ranges/greater
+ranges::greater_equal	functional	class		utility/functional/ranges/greater_equal
+ranges::in_found_result	algorithm	class		algorithm/ranges/return_types/in_found_result
+ranges::in_fun_result	algorithm	class		algorithm/ranges/return_types/in_fun_result
+ranges::in_in_out_result	algorithm	class		algorithm/ranges/return_types/in_in_out_result
+ranges::in_in_result	algorithm	class		algorithm/ranges/return_types/in_in_result
+ranges::in_out_out_result	algorithm	class		algorithm/ranges/return_types/in_out_out_result
+ranges::in_out_result	algorithm	class		algorithm/ranges/return_types/in_out_result
+ranges::in_value_result	algorithm	class		algorithm/ranges/return_types/in_value_result
+ranges::includes	algorithm			algorithm/ranges/includes
+ranges::inplace_merge	algorithm			algorithm/ranges/inplace_merge
+ranges::input_range	ranges	concept		ranges/input_range
+ranges::iota	numeric			algorithm/ranges/iota
+ranges::iota_view	ranges	class		ranges/iota_view
+ranges::is_heap	algorithm			algorithm/ranges/is_heap
+ranges::is_heap_until	algorithm			algorithm/ranges/is_heap_until
+ranges::is_partitioned	algorithm			algorithm/ranges/is_partitioned
+ranges::is_permutation	algorithm			algorithm/ranges/is_permutation
+ranges::is_sorted	algorithm			algorithm/ranges/is_sorted
+ranges::is_sorted_until	algorithm			algorithm/ranges/is_sorted_until
+ranges::iter_move	iterator	object		iterator/ranges/iter_move
+ranges::iter_swap	iterator	object		iterator/ranges/iter_swap
+ranges::iterator_t	ranges	alias		ranges/iterator_t
+ranges::join_view	ranges	class		ranges/join_view
+ranges::join_with_view	ranges	class		ranges/join_with_view
+ranges::keys_view	ranges	class		ranges/keys_view
+ranges::lazy_split_view	ranges	class		ranges/lazy_split_view
+ranges::less	functional	class		utility/functional/ranges/less
+ranges::less_equal	functional	class		utility/functional/ranges/less_equal
+ranges::lexicographical_compare	algorithm			algorithm/ranges/lexicographical_compare
+ranges::lower_bound	algorithm			algorithm/ranges/lower_bound
+ranges::make_heap	algorithm			algorithm/ranges/make_heap
+ranges::max	algorithm			algorithm/ranges/max
+ranges::max_element	algorithm			algorithm/ranges/max_element
+ranges::merge	algorithm			algorithm/ranges/merge
+ranges::min	algorithm			algorithm/ranges/min
+ranges::min_element	algorithm			algorithm/ranges/min_element
+ranges::min_max_result	algorithm	class		algorithm/ranges/return_types/min_max_result
+ranges::minmax	algorithm			algorithm/ranges/minmax
+ranges::minmax_element	algorithm			algorithm/ranges/minmax_element
+ranges::mismatch	algorithm			algorithm/ranges/mismatch
+ranges::move	algorithm			algorithm/ranges/move
+ranges::move_backward	algorithm			algorithm/ranges/move_backward
+ranges::next	iterator	algorithm		iterator/ranges/next
+ranges::next_permutation	algorithm			algorithm/ranges/next_permutation
+ranges::none_of	algorithm			algorithm/ranges/all_any_none_of
+ranges::not_equal_to	functional	class		utility/functional/ranges/not_equal_to
+ranges::nth_element	algorithm			algorithm/ranges/nth_element
+ranges::out_value_result	algorithm	class		algorithm/ranges/return_types/out_value_result
+ranges::output_range	ranges	concept		ranges/output_range
+ranges::owning_view	ranges	class		ranges/owning_view
+ranges::partial_sort	algorithm			algorithm/ranges/partial_sort
+ranges::partial_sort_copy	algorithm			algorithm/ranges/partial_sort_copy
+ranges::partition	algorithm			algorithm/ranges/partition
+ranges::partition_copy	algorithm			algorithm/ranges/partition_copy
+ranges::partition_point	algorithm			algorithm/ranges/partition_point
+ranges::pop_heap	algorithm			algorithm/ranges/pop_heap
+ranges::prev	iterator	algorithm		iterator/ranges/prev
+ranges::prev_permutation	algorithm			algorithm/ranges/prev_permutation
+ranges::push_heap	algorithm			algorithm/ranges/push_heap
+ranges::random_access_range	ranges	concept		ranges/random_access_range
+ranges::range	ranges	concept		ranges/range
+ranges::range_adaptor_closure	ranges	class		ranges/range_adaptor_closure
+ranges::range_common_reference_t	ranges	alias		ranges/range_reference_t
+ranges::range_const_reference_t	ranges	alias		ranges/range_reference_t
+ranges::range_difference_t	ranges	alias		ranges/range_size_t
+ranges::range_reference_t	ranges	alias		ranges/range_reference_t
+ranges::range_rvalue_reference_t	ranges	alias		ranges/range_reference_t
+ranges::range_size_t	ranges	alias		ranges/range_size_t
+ranges::range_value_t	ranges	alias		ranges/range_size_t
+ranges::rbegin	ranges	object		ranges/rbegin
+ranges::ref_view	ranges	class		ranges/ref_view
+ranges::remove	algorithm			algorithm/ranges/remove
+ranges::remove_copy	algorithm			algorithm/ranges/remove_copy
+ranges::remove_copy_if	algorithm			algorithm/ranges/remove_copy
+ranges::remove_if	algorithm			algorithm/ranges/remove
+ranges::rend	ranges	object		ranges/rend
+ranges::repeat_view	ranges	class		ranges/repeat_view
+ranges::replace	algorithm			algorithm/ranges/replace
+ranges::replace_copy	algorithm			algorithm/ranges/replace_copy
+ranges::replace_copy_if	algorithm			algorithm/ranges/replace_copy
+ranges::replace_if	algorithm			algorithm/ranges/replace
+ranges::reserve_hint	ranges	object		ranges/reserve_hint
+ranges::reverse	algorithm			algorithm/ranges/reverse
+ranges::reverse_copy	algorithm			algorithm/ranges/reverse_copy
+ranges::reverse_view	ranges	class		ranges/reverse_view
+ranges::rotate	algorithm			algorithm/ranges/rotate
+ranges::rotate_copy	algorithm			algorithm/ranges/rotate_copy
+ranges::sample	algorithm			algorithm/ranges/sample
+ranges::search	algorithm			algorithm/ranges/search
+ranges::search_n	algorithm			algorithm/ranges/search_n
+ranges::sentinel_t	ranges	alias		ranges/iterator_t
+ranges::set_difference	algorithm			algorithm/ranges/set_difference
+ranges::set_intersection	algorithm			algorithm/ranges/set_intersection
+ranges::set_symmetric_difference	algorithm			algorithm/ranges/set_symmetric_difference
+ranges::set_union	algorithm			algorithm/ranges/set_union
+ranges::shift_left	algorithm			algorithm/ranges/shift
+ranges::shift_right	algorithm			algorithm/ranges/shift
+ranges::shuffle	algorithm			algorithm/ranges/shuffle
+ranges::single_view	ranges	class		ranges/single_view
+ranges::size	ranges	object		ranges/size
+ranges::sized_range	ranges	concept		ranges/sized_range
+ranges::slide_view	ranges	class		ranges/slide_view
+ranges::sort	algorithm			algorithm/ranges/sort
+ranges::sort_heap	algorithm			algorithm/ranges/sort_heap
+ranges::split_view	ranges	class		ranges/split_view
+ranges::ssize	ranges	object		ranges/ssize
+ranges::stable_partition	algorithm			algorithm/ranges/stable_partition
+ranges::stable_sort	algorithm			algorithm/ranges/stable_sort
+ranges::starts_with	algorithm	algorithm		algorithm/ranges/starts_with
+ranges::stride_view	ranges	class		ranges/stride_view
+ranges::subrange	ranges	class		ranges/subrange
+ranges::subrange::get	ranges	function		ranges/subrange/get
+ranges::subrange::tuple_element<std::ranges::subrange>	ranges	class		ranges/subrange/tuple_element
+ranges::subrange::tuple_size<std::ranges::subrange>	ranges	class		ranges/subrange/tuple_size
+ranges::subrange_kind	ranges	enum		ranges/subrange_kind
+ranges::swap	concepts	object		utility/ranges/swap
+ranges::swap_ranges	algorithm			algorithm/ranges/swap_ranges
+ranges::take_view	ranges	class		ranges/take_view
+ranges::take_while_view	ranges	class		ranges/take_while_view
+ranges::to	ranges	function		ranges/to
+ranges::transform	algorithm			algorithm/ranges/transform
+ranges::transform_view	ranges	class		ranges/transform_view
+ranges::uninitialized_copy	memory			memory/ranges/uninitialized_copy
+ranges::uninitialized_copy_n	memory			memory/ranges/uninitialized_copy_n
+ranges::uninitialized_default_construct	memory			memory/ranges/uninitialized_default_construct
+ranges::uninitialized_default_construct_n	memory			memory/ranges/uninitialized_default_construct_n
+ranges::uninitialized_fill	memory			memory/ranges/uninitialized_fill
+ranges::uninitialized_fill_n	memory			memory/ranges/uninitialized_fill_n
+ranges::uninitialized_move	memory			memory/ranges/uninitialized_move
+ranges::uninitialized_move_n	memory			memory/ranges/uninitialized_move_n
+ranges::uninitialized_value_construct	memory			memory/ranges/uninitialized_value_construct
+ranges::uninitialized_value_construct_n	memory			memory/ranges/uninitialized_value_construct_n
+ranges::unique	algorithm			algorithm/ranges/unique
+ranges::unique_copy	algorithm			algorithm/ranges/unique_copy
+ranges::upper_bound	algorithm			algorithm/ranges/upper_bound
+ranges::values_view	ranges	class		ranges/values_view
+ranges::view	ranges	concept		ranges/view
+ranges::view_interface	ranges	class		ranges/view_interface
+ranges::viewable_range	ranges	concept		ranges/viewable_range
+ranges::zip_transform_view	ranges	class		ranges/zip_transform_view
+ranges::zip_view	ranges	class		ranges/zip_view
+rank	meta	function		meta/rank
+ratio	ratio	class		numeric/ratio/ratio
+ratio_add	ratio	alias		numeric/ratio/ratio_add
+ratio_divide	ratio	alias		numeric/ratio/ratio_divide
+ratio_equal	ratio	class		numeric/ratio/ratio_equal
+ratio_greater	ratio	class		numeric/ratio/ratio_greater
+ratio_greater_equal	ratio	class		numeric/ratio/ratio_greater_equal
+ratio_less	ratio	class		numeric/ratio/ratio_less
+ratio_less_equal	ratio	class		numeric/ratio/ratio_less_equal
+ratio_multiply	ratio	alias		numeric/ratio/ratio_multiply
+ratio_not_equal	ratio	class		numeric/ratio/ratio_not_equal
+ratio_subtract	ratio	alias		numeric/ratio/ratio_subtract
+raw_storage_iterator	memory	class		memory/raw_storage_iterator
+rbegin	stacktrace	function		iterator/rbegin
+read_symlink	filesystem	function		filesystem/read_symlink
+realloc	cstdlib	function		memory/c/realloc
+receiver_proxy	execution	class		execution/receiver_proxy
+recursive_directory_iterator	filesystem	class		filesystem/recursive_directory_iterator
+recursive_mutex	mutex	class		thread/recursive_mutex
+recursive_timed_mutex	mutex	class		thread/recursive_timed_mutex
+reduce	numeric	function		algorithm/reduce
+ref	functional	function		utility/functional/ref
+ref_view	ranges			ranges/ref_view
+reference_constructs_from_temporary	meta	function		meta/reference_constructs_from_temporary
+reference_converts_from_temporary	meta	function		meta/reference_converts_from_temporary
+reference_wrapper	functional	class		utility/functional/reference_wrapper
+reflect_constant	meta	function		meta/reflect_constant
+reflect_constant_array	meta	function		meta/reflect_constant_array
+reflect_constant_string	meta	function		meta/reflect_constant_string
+reflect_function	meta	function		meta/reflect_function
+reflect_object	meta	function		meta/reflect_object
+reflection_range	meta	concept		meta/reflection_range
+regex	regex			regex/basic_regex
+regex_error	regex	class		regex/regex_error
+regex_iterator	regex	class		regex/regex_iterator
+regex_match	regex	function		regex/regex_match
+regex_replace	regex	function		regex/regex_replace
+regex_search	regex	function		regex/regex_search
+regex_token_iterator	regex	class		regex/regex_token_iterator
+regex_traits	regex	class		regex/regex_traits
+regular	concepts	concept		concepts/regular
+regular_invocable	concepts	concept		concepts/invocable
+reinterpret_pointer_cast	memory	function		memory/shared_ptr/pointer_cast
+rel_ops	utility			utility/rel_ops/operator_cmp
+relation	concepts	concept		concepts/relation
+relative	filesystem	function		filesystem/relative
+reload_tzdb	chrono	function		chrono/tzdb_functions
+remainder	cmath	function		numeric/math/remainder
+remainderf	cmath	function		numeric/math/remainder
+remainderl	cmath	function		numeric/math/remainder
+remote_version	chrono	function		chrono/tzdb_functions
+remove	algorithm	algorithm		algorithm/remove
+remove_all	algorithm	algorithm		algorithm/remove
+remove_all_extents	meta	function		meta/remove_all_extents
+remove_const	meta	function		meta/remove_cv
+remove_copy	algorithm	algorithm		algorithm/remove_copy
+remove_copy_if	algorithm	algorithm		algorithm/remove_copy
+remove_cv	meta	function		meta/remove_cv
+remove_cvref	meta	function		meta/remove_cvref
+remove_extent	meta	function		meta/remove_extent
+remove_if	algorithm	algorithm		algorithm/remove
+remove_pointer	meta	function		meta/remove_pointer
+remove_reference	meta	function		meta/remove_reference
+remove_volatile	meta	function		meta/remove_cv
+remquo	cmath	function		numeric/math/remquo
+remquof	cmath	function		numeric/math/remquo
+remquol	cmath	function		numeric/math/remquo
+rename	cstdio	function		io/c/rename
+rend	stacktrace	function		iterator/rend
+repeat	ranges			ranges/repeat_view
+repeat_view	ranges			ranges/repeat_view
+replace	algorithm	algorithm		algorithm/replace
+replace_copy	algorithm	algorithm		algorithm/replace_copy
+replace_copy_if	algorithm	algorithm		algorithm/replace_copy
+replace_if	algorithm	algorithm		algorithm/replace
+reserve_hint	ranges			ranges/reserve_hint
+resetiosflags	iomanip	function		io/manip/resetiosflags
+resize_file	filesystem	function		filesystem/resize_file
+result_of	type_traits	class		types/result_of
+rethrow_exception	exception	function		error/rethrow_exception
+rethrow_if_nested	exception	function		error/rethrow_if_nested
+return_temporary_buffer	memory	function		memory/return_temporary_buffer
+return_type_of	meta	function		meta/return_type_of
+reverse	algorithm	algorithm		algorithm/reverse
+reverse_copy	algorithm	algorithm		algorithm/reverse_copy
+reverse_iterator	iterator	class		iterator/reverse_iterator
+reverse_iterator::operator+	iterator	function		iterator/reverse_iterator/operator%2B
+reverse_iterator::operator-	iterator	function		iterator/reverse_iterator/operator-
+reverse_iterator::operator==	iterator	function		iterator/reverse_iterator/operator_cmp
+reverse_view	ranges			ranges/reverse_view
+rewind	cstdio	function		io/c/rewind
+riemann_zeta	cmath	function		numeric/special_functions/riemann_zeta
+riemann_zetaf	cmath	function		numeric/special_functions/riemann_zeta
+riemann_zetal	cmath	function		numeric/special_functions/riemann_zeta
+right	ios	function		io/manip/left
+rint	cmath	function		numeric/math/rint
+rintf	cmath	function		numeric/math/rint
+rintl	cmath	function		numeric/math/rint
+rotate	algorithm	algorithm		algorithm/rotate
+rotate_copy	algorithm	algorithm		algorithm/rotate_copy
+rotl	bit	function		numeric/rotl
+rotr	bit	function		numeric/rotr
+round	chrono			chrono/duration/round
+round	cmath	function		numeric/math/round
+roundf	cmath	function		numeric/math/round
+roundl	cmath	function		numeric/math/round
+runtime_error	stdexcept	class		error/runtime_error
+s	chrono			chrono/operator%22%22s
+same_as	concepts	concept		concepts/same_as
+sample	algorithm	algorithm		algorithm/sample
+saturating_add	numeric	function		numeric/saturating_add
+saturating_cast	numeric	function		numeric/saturating_cast
+saturating_div	numeric	function		numeric/saturating_div
+saturating_mul	numeric	function		numeric/saturating_mul
+saturating_sub	numeric	function		numeric/saturating_sub
+scalbln	cmath	function		numeric/math/scalbn
+scalblnf	cmath	function		numeric/math/scalbn
+scalblnl	cmath	function		numeric/math/scalbn
+scalbn	cmath	function		numeric/math/scalbn
+scalbnf	cmath	function		numeric/math/scalbn
+scalbnl	cmath	function		numeric/math/scalbn
+scanf	cstdio	function		io/c/fscanf
+scientific	ios	function		io/manip/fixed
+scoped_allocator_adaptor	scoped_allocator	class		memory/scoped_allocator_adaptor
+scoped_allocator_adaptor::operator==	scoped_allocator	function		memory/scoped_allocator_adaptor/operator_cmp
+scoped_lock	mutex	class		thread/scoped_lock
+search	algorithm	algorithm		algorithm/search
+search_n	algorithm	algorithm		algorithm/search_n
+seed_seq	random	class		numeric/random/seed_seq
+semiregular	concepts	concept		concepts/semiregular
+sentinel_for	iterator	concept		iterator/sentinel_for
+seq	execution	constant		algorithm/execution_policy_tag
+sequenced_policy	execution	class		algorithm/execution_policy_tag_t
+set	set	class		container/set
+set::operator==	set	function		container/set/operator_cmp
+set_default_resource	memory_resource	function		memory/set_default_resource
+set_difference	algorithm	algorithm		algorithm/set_difference
+set_intersection	algorithm	algorithm		algorithm/set_intersection
+set_new_handler	new	function		memory/new/set_new_handler
+set_symmetric_difference	algorithm	algorithm		algorithm/set_symmetric_difference
+set_terminate	exception	function		error/set_terminate
+set_unexpected	exception	function		error/set_unexpected
+set_union	algorithm	algorithm		algorithm/set_union
+setbase	iomanip	function		io/manip/setbase
+setbuf	cstdio	function		io/c/setbuf
+setfill	iomanip	function		io/manip/setfill
+setiosflags	iomanip	function		io/manip/setiosflags
+setjmp	csetjmp	function		utility/program/setjmp
+setlocale	clocale	function		locale/setlocale
+setprecision	iomanip	function		io/manip/setprecision
+setvbuf	cstdio	function		io/c/setvbuf
+setw	iomanip	function		io/manip/setw
+shared_future	future	class		thread/shared_future
+shared_lock	shared_mutex	class		thread/shared_lock
+shared_mutex	shared_mutex	class		thread/shared_mutex
+shared_ptr	memory	class		memory/shared_ptr
+shared_ptr::allocate_shared	memory	function		memory/shared_ptr/allocate_shared
+shared_ptr::get_deleter	memory	function		memory/shared_ptr/get_deleter
+shared_ptr::make_shared	memory	function		memory/shared_ptr/make_shared
+shared_ptr::operator==	memory	function		memory/shared_ptr/operator_cmp
+shared_ptr::static_pointer_cast	memory	function		memory/shared_ptr/pointer_cast
+shared_timed_mutex	shared_mutex	class		thread/shared_timed_mutex
+shift_left	algorithm	algorithm		algorithm/shift
+shift_right	algorithm	algorithm		algorithm/shift
+shl	bit	function		numeric/shl
+showbase	ios	function		io/manip/showbase
+showpoint	ios	function		io/manip/showpoint
+showpos	ios	function		io/manip/showpos
+shr	bit	function		numeric/shr
+shuffle	algorithm			algorithm/ranges/shuffle
+shuffle	algorithm	algorithm		algorithm/shuffle
+shuffle_order_engine	random	class		numeric/random/shuffle_order_engine
+sig_atomic_t	csignal			utility/program/sig_atomic_t
+signal	csignal	function		utility/program/signal
+signbit	cmath	function		numeric/math/signbit
+signed_integral	concepts	concept		concepts/signed_integral
+simd::basic_vec	simd	class		numeric/simd/basic_vec
+simd::vec	simd	alias		numeric/simd/basic_vec
+sin	cmath	function		numeric/math/sin
+sin	complex	function		numeric/complex/sin
+sin	valarray	function		numeric/valarray/sin
+sinf	cmath	function		numeric/math/sin
+single	ranges			ranges/single_view
+single_view	ranges			ranges/single_view
+sinh	cmath	function		numeric/math/sinh
+sinh	complex	function		numeric/complex/sinh
+sinh	valarray	function		numeric/valarray/sinh
+sinhf	cmath	function		numeric/math/sinh
+sinhl	cmath	function		numeric/math/sinh
+sinl	cmath	function		numeric/math/sin
+size	stacktrace	function		iterator/size
+size_of	meta	function		meta/size_of
+size_t	cstddef			types/size_t
+sized_sentinel_for	iterator	concept		iterator/sized_sentinel_for
+skipws	ios	function		io/manip/skipws
+sleep_for	thread	function		thread/sleep_for
+sleep_until	thread	function		thread/sleep_until
+slide	ranges			ranges/slide_view
+slide_view	ranges			ranges/slide_view
+smatch	regex			regex/match_results
+snprintf	cstdio	function		io/c/fprintf
+sort	algorithm	algorithm		algorithm/sort
+sort_heap	algorithm	algorithm		algorithm/sort_heap
+sortable	iterator	concept		iterator/sortable
+sorted_equivalent	flat_map			container/sorted_equivalent
+sorted_equivalent_t	flat_map			container/sorted_equivalent
+sorted_unique	flat_map			container/sorted_unique
+sorted_unique_t	flat_map			container/sorted_unique
+source_location	source_location	class		utility/source_location
+source_location_of	meta	function		meta/source_location_of
+space	filesystem	function		filesystem/space
+space_info	filesystem	class		filesystem/space_info
+span	span	class		container/span
+span::as_bytes	span	function		container/span/as_bytes
+span::dynamic_extent	span	constant		container/span/dynamic_extent
+sph_bessel	cmath	function		numeric/special_functions/sph_bessel
+sph_besself	cmath	function		numeric/special_functions/sph_bessel
+sph_bessell	cmath	function		numeric/special_functions/sph_bessel
+sph_legendre	cmath	function		numeric/special_functions/sph_legendre
+sph_legendref	cmath	function		numeric/special_functions/sph_legendre
+sph_legendrel	cmath	function		numeric/special_functions/sph_legendre
+sph_neumann	cmath	function		numeric/special_functions/sph_neumann
+sph_neumannf	cmath	function		numeric/special_functions/sph_neumann
+sph_neumannl	cmath	function		numeric/special_functions/sph_neumann
+split	ranges			ranges/split_view
+split_view	ranges			ranges/split_view
+sprintf	cstdio	function		io/c/fprintf
+sqrt	cmath	function		numeric/math/sqrt
+sqrt	complex	function		numeric/complex/sqrt
+sqrt	valarray	function		numeric/valarray/sqrt
+sqrtf	cmath	function		numeric/math/sqrt
+sqrtl	cmath	function		numeric/math/sqrt
+srand	cstdlib	function		numeric/random/srand
+sregex_iterator	regex			regex/regex_iterator
+sregex_token_iterator	regex			regex/regex_token_iterator
+sscanf	cstdio	function		io/c/fscanf
+ssize	ranges			ranges/ssize
+ssize	stacktrace	function		iterator/size
+ssub_match	regex			regex/sub_match
+stable_partition	algorithm	algorithm		algorithm/stable_partition
+stable_sort	algorithm	algorithm		algorithm/stable_sort
+stack	stack	class		container/stack
+stack::operator==	stack	function		container/stack/operator_cmp
+stacktrace	stacktrace	alias		utility/basic_stacktrace
+stacktrace_entry	stacktrace	class		utility/stacktrace_entry
+stacktrace_entry::operator<<	stacktrace	function		utility/stacktrace_entry/operator_ltlt
+stacktrace_entry::to_string	stacktrace	function		utility/stacktrace_entry/to_string
+start_lifetime_as	memory	function		memory/start_lifetime_as
+start_lifetime_as_array	memory	function		memory/start_lifetime_as
+starts_with	algorithm			algorithm/ranges/starts_with
+static_data_members_of	meta	function		meta/static_data_members_of
+status	filesystem	function		filesystem/status
+status_known	filesystem	function		filesystem/status_known
+stderr	cstdio	constant		io/c/std_streams
+stdin	cstdio	constant		io/c/std_streams
+stdout	cstdio	constant		io/c/std_streams
+steady_clock	chrono	class		chrono/steady_clock
+stod	string	function		string/basic_string/stof
+stol	string	function		string/basic_string/stol
+stold	string	function		string/basic_string/stof
+stoll	string	function		string/basic_string/stol
+stop_callback	stop_token	class		thread/stop_callback
+stop_callback_for_t	stop_token	alias		thread/stop_callback_for_t
+stop_source	stop_token	class		thread/stop_source
+stop_source::nostopstate	stop_token			thread/stop_source/nostopstate
+stop_token	stop_token	class		thread/stop_token
+stop_token_of_t	execution	object		execution/get_stop_token
+stoppable_token	stop_token	concept		thread/stoppable_token
+stoull	string	function		string/basic_string/stoul
+strcat	cstring	function		string/byte/strcat
+strchr	cstring	function		string/byte/strchr
+strcmp	cstring	function		string/byte/strcmp
+strcoll	cstring	function		string/byte/strcoll
+strcpy	cstring	function		string/byte/strcpy
+strcspn	cstring	function		string/byte/strcspn
+streamoff	ios			io/streamoff
+streampos	iosfwd			io/fpos
+streamsize	ios			io/streamsize
+strerror	cstring	function		string/byte/strerror
+strftime	ctime	function		chrono/c/strftime
+strict_weak_order	concepts	concept		concepts/strict_weak_order
+stride	ranges			ranges/stride_view
+stride_view	ranges			ranges/stride_view
+string	string	class		string/basic_string
+string_view	string_view			string/basic_string_view
+strlen	cstring	function		string/byte/strlen
+strncat	cstring	function		string/byte/strncat
+strncmp	cstring	function		string/byte/strncmp
+strncpy	cstring	function		string/byte/strncpy
+strong_order	compare	object		utility/compare/strong_order
+strong_ordering	compare	class		utility/compare/strong_ordering
+strpbrk	cstring	function		string/byte/strpbrk
+strrchr	cstring	function		string/byte/strrchr
+strspn	cstring	function		string/byte/strspn
+strstr	cstring	function		string/byte/strstr
+strstream	iosfwd	class		io/strstream
+strstreambuf	iosfwd	class		io/strstreambuf
+strtod	cstdlib	function		string/byte/strtof
+strtof	cstdlib	function		string/byte/strtof
+strtoimax	cinttypes	function		string/byte/strtoimax
+strtok	cstring	function		string/byte/strtok
+strtol	cstdlib	function		string/byte/strtol
+strtold	cstdlib	function		string/byte/strtof
+strtoll	cstdlib	function		string/byte/strtol
+strtoul	cstdlib	function		string/byte/strtoul
+strtoull	cstdlib	function		string/byte/strtoul
+strtoumax	cinttypes	function		string/byte/strtoimax
+strxfrm	cstring	function		string/byte/strxfrm
+student_t_distribution	random	class		numeric/random/student_t_distribution
+sub_match	regex	class		regex/sub_match
+sub_match::operator<<	regex	function		regex/sub_match/operator_ltlt
+sub_match::operator==	regex	function		regex/sub_match/operator_cmp
+subobjects_of	meta	function		meta/subobjects_of
+subrange	ranges			ranges/subrange
+subrange_kind	ranges			ranges/subrange_kind
+substitute	meta	function		meta/substitute
+subtract_with_carry_engine	random	class		numeric/random/subtract_with_carry_engine
+suspend_always	coroutine	class		coroutine/suspend_always
+suspend_never	coroutine	class		coroutine/suspend_never
+sv	string_view			string/basic_string_view/operator%22%22sv
+swap	any	function		utility/any/swap2
+swap	array	function		container/array/swap2
+swap	deque	function		container/deque/swap2
+swap	forward_list	function		container/forward_list/swap2
+swap	fstream	function		io/basic_filebuf/swap2
+swap	fstream	function		io/basic_fstream/swap2
+swap	fstream	function		io/basic_ifstream/swap2
+swap	fstream	function		io/basic_ofstream/swap2
+swap	future	function		thread/packaged_task/swap2
+swap	future	function		thread/promise/swap2
+swap	hive	function		container/hive/swap2
+swap	list	function		container/list/swap2
+swap	map	function		container/map/swap2
+swap	map	function		container/multimap/swap2
+swap	memory	function		memory/shared_ptr/swap2
+swap	memory	function		memory/unique_ptr/swap2
+swap	memory	function		memory/weak_ptr/swap2
+swap	mutex	function		thread/unique_lock/swap2
+swap	optional	function		utility/optional/swap2
+swap	queue	function		container/priority_queue/swap2
+swap	queue	function		container/queue/swap2
+swap	regex	function		regex/basic_regex/swap2
+swap	regex	function		regex/match_results/swap2
+swap	set	function		container/multiset/swap2
+swap	set	function		container/set/swap2
+swap	shared_mutex	function		thread/shared_lock/swap2
+swap	spanstream	function		io/basic_ispanstream/swap2
+swap	spanstream	function		io/basic_ospanstream/swap2
+swap	spanstream	function		io/basic_spanbuf/swap2
+swap	spanstream	function		io/basic_spanstream/swap2
+swap	sstream	function		io/basic_istringstream/swap2
+swap	sstream	function		io/basic_ostringstream/swap2
+swap	sstream	function		io/basic_stringbuf/swap2
+swap	sstream	function		io/basic_stringstream/swap2
+swap	stack	function		container/stack/swap2
+swap	stacktrace	function		utility/basic_stacktrace/swap2
+swap	string	function		string/basic_string/swap2
+swap	syncstream	function		io/basic_syncbuf/swap2
+swap	thread	function		thread/thread/swap2
+swap	tuple	function		utility/tuple/swap2
+swap	unordered_map	function		container/unordered_map/swap2
+swap	unordered_map	function		container/unordered_multimap/swap2
+swap	unordered_set	function		container/unordered_multiset/swap2
+swap	unordered_set	function		container/unordered_set/swap2
+swap	utility	function		algorithm/swap
+swap	utility	function		utility/pair/swap2
+swap	valarray	function		numeric/valarray/swap2
+swap	variant	function		utility/variant/swap2
+swap	vector	function		container/vector/swap2
+swap_ranges	algorithm	algorithm		algorithm/swap_ranges
+swappable	concepts	concept		concepts/swappable
+swappable_with	concepts	concept		concepts/swappable
+swprintf	cwchar	function		io/c/fwprintf
+swscanf	cwchar	function		io/c/fwscanf
+symbol_of	meta	function		meta/symbol_of
+symlink_status	filesystem	function		filesystem/status
+synchronized_pool_resource	memory_resource	class		memory/synchronized_pool_resource
+syntax_option_type	regex			regex/syntax_option_type
+sys_days	chrono			chrono/system_clock
+sys_info	chrono	class		chrono/sys_info
+sys_info::formatter<std::chrono::sys_info>	chrono	class		chrono/sys_info/formatter
+sys_info::operator<<	chrono	function		chrono/sys_info/operator_ltlt
+system	cstdlib	function		utility/program/system
+system_category	system_error	function		error/system_category
+system_clock	chrono	class		chrono/system_clock
+system_clock::formatter<std::chrono::sys_time>	chrono	class		chrono/system_clock/formatter
+system_clock::from_stream	chrono	function		chrono/system_clock/from_stream
+system_clock::operator<<	chrono	function		chrono/system_clock/operator_ltlt
+system_error	system_error	class		error/system_error
+tai_clock	chrono	class		chrono/tai_clock
+tai_clock::formatter<std::chrono::tai_time>	chrono	class		chrono/tai_clock/formatter
+tai_clock::from_stream	chrono	function		chrono/tai_clock/from_stream
+tai_clock::operator<<	chrono	function		chrono/tai_clock/operator_ltlt
+take	ranges			ranges/take_view
+take_view	ranges			ranges/take_view
+take_while	ranges			ranges/take_while_view
+take_while_view	ranges			ranges/take_while_view
+tan	cmath	function		numeric/math/tan
+tan	complex	function		numeric/complex/tan
+tan	valarray	function		numeric/valarray/tan
+tanf	cmath	function		numeric/math/tan
+tanh	cmath	function		numeric/math/tanh
+tanh	complex	function		numeric/complex/tanh
+tanh	valarray	function		numeric/valarray/tanh
+tanhf	cmath	function		numeric/math/tanh
+tanhl	cmath	function		numeric/math/tanh
+tanl	cmath	function		numeric/math/tan
+temp_directory_path	filesystem	function		filesystem/temp_directory_path
+template_arguments_of	meta	function		meta/template_arguments_of
+template_of	meta	function		meta/template_of
+terminate	exception	function		error/terminate
+terminate_handler	exception			error/terminate_handler
+text_encoding	text_encoding	class		text/text_encoding
+tgamma	cmath	function		numeric/math/tgamma
+tgammaf	cmath	function		numeric/math/tgamma
+tgammal	cmath	function		numeric/math/tgamma
+this_thread::sync_wait	execution	object		thread/this_thread/sync_wait
+this_thread::sync_wait_with_variant	execution	object		thread/this_thread/sync_wait_with_variant
+thread	thread	class		thread/thread
+three_way_comparable	compare	concept		utility/compare/three_way_comparable
+three_way_comparable_with	compare	concept		utility/compare/three_way_comparable
+throw_with_nested	exception	function		error/throw_with_nested
+time	ctime	function		chrono/c/time
+time_base	locale	class		locale/time_base
+time_get	locale	class		locale/time_get
+time_get_byname	locale	class		locale/time_get_byname
+time_point	chrono	class		chrono/time_point
+time_point::ceil	chrono	function		chrono/time_point/ceil
+time_point::common_type<std::chrono::time_point>	chrono	class		chrono/time_point/common_type
+time_point::floor	chrono	function		chrono/time_point/floor
+time_point::hash<std::chrono::time_point>	chrono	class		chrono/time_point/hash
+time_point::operator+	chrono	function		chrono/time_point/operator_arith2
+time_point::operator==	chrono	function		chrono/time_point/operator_cmp
+time_point::round	chrono	function		chrono/time_point/round
+time_point::time_point_cast	chrono	function		chrono/time_point/time_point_cast
+time_point_cast	chrono			chrono/time_point/time_point_cast
+time_put	locale	class		locale/time_put
+time_put_byname	locale	class		locale/time_put_byname
+time_t	ctime			chrono/c/time_t
+time_zone	chrono	class		chrono/time_zone
+time_zone::operator==	chrono	function		chrono/time_zone/operator_cmp
+time_zone_link	chrono	class		chrono/time_zone_link
+time_zone_link::operator==	chrono	function		chrono/time_zone_link/operator_cmp
+timed_mutex	mutex	class		thread/timed_mutex
+timegm	ctime	function		chrono/c/timegm
+timespec	ctime			chrono/c/timespec
+timespec_get	ctime	function		chrono/c/timespec_get
+timespec_getres	ctime	function		chrono/c/timespec_getres
+tm	cwchar	class		chrono/c/tm
+tmpfile	cstdio	function		io/c/tmpfile
+tmpnam	cstdio	function		io/c/tmpnam
+to	ranges			ranges/to
+to_address	memory	function		memory/to_address
+to_chars	charconv	function		utility/to_chars
+to_chars_result	charconv	class		utility/to_chars_result
+to_integer	cstddef	function		types/byte
+to_underlying	utility	function		utility/to_underlying
+tolower	cctype	function		string/byte/tolower
+tolower	locale	function		locale/tolower
+totally_ordered	concepts	concept		concepts/totally_ordered
+totally_ordered_with	concepts	concept		concepts/totally_ordered
+toupper	cctype	function		string/byte/toupper
+toupper	locale	function		locale/toupper
+towctrans	cwctype	function		string/wide/towctrans
+towlower	cwctype	function		string/wide/towlower
+towupper	cwctype	function		string/wide/towupper
+transform	algorithm	algorithm		algorithm/transform
+transform_exclusive_scan	numeric	function		algorithm/transform_exclusive_scan
+transform_inclusive_scan	numeric	function		algorithm/transform_inclusive_scan
+transform_reduce	numeric	function		algorithm/transform_reduce
+transform_view	ranges			ranges/transform_view
+treat_as_floating_point	chrono	class		chrono/treat_as_floating_point
+trunc	cmath	function		numeric/math/trunc
+truncf	cmath	function		numeric/math/trunc
+truncl	cmath	function		numeric/math/trunc
+try_lock	mutex	function		thread/try_lock
+try_to_lock	mutex			thread/lock_tag
+try_to_lock_t	mutex			thread/lock_tag
+tuple	tuple	class		utility/tuple
+tuple::forward_as_tuple	tuple	function		utility/tuple/forward_as_tuple
+tuple::ignore	tuple	constant		utility/tuple/ignore
+tuple::make_tuple	tuple	function		utility/tuple/make_tuple
+tuple::operator==	tuple	function		utility/tuple/operator_cmp
+tuple::tie	tuple	function		utility/tuple/tie
+tuple::tuple_cat	tuple	function		utility/tuple/tuple_cat
+tuple_element	meta	function		meta/tuple_element
+tuple_element<std::array>	array	class		container/array/tuple_element
+tuple_element<std::pair>	utility	class		utility/pair/tuple_element
+tuple_element<std::tuple>	tuple	class		utility/tuple/tuple_element
+tuple_size	meta	function		meta/tuple_size
+tuple_size<std::array>	array	class		container/array/tuple_size
+tuple_size<std::pair>	utility	class		utility/pair/tuple_size
+tuple_size<std::tuple>	tuple	class		utility/tuple/tuple_size
+type_identity	type_traits	class		types/type_identity
+type_index	typeindex	class		types/type_index
+type_info	typeinfo	class		types/type_info
+type_of	meta	function		meta/type_of
+type_order	compare	class		utility/compare/type_order
+tzdb	chrono	class		chrono/tzdb
+tzdb_list	chrono	class		chrono/tzdb_list
+u16streampos	iosfwd			io/fpos
+u16string	string			string/basic_string
+u16string_view	string_view			string/basic_string_view
+u32streampos	iosfwd			io/fpos
+u32string	string			string/basic_string
+u32string_view	string_view			string/basic_string_view
+u8display_string_of	meta	function		meta/display_string_of
+u8identifier_of	meta	function		meta/identifier_of
+u8path	filesystem			filesystem/path/u8path
+u8streampos	iosfwd			io/fpos
+u8string	string			string/basic_string
+u8string_view	string_view			string/basic_string_view
+u8symbol_of	meta	function		meta/symbol_of
+unary_function	functional	class		utility/functional/unary_function
+unary_negate	functional	class		utility/functional/unary_negate
+uncaught_exception	exception	function		error/uncaught_exception
+uncaught_exceptions	exception	function		error/uncaught_exception
+undeclare_no_pointers	memory	function		memory/gc/undeclare_no_pointers
+undeclare_reachable	memory	function		memory/gc/undeclare_reachable
+underflow_error	stdexcept	class		error/underflow_error
+underlying_type	meta	function		meta/underlying_type
+unexpect_t	expected			utility/expected/unexpect_t
+unexpected	exception	function		error/unexpected
+unexpected_handler	exception			error/unexpected_handler
+ungetc	cstdio	function		io/c/ungetc
+ungetwc	cwchar	function		io/c/ungetwc
+uniform_int_distribution	random	class		numeric/random/uniform_int_distribution
+uniform_random_bit_generator	random	concept		numeric/random/uniform_random_bit_generator
+uniform_real_distribution	random	class		numeric/random/uniform_real_distribution
+uninitialized_construct_using_allocator	memory	function		memory/uninitialized_construct_using_allocator
+uninitialized_copy	memory	algorithm		memory/uninitialized_copy
+uninitialized_copy_n	memory	algorithm		memory/uninitialized_copy_n
+uninitialized_default_construct	memory	algorithm		memory/uninitialized_default_construct
+uninitialized_default_construct_n	memory	algorithm		memory/uninitialized_default_construct_n
+uninitialized_fill	memory	algorithm		memory/uninitialized_fill
+uninitialized_fill_n	memory	algorithm		memory/uninitialized_fill_n
+uninitialized_move	memory	algorithm		memory/uninitialized_move
+uninitialized_move_n	memory	algorithm		memory/uninitialized_move_n
+uninitialized_value_construct	memory	algorithm		memory/uninitialized_value_construct
+uninitialized_value_construct_n	memory	algorithm		memory/uninitialized_value_construct_n
+unique	algorithm	algorithm		algorithm/unique
+unique_copy	algorithm	algorithm		algorithm/unique_copy
+unique_lock	mutex	class		thread/unique_lock
+unique_ptr	memory	class		memory/unique_ptr
+unique_ptr::make_unique	memory	function		memory/unique_ptr/make_unique
+unique_ptr::operator==	memory	function		memory/unique_ptr/operator_cmp
+unitbuf	ios	function		io/manip/unitbuf
+unordered_map	unordered_map	class		container/unordered_map
+unordered_map::operator==	unordered_map	function		container/unordered_map/operator_cmp
+unordered_multimap	unordered_map	class		container/unordered_multimap
+unordered_multimap::operator==	unordered_map	function		container/unordered_multimap/operator_cmp
+unordered_multiset	unordered_set	class		container/unordered_multiset
+unordered_multiset::operator==	unordered_set	function		container/unordered_multiset/operator_cmp
+unordered_set	unordered_set	class		container/unordered_set
+unordered_set::operator==	unordered_set	function		container/unordered_set/operator_cmp
+unreachable	utility	function		utility/unreachable
+unreachable_sentinel	iterator	constant		iterator/unreachable_sentinel_t
+unreachable_sentinel_t	iterator	class		iterator/unreachable_sentinel_t
+unseq	execution	constant		algorithm/execution_policy_tag
+unsequenced_policy	execution	class		algorithm/execution_policy_tag_t
+unsigned_integral	concepts	concept		concepts/unsigned_integral
+unstoppable_token	stop_token	concept		thread/unstoppable_token
+unsynchronized_pool_resource	memory_resource	class		memory/unsynchronized_pool_resource
+unwrap_ref_decay	meta	function		meta/unwrap_reference
+unwrap_reference	meta	function		meta/unwrap_reference
+upper_bound	algorithm	algorithm		algorithm/upper_bound
+uppercase	ios	function		io/manip/uppercase
+us	chrono			chrono/operator%22%22us
+use_facet	locale	function		locale/use_facet
+uses_allocator	memory	class		memory/uses_allocator
+uses_allocator<std::flat_map>	flat_map	class		container/flat_map/uses_allocator
+uses_allocator<std::flat_multimap>	flat_map	class		container/flat_multimap/uses_allocator
+uses_allocator<std::flat_multiset>	flat_set	class		container/flat_multiset/uses_allocator
+uses_allocator<std::flat_set>	flat_set	class		container/flat_set/uses_allocator
+uses_allocator<std::packaged_task>	future	class		thread/packaged_task/uses_allocator
+uses_allocator<std::priority_queue>	queue	class		container/priority_queue/uses_allocator
+uses_allocator<std::promise>	future	class		thread/promise/uses_allocator
+uses_allocator<std::queue>	queue	class		container/queue/uses_allocator
+uses_allocator<std::stack>	stack	class		container/stack/uses_allocator
+uses_allocator<std::tuple>	tuple	class		utility/tuple/uses_allocator
+uses_allocator_construction_args	memory	function		memory/uses_allocator_construction_args
+utc_clock	chrono	class		chrono/utc_clock
+utc_clock::formatter<std::chrono::utc_time>	chrono	class		chrono/utc_clock/formatter
+utc_clock::from_stream	chrono	function		chrono/utc_clock/from_stream
+utc_clock::get_leap_second_info	chrono	function		chrono/utc_clock/get_leap_second_info
+utc_clock::leap_second_info	chrono	class		chrono/utc_clock/leap_second_info
+utc_clock::operator<<	chrono	function		chrono/utc_clock/operator_ltlt
+va_arg	cstdarg	function		utility/variadic/va_arg
+va_copy	cstdarg	function		utility/variadic/va_copy
+va_end	cstdarg	function		utility/variadic/va_end
+va_list	cstdarg			utility/variadic/va_list
+va_start	cstdarg	function		utility/variadic/va_start
+valarray	valarray	class		numeric/valarray
+valarray::gslice	valarray	class		numeric/valarray/gslice
+valarray::gslice_array	valarray	class		numeric/valarray/gslice_array
+valarray::indirect_array	valarray	class		numeric/valarray/indirect_array
+valarray::mask_array	valarray	class		numeric/valarray/mask_array
+valarray::operator+	valarray	function		numeric/valarray/operator_arith3
+valarray::operator==	valarray	function		numeric/valarray/operator_cmp
+valarray::slice	valarray	class		numeric/valarray/slice
+valarray::slice_array	valarray	class		numeric/valarray/slice_array
+values	ranges			ranges/values_view
+values_view	ranges			ranges/values_view
+variable_of	meta	function		meta/variable_of
+variant	variant	class		utility/variant
+variant::bad_variant_access	variant	class		utility/variant/bad_variant_access
+variant::get_if	variant	function		utility/variant/get_if
+variant::holds_alternative	variant	function		utility/variant/holds_alternative
+variant::monostate	variant	class		utility/variant/monostate
+variant::operator==	variant	function		utility/variant/operator_cmp
+variant::variant_alternative	variant	class		utility/variant/variant_alternative
+variant::variant_npos	variant	constant		utility/variant/variant_npos
+variant::variant_size	variant	class		utility/variant/variant_size
+variant::visit	variant	function		utility/variant/visit2
+variant_alternative	meta	function		meta/variant_alternative
+variant_alternative_t	variant	class		utility/variant/variant_alternative
+variant_size	meta	function		meta/variant_size
+variant_size_v	variant	class		utility/variant/variant_size
+vector	vector	class		container/vector
+vector::clear	vector	member		container/vector/clear
+vector::operator==	vector	function		container/vector/operator_cmp
+vector::pop_back	vector	member		container/vector/pop_back
+vector::push_back	vector	member		container/vector/push_back
+vector<bool>	vector	class		container/vector_bool
+vector<bool>::hash<std::vector<bool>>	vector	class		container/vector_bool/hash
+vformat	format	function		utility/format/vformat
+vformat_to	format	function		utility/format/vformat_to
+vfprintf	cstdio	function		io/c/vfprintf
+vfscanf	cstdio	function		io/c/vfscanf
+vfwprintf	cwchar	function		io/c/vfwprintf
+vfwscanf	cwchar	function		io/c/vfwscanf
+view_interface	ranges			ranges/view_interface
+viewable_range	ranges			ranges/viewable_range
+views::adjacent	ranges	class		ranges/adjacent_view
+views::adjacent_transform	ranges	class		ranges/adjacent_transform_view
+views::all	ranges	alias		ranges/all_view
+views::all_t	ranges	alias		ranges/all_view
+views::as_const	ranges	class		ranges/as_const_view
+views::as_input	ranges	class		ranges/as_input_view
+views::as_rvalue	ranges	class		ranges/as_rvalue_view
+views::cache_latest	ranges	class		ranges/cache_latest_view
+views::cartesian_product	ranges	class		ranges/cartesian_product_view
+views::chunk	ranges	class		ranges/chunk_view
+views::chunk_by	ranges	class		ranges/chunk_by_view
+views::common	ranges	class		ranges/common_view
+views::concat	ranges	class		ranges/concat_view
+views::counted	ranges	object		ranges/view_counted
+views::drop	ranges	class		ranges/drop_view
+views::drop_while	ranges	class		ranges/drop_while_view
+views::elements	ranges	class		ranges/elements_view
+views::empty	ranges	class		ranges/empty_view
+views::enumerate	ranges	class		ranges/enumerate_view
+views::filter	ranges	class		ranges/filter_view
+views::indices	ranges	object		ranges/iota_view
+views::iota	ranges	class		ranges/iota_view
+views::istream	ranges	class		ranges/basic_istream_view
+views::join	ranges	class		ranges/join_view
+views::join_with	ranges	class		ranges/join_with_view
+views::keys	ranges	class		ranges/keys_view
+views::lazy_split	ranges	class		ranges/lazy_split_view
+views::pairwise	ranges	object		ranges/adjacent_view
+views::pairwise_transform	ranges	object		ranges/adjacent_transform_view
+views::repeat	ranges	class		ranges/repeat_view
+views::reverse	ranges	class		ranges/reverse_view
+views::single	ranges	class		ranges/single_view
+views::slide	ranges	class		ranges/slide_view
+views::split	ranges	class		ranges/split_view
+views::stride	ranges	class		ranges/stride_view
+views::take	ranges	class		ranges/take_view
+views::take_while	ranges	class		ranges/take_while_view
+views::transform	ranges	class		ranges/transform_view
+views::values	ranges	class		ranges/values_view
+views::zip	ranges	class		ranges/zip_view
+views::zip_transform	ranges	class		ranges/zip_transform_view
+visit_format_arg	format	function		utility/format/visit_format_arg
+void_t	type_traits	alias		types/void_t
+vprint_nonunicode	print	function		io/vprint_nonunicode
+vprint_nonunicode_buffered	print	function		io/vprint_nonunicode
+vprint_unicode	print	function		io/vprint_unicode
+vprint_unicode_buffered	print	function		io/vprint_unicode
+vprintf	cstdio	function		io/c/vfprintf
+vscanf	cstdio	function		io/c/vfscanf
+vsnprintf	cstdio	function		io/c/vfprintf
+vsprintf	cstdio	function		io/c/vfprintf
+vsscanf	cstdio	function		io/c/vfscanf
+vswprintf	cwchar	function		io/c/vfwprintf
+vswscanf	cwchar	function		io/c/vfwscanf
+vwprintf	cwchar	function		io/c/vfwprintf
+vwscanf	cwchar	function		io/c/vfwscanf
+wbuffer_convert	locale	class		locale/wbuffer_convert
+wcerr	iostream	object		io/cerr
+wcin	iostream	object		io/cin
+wclog	iostream	object		io/clog
+wcmatch	regex			regex/match_results
+wcout	iostream	object		io/cout
+wcregex_iterator	regex			regex/regex_iterator
+wcregex_token_iterator	regex			regex/regex_token_iterator
+wcrtomb	cwchar	function		string/multibyte/wcrtomb
+wcscat	cwchar	function		string/wide/wcscat
+wcschr	cwchar	function		string/wide/wcschr
+wcscmp	cwchar	function		string/wide/wcscmp
+wcscoll	cwchar	function		string/wide/wcscoll
+wcscpy	cwchar	function		string/wide/wcscpy
+wcscspn	cwchar	function		string/wide/wcscspn
+wcsftime	cwchar	function		chrono/c/wcsftime
+wcslen	cwchar	function		string/wide/wcslen
+wcsncat	cwchar	function		string/wide/wcsncat
+wcsncmp	cwchar	function		string/wide/wcsncmp
+wcsncpy	cwchar	function		string/wide/wcsncpy
+wcspbrk	cwchar	function		string/wide/wcspbrk
+wcsrchr	cwchar	function		string/wide/wcsrchr
+wcsrtombs	cwchar	function		string/multibyte/wcsrtombs
+wcsspn	cwchar	function		string/wide/wcsspn
+wcsstr	cwchar	function		string/wide/wcsstr
+wcstod	cwchar	function		string/wide/wcstof
+wcstof	cwchar	function		string/wide/wcstof
+wcstoimax	cinttypes	function		string/wide/wcstoimax
+wcstok	cwchar	function		string/wide/wcstok
+wcstol	cwchar	function		string/wide/wcstol
+wcstold	cwchar	function		string/wide/wcstof
+wcstoll	cwchar	function		string/wide/wcstol
+wcstombs	cstdlib	function		string/multibyte/wcstombs
+wcstoul	cwchar	function		string/wide/wcstoul
+wcstoull	cwchar	function		string/wide/wcstoul
+wcstoumax	cinttypes	function		string/wide/wcstoimax
+wcsub_match	regex			regex/sub_match
+wcsxfrm	cwchar	function		string/wide/wcsxfrm
+wctob	cwchar	function		string/multibyte/wctob
+wctomb	cstdlib	function		string/multibyte/wctomb
+wctrans	cwctype	function		string/wide/wctrans
+wctype	cwctype	function		string/wide/wctype
+weak_order	compare	object		utility/compare/weak_order
+weak_ordering	compare	class		utility/compare/weak_ordering
+weak_ptr	memory	class		memory/weak_ptr
+weakly_canonical	filesystem	function		filesystem/canonical
+weakly_incrementable	iterator	concept		iterator/weakly_incrementable
+weekday	chrono	class		chrono/weekday
+weekday::formatter<std::chrono::weekday>	chrono	class		chrono/weekday/formatter
+weekday::from_stream	chrono	function		chrono/weekday/from_stream
+weekday::hash<std::chrono::weekday>	chrono	class		chrono/weekday/hash
+weekday::operator+	chrono	function		chrono/weekday/operator_arith_2
+weekday::operator<<	chrono	function		chrono/weekday/operator_ltlt
+weekday::operator==	chrono	function		chrono/weekday/operator_cmp
+weekday_indexed	chrono	class		chrono/weekday_indexed
+weekday_indexed::formatter<std::chrono::weekday_indexed>	chrono	class		chrono/weekday_indexed/formatter
+weekday_indexed::hash<std::chrono::weekday_indexed>	chrono	class		chrono/weekday_indexed/hash
+weekday_indexed::operator<<	chrono	function		chrono/weekday_indexed/operator_ltlt
+weekday_indexed::operator==	chrono	function		chrono/weekday_indexed/operator_cmp
+weekday_last	chrono	class		chrono/weekday_last
+weekday_last::formatter<std::chrono::weekday_last>	chrono	class		chrono/weekday_last/formatter
+weekday_last::hash<std::chrono::weekday_last>	chrono	class		chrono/weekday_last/hash
+weekday_last::operator<<	chrono	function		chrono/weekday_last/operator_ltlt
+weekday_last::operator==	chrono	function		chrono/weekday_last/operator_cmp
+weibull_distribution	random	class		numeric/random/weibull_distribution
+wformat_args	format	class		utility/format/basic_format_args
+wformat_context	format	class		utility/format/basic_format_context
+wformat_parse_context	format	class		utility/format/basic_format_parse_context
+wformat_string	format	class		utility/format/basic_format_string
+wios	ios			io/basic_ios
+wiostream	istream			io/basic_iostream
+wistream	istream			io/basic_istream
+wmemchr	cwchar	function		string/wide/wmemchr
+wmemcmp	cwchar	function		string/wide/wmemcmp
+wmemcpy	cwchar	function		string/wide/wmemcpy
+wmemmove	cwchar	function		string/wide/wmemmove
+wmemset	cwchar	function		string/wide/wmemset
+wostream	ostream			io/basic_ostream
+wprintf	cwchar	function		io/c/fwprintf
+wregex	regex			regex/basic_regex
+ws	istream	function		io/manip/ws
+wscanf	cwchar	function		io/c/fwscanf
+wsmatch	regex			regex/match_results
+wsregex_iterator	regex			regex/regex_iterator
+wsregex_token_iterator	regex			regex/regex_token_iterator
+wssub_match	regex			regex/sub_match
+wstreampos	iosfwd			io/fpos
+wstring	string			string/basic_string
+wstring_convert	locale	class		locale/wstring_convert
+wstring_view	string_view			string/basic_string_view
+y	chrono			chrono/operator%22%22y
+year	chrono	class		chrono/year
+year::formatter<std::chrono::year>	chrono	class		chrono/year/formatter
+year::from_stream	chrono	function		chrono/year/from_stream
+year::hash<std::chrono::year>	chrono	class		chrono/year/hash
+year::operator+	chrono	function		chrono/year/operator_arith_2
+year::operator<<	chrono	function		chrono/year/operator_ltlt
+year::operator==	chrono	function		chrono/year/operator_cmp
+year_month	chrono	class		chrono/year_month
+year_month::formatter<std::chrono::year_month>	chrono	class		chrono/year_month/formatter
+year_month::from_stream	chrono	function		chrono/year_month/from_stream
+year_month::hash<std::chrono::year_month>	chrono	class		chrono/year_month/hash
+year_month::operator+	chrono	function		chrono/year_month/operator_arith_2
+year_month::operator<<	chrono	function		chrono/year_month/operator_ltlt
+year_month::operator==	chrono	function		chrono/year_month/operator_cmp
+year_month_day	chrono	class		chrono/year_month_day
+year_month_day::formatter<std::chrono::year_month_day>	chrono	class		chrono/year_month_day/formatter
+year_month_day::from_stream	chrono	function		chrono/year_month_day/from_stream
+year_month_day::hash<std::chrono::year_month_day>	chrono	class		chrono/year_month_day/hash
+year_month_day::operator+	chrono	function		chrono/year_month_day/operator_arith_2
+year_month_day::operator<<	chrono	function		chrono/year_month_day/operator_ltlt
+year_month_day::operator==	chrono	function		chrono/year_month_day/operator_cmp
+year_month_day_last	chrono	class		chrono/year_month_day_last
+year_month_day_last::formatter<std::chrono::year_month_day_last>	chrono	class		chrono/year_month_day_last/formatter
+year_month_day_last::hash<std::chrono::year_month_day_last>	chrono	class		chrono/year_month_day_last/hash
+year_month_day_last::operator+	chrono	function		chrono/year_month_day_last/operator_arith_2
+year_month_day_last::operator<<	chrono	function		chrono/year_month_day_last/operator_ltlt
+year_month_day_last::operator==	chrono	function		chrono/year_month_day_last/operator_cmp
+year_month_weekday	chrono	class		chrono/year_month_weekday
+year_month_weekday::formatter<std::chrono::year_month_weekday>	chrono	class		chrono/year_month_weekday/formatter
+year_month_weekday::hash<std::chrono::year_month_weekday>	chrono	class		chrono/year_month_weekday/hash
+year_month_weekday::operator+	chrono	function		chrono/year_month_weekday/operator_arith_2
+year_month_weekday::operator<<	chrono	function		chrono/year_month_weekday/operator_ltlt
+year_month_weekday::operator==	chrono	function		chrono/year_month_weekday/operator_cmp
+year_month_weekday_last	chrono	class		chrono/year_month_weekday_last
+year_month_weekday_last::formatter<std::chrono::year_month_weekday_last>	chrono	class		chrono/year_month_weekday_last/formatter
+year_month_weekday_last::hash<std::chrono::year_month_weekday_last>	chrono	class		chrono/year_month_weekday_last/hash
+year_month_weekday_last::operator+	chrono	function		chrono/year_month_weekday_last/operator_arith_2
+year_month_weekday_last::operator<<	chrono	function		chrono/year_month_weekday_last/operator_ltlt
+year_month_weekday_last::operator==	chrono	function		chrono/year_month_weekday_last/operator_cmp
+yield	thread	function		thread/yield
+zip	ranges			ranges/zip_view
+zip_transform	ranges			ranges/zip_transform_view
+zip_transform_view	ranges			ranges/zip_transform_view
+zip_view	ranges			ranges/zip_view
+zoned_seconds	chrono			chrono/zoned_time
+zoned_time	chrono	class		chrono/zoned_time
+zoned_time::formatter<std::chrono::zoned_time>	chrono	class		chrono/zoned_time/formatter
+zoned_time::hash<std::chrono::zoned_time>	chrono	class		chrono/zoned_time/hash
+zoned_time::operator<<	chrono	function		chrono/zoned_time/operator_ltlt
+zoned_time::operator==	chrono	function		chrono/zoned_time/operator_cmp
+zoned_traits	chrono	class		chrono/zoned_traits

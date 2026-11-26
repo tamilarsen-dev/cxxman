@@ -38,11 +38,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The build lints data/; with CXXMAN_CHECK_SNIPPETS it also compiles every
+      # card example and recipe variant (PLAN 5.5).
       - name: Configure
         shell: bash
-        run: cmake --preset dev ${{ matrix.arch && format('-A {0}', matrix.arch) || '' }}
+        run: >
+          cmake --preset dev
+          ${{ matrix.arch && format('-A {0}', matrix.arch) || '' }}
+          -DCXXMAN_CHECK_SNIPPETS=${{ matrix.build_only && 'OFF' || 'ON' }}
 
-      - name: Build
+      - name: Build and compile snippets
         run: cmake --build --preset dev
 
       - name: Test

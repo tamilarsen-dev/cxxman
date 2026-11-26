@@ -28,7 +28,7 @@ text  = "getline drops a trailing empty field: \"a,b,\" gives 2 parts, not 3"
 
 [[gotcha]]
 level = "warn"
-text  = "views::split on a string literal also splits off its '\\0': use string_view"
+text  = "views::split over a string literal keeps its '\\0': use string_view"
 
 [[gotcha]]
 level = "ub"

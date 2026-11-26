@@ -1128,3 +1128,12 @@ of usefulness so every release is good, not half-done.
 | 2026-11-26 | Config: flat key = value subset, hand-parsed | The only runtime parsing; tiny and fast |
 | 2026-11-26 | `dev` preset: platform default generator, Debug, `CMAKE_COMPILE_WARNING_AS_ERROR`; shown version = `project(VERSION)` + `CXXMAN_VERSION_SUFFIX` | Works on every CI runner without a vcvars step; warnings never pile up; the release check compares the tag with `project(VERSION)` alone |
 | 2026-11-26 | M0 CI also runs `ctest` (except the x86 build-only job) | One version smoke test costs nothing and keeps `ctest --preset dev` meaningful |
+| 2026-11-26 | `names.tsv` import rules: a row per topic and alias; a missing header is taken from another entry with the same `source_path` (203 entries), else the entry is dropped (21); `<>`, `()` and `(std::X)` overload markers are stripped; exposition-only names (`boolean-testable`) are dropped; one row per (name, header, url); legacy kind `unknown` becomes empty; first line holds the column names | The legacy catalog had 224 entries without a header, not one (§5.6), and display-only name forms |
+| 2026-11-26 | Hand rows in `names.tsv`: `vector::clear`, `vector::pop_back`, `getline`, `istringstream` | The seeds' `see_also`/`uses` name them and the legacy catalog lacks them |
+| 2026-11-26 | `Kind::Unknown` for index names without a kind; never valid on a card | 460+ legacy names have no kind |
+| 2026-11-26 | Enum spellings live once, in `src/model/model.hpp`; `gen/schema.hpp` includes it | One list per enum (§6.5) |
+| 2026-11-26 | Snippets compile in a nested CMake project (`cmake/snippets`), configured and built at build time by `cmake/check_snippets.cmake`, one object library per standard | The snippet list only exists after `cxxman-gen` runs |
+| 2026-11-26 | The linter resolves `see_also`, `uses`, compare subjects and header-file groups, not class `member_group` names | Member groups list member names (`at`, `operator[]`) that are not lookup keys |
+| 2026-11-26 | M1's `data.cpp` holds the tables, the key table and the changelog; the search postings come with M3 | The postings layout depends on M3's scoring |
+| 2026-11-26 | `cxxman-gen` always lints; `--check` also prints the warnings | Keeps §7.3's command line and makes warnings visible in the build |
+| 2026-11-26 | Recipe `split-string`: second gotcha shortened to "views::split over a string literal keeps its '\0': use string_view" | It was 74 characters; the budget is 72 |
