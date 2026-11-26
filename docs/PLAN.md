@@ -966,7 +966,7 @@ users.
 Do one milestone at a time, in order. Each has tests, and "Done when" is
 the definition of done. Mark finished ones with `✅ <date>`.
 
-**M0 — Fresh start.** The cleanup was already done on 2026-11-26:
+**M0 — Fresh start.** ✅ 2026-11-27. The cleanup was already done on 2026-11-26:
 branch `legacy-python` = `027a863`, the old files were removed, and this
 plan was moved to the root (all staged, not committed). Remaining:
 commit the cleanup as "Start C++ rewrite; legacy Python code kept on
@@ -975,7 +975,7 @@ branch legacy-python"; add `.gitignore` (build/, out/, .vs/, .vscode/,
 `cxxman 0.9.0-dev`; and add `ci.yml` (build only).
 *Done when:* CI is green on all jobs.
 
-**M1 — Data pipeline.** Model structs; `cxxman-gen` (parse all four
+**M1 — Data pipeline.** ✅ 2026-11-27. Model structs; `cxxman-gen` (parse all four
 file types, the full linter, `data.cpp`, snippet TUs with `#line`);
 `names.tsv` from the legacy catalog; `upstream.lock` (empty, header
 only); `data/LICENSE`; `CHANGELOG.md`.
