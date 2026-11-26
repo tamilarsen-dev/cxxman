@@ -1126,3 +1126,5 @@ of usefulness so every release is good, not half-done.
 | 2026-11-26 | Interactive finder, recipes, compares, support data in v1 | The features that save developers the most time |
 | 2026-11-26 | Built-in pager instead of `$PAGER` | Same behavior on Windows |
 | 2026-11-26 | Config: flat key = value subset, hand-parsed | The only runtime parsing; tiny and fast |
+| 2026-11-26 | `dev` preset: platform default generator, Debug, `CMAKE_COMPILE_WARNING_AS_ERROR`; shown version = `project(VERSION)` + `CXXMAN_VERSION_SUFFIX` | Works on every CI runner without a vcvars step; warnings never pile up; the release check compares the tag with `project(VERSION)` alone |
+| 2026-11-26 | M0 CI also runs `ctest` (except the x86 build-only job) | One version smoke test costs nothing and keeps `ctest --preset dev` meaningful |
