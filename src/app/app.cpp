@@ -27,24 +27,44 @@ constexpr std::string_view usage_text =
     "usage: cxxman [options] <name>\n"
     "try 'cxxman sort' or 'cxxman --help'\n";
 
+// Every v1 command (PLAN §3), grouped; at most 40 lines. Commands of later
+// milestones are listed and say "not available yet" until they land.
 constexpr std::string_view help_text =
     "cxxman - C++ standard library reference cards\n"
     "\n"
-    "usage: cxxman [options] <name>      a card: sort, vector::erase, std::optional\n"
-    "       cxxman -s <words...>          search by task: cxxman -s remove duplicates\n"
-    "       cxxman -H <header>            what a header has: cxxman -H algorithm\n"
-    "       cxxman --list [--kind K] [--header H] [--since S]\n"
-    "       cxxman --new <std>            names added in a standard: cxxman --new 17\n"
-    "       cxxman --coverage [--missing <header>]\n"
+    "usage: cxxman [options] <name>     a card: sort, vector::erase, std::optional\n"
+    "       cxxman                      the interactive finder (in a terminal)\n"
     "\n"
-    "options:\n"
-    "  --color auto|always|never        color output; auto honors NO_COLOR\n"
-    "  --theme dark|light|mono\n"
-    "  --width N                        60 to 100 columns\n"
-    "  --ascii                          plain ASCII instead of Unicode symbols\n"
-    "  --std 11..26                     your project's standard\n"
-    "  --config [init|path]             show, create or locate the config file\n"
-    "  --version, --help\n"
+    "find:\n"
+    "  -s, --search <words...>   search by task: cxxman -s remove duplicates\n"
+    "  -r, --recipe <words...>   a recipe: cxxman -r split string\n"
+    "  -c, --compare <a> <b>     which one to use: cxxman -c map unordered_map\n"
+    "  -H, --header <header>     what a header has: cxxman -H algorithm\n"
+    "  --new <std>               names added in a standard: cxxman --new 17\n"
+    "  --list [--kind K] [--header H] [--since S]\n"
+    "  --coverage [--missing <header>]\n"
+    "\n"
+    "card:\n"
+    "  -e, --examples            every example, code unwrapped\n"
+    "  --sig                     signatures only\n"
+    "  -b, --brief               one line: name, header, summary\n"
+    "  --include                 the #include line\n"
+    "  --support                 compiler versions and feature-test macro\n"
+    "  --url, --web              print or open the cppreference page\n"
+    "  --copy [N]                copy example N (default 1)\n"
+    "  --json                    JSON for editors and scripts\n"
+    "\n"
+    "display:\n"
+    "  --std 11..26 [--strict]   mark (or hide) what is newer than your standard\n"
+    "  --color auto|always|never, --theme dark|light|mono\n"
+    "  --width N                 60 to 100 columns\n"
+    "  --ascii, --no-hyperlinks, --pager auto|always|never\n"
+    "\n"
+    "other:\n"
+    "  update [--check]          update cxxman from GitHub Releases\n"
+    "  --config [init|path]      show, create or locate the config file\n"
+    "  --completions <shell>     bash, zsh, fish or powershell\n"
+    "  --changelog, --version, --help\n"
     "\n"
     "CXXMAN_OPTS holds default options, e.g. CXXMAN_OPTS=\"--theme light\".\n";
 
@@ -141,25 +161,68 @@ struct View {
 
 View view_for(const Settings& s, const Context& ctx) {
   View v;
-  v.o = {width_for(s, ctx), s.ascii.value_or(!ctx.term.utf8)};
+  v.o = {width_for(s, ctx), s.ascii.value_or(!ctx.term.utf8), s.std, s.strict};
   v.style.theme = v.plain.theme = s.theme;
   v.style.ascii = v.plain.ascii = v.o.ascii;
   if (color_on(s, ctx)) v.style.depth = render::detect_depth(ctx.env);
   return v;
 }
 
+// `cxxman <name>` with its modifier (PLAN §3.2) on a card.
+int show_card(const Invocation& inv, const Catalog& cat, const Entry& e,
+              std::span<const std::string_view> also, const View& v, Output& io) {
+  auto none = [&](std::string_view what) {
+    io.err += "cxxman: '" + std::string(e.id) + "' has no " + std::string(what) + "\n";
+    return 1;
+  };
+  switch (inv.show) {
+    case Show::Card: io.out += render::paint(render::card(cat, e, also, v.o), v.style); return 0;
+    case Show::Examples:
+      if (e.examples.empty()) return none("examples");
+      io.out += render::paint(render::examples_only(e, v.o), v.style);
+      return 0;
+    case Show::Signatures:
+      if (e.signatures.empty()) return none("signatures");
+      io.out += render::paint(render::signatures_only(e, v.o), v.style);
+      return 0;
+    case Show::Brief: io.out += render::paint(render::brief(e, v.o), v.style); return 0;
+    case Show::Include: io.out += "#include <" + std::string(e.header) + ">\n"; return 0;
+    case Show::Url: io.out += render::reference_url(e.url) + "\n"; return 0;
+  }
+  return 3;
+}
+
+// A known name without a card: only its header and URL are known.
+int show_index(const Invocation& inv, const Catalog& cat, const Resolution& r, const View& v,
+               Output& io) {
+  if (inv.show == Show::Card) {
+    io.out += render::paint(render::index_only(cat, r.rows, r.also, v.o), v.style);
+    return 0;
+  }
+  if (inv.show != Show::Include && inv.show != Show::Url) {
+    io.err += "cxxman: '" + inv.name + "' has no card yet; cxxman " + inv.name + " --url gives its page\n";
+    return 1;
+  }
+  if (r.rows.size() > 1) {
+    io.err += "cxxman: '" + inv.name + "' is in " + std::to_string(r.rows.size()) +
+              " headers; cxxman " + inv.name + " lists them\n";
+    return 2;
+  }
+  const IndexName& n = cat.index[static_cast<std::size_t>(r.rows.front())];
+  io.out += inv.show == Show::Include ? "#include <" + std::string(n.header) + ">\n"
+                                      : render::reference_url(n.url) + "\n";
+  return 0;
+}
+
 int show_name(const Invocation& inv, const Context& ctx, Output& io) {
-  const View v = view_for(inv.settings, ctx);
+  View v = view_for(inv.settings, ctx);
+  v.o.support = inv.support;
   const Resolution r = resolve(ctx.catalog, inv.name);
   switch (r.what) {
     case Resolution::What::Card:
-      io.out += render::paint(
-          render::card(ctx.catalog, ctx.catalog.entries[static_cast<std::size_t>(r.entry)], r.also, v.o),
-          v.style);
-      return 0;
-    case Resolution::What::Index:
-      io.out += render::paint(render::index_only(ctx.catalog, r.rows, r.also, v.o), v.style);
-      return 0;
+      return show_card(inv, ctx.catalog, ctx.catalog.entries[static_cast<std::size_t>(r.entry)], r.also,
+                       v, io);
+    case Resolution::What::Index: return show_index(inv, ctx.catalog, r, v, io);
     case Resolution::What::Ambiguous:
       io.err += render::paint(render::ambiguous(inv.name, r.also, v.o), v.plain);
       return 2;
@@ -291,6 +354,13 @@ int run(std::span<const std::string> args, const Context& ctx, Output& io) {
   switch (inv.action) {
     case Action::Version: io.out += "cxxman " CXXMAN_VERSION "\n"; return 0;
     case Action::Help: io.out += help_text; return 0;
+    case Action::Changelog: {
+      const std::string_view text = data::changelog();
+      io.out += "cxxman " CXXMAN_VERSION "\n\n";
+      io.out += text;
+      if (!text.empty() && !text.ends_with('\n')) io.out += '\n';
+      return 0;
+    }
     case Action::ConfigPath:
       io.out += (ctx.config_file.empty() ? std::string("(no config directory)") : ctx.config_file.string()) + "\n";
       return 0;

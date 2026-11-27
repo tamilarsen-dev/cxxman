@@ -1,0 +1,4 @@
+$ cxxman istringstream -e --width 80 --color never
+exit 1
+--- stderr
+cxxman: 'istringstream' has no card yet; cxxman istringstream --url gives its page

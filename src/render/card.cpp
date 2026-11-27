@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace cxxman::render {
@@ -25,6 +26,63 @@ void blank(Block& out) {
 
 void push(Block& out, Block lines) {
   for (auto& l : lines) out.push_back(std::move(l));
+}
+
+bool newer(Std s, const Options& o) { return o.std != Std::Unknown && s != Std::Unknown && s > o.std; }
+
+// `text` in badge, or "⚑ text" in newer when `s` is newer than --std.
+Line std_badge(std::string_view text, Std s, const Options& o) {
+  Line l;
+  if (newer(s, o))
+    l.add(std::string(sym(Sym::Newer, o.ascii)) + " " + std::string(text), Role::Newer);
+  else
+    l.add(text, Role::Badge);
+  return l;
+}
+
+// What --strict hides: how many items, and the oldest standard they need.
+struct Hidden {
+  std::size_t count = 0;
+  Std need = Std::Unknown;
+
+  bool hides(Std s, const Options& o) {
+    if (!o.strict || !newer(s, o)) return false;
+    ++count;
+    need = std::min(need, s);  // Unknown sorts last
+    return true;
+  }
+};
+
+// The parts of a card that --std --strict leaves.
+struct Parts {
+  std::vector<std::pair<std::string_view, Std>> badges;
+  std::vector<Signature> signatures;
+  std::vector<Group> members;
+  std::vector<Snippet> examples;
+  Hidden hidden;
+};
+
+Parts parts_of(const Entry& e, const Options& o) {
+  Parts p;
+  for (auto b : e.badges)
+    if (const Std s = std_of_badge(b); !p.hidden.hides(s, o)) p.badges.emplace_back(b, s);
+  for (const auto& s : e.signatures)
+    if (!p.hidden.hides(s.since, o)) p.signatures.push_back(s);
+  for (const auto& g : e.members)
+    if (!p.hidden.hides(g.since, o)) p.members.push_back(g);
+  for (const auto& x : e.examples)
+    if (!p.hidden.hides(x.std, o)) p.examples.push_back(x);
+  return p;
+}
+
+// "3 items need C++20+ (hidden by --std 17 --strict)".
+void hidden_line(Block& out, const Hidden& h, const Options& o) {
+  if (h.count == 0) return;
+  const std::string text = std::to_string(h.count) + (h.count == 1 ? " item needs " : " items need ") +
+                           std::string(to_string(h.need)) + "+ (hidden by --std " +
+                           std::string(to_string(o.std).substr(3)) + " --strict)";
+  blank(out);
+  push(out, flow(Line{}, words(text, Role::Badge), o.width, 0));
 }
 
 // "std::vector<T>" for a class whose first signature is "vector<T>".
@@ -49,13 +107,26 @@ void title_block(Block& out, Line title, const Line& badges, std::size_t width) 
   out.push_back(std::move(second));
 }
 
-void signatures(Block& out, const Entry& e, const Options& o) {
+// Title, header and badges.
+void head(Block& out, const Entry& e, const Parts& p, const Options& o) {
+  Line title;
+  title.add(title_text(e), Role::Title).add("  ").add("<" + std::string(e.header) + ">", Role::Header);
+  Line badges;
+  if (e.since != Std::Unknown) badges.append(std_badge(to_string(e.since), e.since, o));
+  for (auto [b, s] : p.badges) {
+    if (!badges.empty()) badges.add(sep(o), Role::Badge);
+    badges.append(std_badge(b, s, o));
+  }
+  title_block(out, std::move(title), badges, o.width);
+}
+
+void signatures(Block& out, std::span<const Signature> sigs, const Options& o) {
   std::size_t text_w = 0;
   std::vector<Line> notes;
-  for (const auto& s : e.signatures) {
+  for (const auto& s : sigs) {
     text_w = std::max(text_w, display_width(s.text));
     Line n;
-    if (s.since != Std::Unknown) n.add(to_string(s.since), Role::Badge);
+    if (s.since != Std::Unknown) n.append(std_badge(to_string(s.since), s.since, o));
     if (!s.note.empty()) {
       if (!n.empty()) n.add(sep(o), Role::Badge);
       n.add(s.note, Role::Note);
@@ -66,9 +137,9 @@ void signatures(Block& out, const Entry& e, const Options& o) {
   const bool aligned = std::ranges::all_of(notes, [&](const Line& n) {
     return n.empty() || col + n.width() <= o.width;
   });
-  for (std::size_t i = 0; i < e.signatures.size(); ++i) {
+  for (std::size_t i = 0; i < sigs.size(); ++i) {
     Line l = spaces(indent);
-    l.add(e.signatures[i].text, Role::Sig);
+    l.add(sigs[i].text, Role::Sig);
     const Line& n = notes[i];
     if (n.empty()) {
       out.push_back(std::move(l));
@@ -79,10 +150,9 @@ void signatures(Block& out, const Entry& e, const Options& o) {
       out.push_back(std::move(l));
       // Re-split the note so it wraps; the badge part stays one item.
       std::vector<Line> items;
-      const auto& s = e.signatures[i];
+      const auto& s = sigs[i];
       if (s.since != Std::Unknown) {
-        Line badge;
-        badge.add(to_string(s.since), Role::Badge);
+        Line badge = std_badge(to_string(s.since), s.since, o);
         if (!s.note.empty()) badge.add(" " + std::string(sym(Sym::Dot, o.ascii)), Role::Badge);
         items.push_back(std::move(badge));
       }
@@ -92,11 +162,12 @@ void signatures(Block& out, const Entry& e, const Options& o) {
   }
 }
 
-void members(Block& out, const Catalog& cat, const Entry& e, const Options& o) {
+void members(Block& out, const Catalog& cat, const Entry& e, std::span<const Group> groups,
+             const Options& o) {
   std::size_t label_w = 0;
-  for (const auto& g : e.members) label_w = std::max(label_w, display_width(g.title));
+  for (const auto& g : groups) label_w = std::max(label_w, display_width(g.title));
   const std::size_t col = indent + label_w + 2;
-  for (const auto& g : e.members) {
+  for (const auto& g : groups) {
     Line prefix = spaces(indent);
     prefix.add(g.title).pad_to(col);
     std::vector<Line> items;
@@ -108,8 +179,7 @@ void members(Block& out, const Catalog& cat, const Entry& e, const Options& o) {
     }
     Block lines = flow(prefix, items, o.width, col, 2);
     if (g.since != Std::Unknown) {
-      Line badge;
-      badge.add(to_string(g.since), Role::Badge);
+      const Line badge = std_badge(to_string(g.since), g.since, o);
       if (!put_right(lines.back(), badge, o.width)) {
         Line extra;
         put_right(extra, badge, o.width, 0);
@@ -120,9 +190,9 @@ void members(Block& out, const Catalog& cat, const Entry& e, const Options& o) {
   }
 }
 
-// Code lines of one example, highlighted; lines wider than the card wrap at
-// a space with a deeper indent.
-Block code_lines(std::string_view code, const Options& o) {
+// Code lines of one example, highlighted; with `wrap`, lines wider than the
+// card wrap at a space with a deeper indent.
+Block code_lines(std::string_view code, const Options& o, bool wrap) {
   const auto roles = highlight(code);
   Block out;
   std::size_t start = 0;
@@ -134,7 +204,7 @@ Block code_lines(std::string_view code, const Options& o) {
     while (true) {
       std::string_view rest = code.substr(from, end - from);
       std::size_t take = rest.size();
-      if (lead + display_width(rest) > o.width) {
+      if (wrap && lead + display_width(rest) > o.width) {
         const auto avail = o.width > lead ? o.width - lead : 1;
         const auto space = rest.substr(0, avail + 1).rfind(' ');
         take = space != std::string_view::npos && space > 0 ? space : std::min(avail, rest.size());
@@ -157,18 +227,18 @@ Block code_lines(std::string_view code, const Options& o) {
   return out;
 }
 
-void examples(Block& out, const Entry& e, const Options& o) {
+void examples(Block& out, std::span<const Snippet> xs, const Options& o, bool wrap) {
   struct Ex {
     Block code;
     Line comment;
   };
   std::vector<Ex> exs;
-  for (const auto& x : e.examples) {
-    Ex ex{code_lines(x.code, o), {}};
+  for (const auto& x : xs) {
+    Ex ex{code_lines(x.code, o, wrap), {}};
     if (!x.comment.empty()) ex.comment.add("// " + std::string(x.comment), Role::Note);
     if (x.std != Std::Unknown) {
       if (!ex.comment.empty()) ex.comment.add("  ");
-      ex.comment.add(to_string(x.std), Role::Badge);
+      ex.comment.append(std_badge(to_string(x.std), x.std, o));
     }
     exs.push_back(std::move(ex));
   }
@@ -207,6 +277,28 @@ void gotchas(Block& out, std::span<const Gotcha> gs, const Options& o) {
   }
 }
 
+// "gcc 13 · clang 17 · msvc 19.29 · __cpp_lib_format" (PLAN §4.3): shown with
+// --support, or with --std C++20 or later when the card has support data.
+void support_line(Block& out, const Entry& e, const Options& o) {
+  const Support& s = e.support;
+  std::vector<Line> items;
+  auto item = [&](std::string text) {
+    if (!items.empty()) items.back().add(" " + std::string(sym(Sym::Dot, o.ascii)), Role::Badge);
+    items.emplace_back().add(text, Role::Badge);
+  };
+  using P = std::pair<std::string_view, std::string_view>;
+  for (auto [label, version] :
+       {P{"gcc", s.gcc}, P{"clang", s.clang}, P{"apple clang", s.apple_clang}, P{"msvc", s.msvc}})
+    if (!version.empty()) item(std::string(label) + " " + std::string(version));
+  if (!s.ftm.empty()) item(std::string(s.ftm));
+
+  if (items.empty()) {
+    if (o.support) out.emplace_back().add("no support data yet", Role::Badge);
+    return;
+  }
+  if (o.support || (o.std != Std::Unknown && o.std >= Std::Cpp20)) push(out, flow(Line{}, items, o.width, 0));
+}
+
 void also_line(Block& out, std::span<const std::string_view> also, const Options& o) {
   if (also.empty()) return;
   Line prefix;
@@ -226,43 +318,46 @@ std::string display_name(const IndexName& n) {
   return macro ? std::string(n.name) : "std::" + std::string(n.name);
 }
 
-std::string url_of(std::string_view path) { return std::string(cppreference_base) + std::string(path); }
-
 }  // namespace
+
+Std std_of_badge(std::string_view badge) {
+  const auto at = badge.rfind("C++");
+  if (at == std::string_view::npos) return Std::Unknown;
+  return enum_from<Std>(std_names, badge.substr(at, 5)).value_or(Std::Unknown);
+}
+
+std::string reference_url(std::string_view path) {
+  return std::string(cppreference_base) + std::string(path);
+}
 
 Block card(const Catalog& cat, const Entry& e, std::span<const std::string_view> also,
            const Options& o) {
   Block out;
-  Line title;
-  title.add(title_text(e), Role::Title).add("  ").add("<" + std::string(e.header) + ">", Role::Header);
-  Line badges;
-  if (e.since != Std::Unknown) badges.add(to_string(e.since), Role::Badge);
-  for (auto b : e.badges) {
-    if (!badges.empty()) badges.add(sep(o), Role::Badge);
-    badges.add(b, Role::Badge);
-  }
-  title_block(out, std::move(title), badges, o.width);
+  const Parts p = parts_of(e, o);
+  head(out, e, p, o);
   push(out, flow(Line{}, words(e.summary), o.width, 0));
 
-  if (!e.signatures.empty()) {
+  if (!p.signatures.empty()) {
     blank(out);
-    signatures(out, e, o);
+    signatures(out, p.signatures, o);
   }
-  if (!e.members.empty()) {
+  if (!p.members.empty()) {
     blank(out);
-    members(out, cat, e, o);
+    members(out, cat, e, p.members, o);
   }
-  if (!e.examples.empty()) {
+  if (!p.examples.empty()) {
     blank(out);
-    examples(out, e, o);
+    examples(out, p.examples, o, true);
   }
   if (!e.gotchas.empty()) {
     blank(out);
     gotchas(out, e.gotchas, o);
   }
+  hidden_line(out, p.hidden, o);
 
   blank(out);
   if (!e.complexity.empty()) out.emplace_back().add(e.complexity);
+  support_line(out, e, o);
   Line hint;
   hint.add("cxxman " + std::string(e.id), Role::Badge);
   if (e.kind == Kind::Class) hint.add("::<member>" + sep(o) + "--web", Role::Badge);
@@ -286,6 +381,39 @@ Block card(const Catalog& cat, const Entry& e, std::span<const std::string_view>
   return out;
 }
 
+Block examples_only(const Entry& e, const Options& o) {
+  Block out;
+  const Parts p = parts_of(e, o);
+  head(out, e, p, o);
+  if (!p.examples.empty()) {
+    blank(out);
+    examples(out, p.examples, o, false);
+  }
+  hidden_line(out, p.hidden, o);
+  return out;
+}
+
+Block signatures_only(const Entry& e, const Options& o) {
+  Block out;
+  const Parts p = parts_of(e, o);
+  head(out, e, p, o);
+  if (!p.signatures.empty()) {
+    blank(out);
+    signatures(out, p.signatures, o);
+  }
+  hidden_line(out, p.hidden, o);
+  return out;
+}
+
+Block brief(const Entry& e, const Options& o) {
+  Line l;
+  l.add(e.name, Role::Title).add(" ").add("<" + std::string(e.header) + ">", Role::Header);
+  l.add(" " + std::string(sym(Sym::Dash, o.ascii)) + " ");
+  const std::size_t room = o.width > l.width() ? o.width - l.width() : 1;
+  l.add(truncate(e.summary, room, sym(Sym::Ellipsis, o.ascii)));
+  return {l};
+}
+
 Block index_only(const Catalog& cat, std::span<const std::int32_t> rows,
                  std::span<const std::string_view> also, const Options& o) {
   Block out;
@@ -296,10 +424,10 @@ Block index_only(const Catalog& cat, std::span<const std::int32_t> rows,
   if (rows.size() == 1) {
     title.add("<" + std::string(first.header) + ">", Role::Header);
     Line badge;
-    if (first.since != Std::Unknown) badge.add(to_string(first.since), Role::Badge);
+    if (first.since != Std::Unknown) badge = std_badge(to_string(first.since), first.since, o);
     title_block(out, std::move(title), badge, o.width);
     out.emplace_back().add("No card yet. Full reference:");
-    out.emplace_back().add(url_of(first.url));
+    out.emplace_back().add(reference_url(first.url));
   } else {
     title.add("in " + std::to_string(rows.size()) + " places", Role::Badge);
     out.push_back(std::move(title));
@@ -309,7 +437,7 @@ Block index_only(const Catalog& cat, std::span<const std::int32_t> rows,
     for (std::size_t i = 0; i < shown; ++i) {
       const IndexName& n = cat.index[static_cast<std::size_t>(rows[i])];
       header_w = std::max(header_w, n.header.size() + 2);
-      url_w = std::max(url_w, display_width(url_of(n.url)));
+      url_w = std::max(url_w, display_width(reference_url(n.url)));
     }
     const std::size_t col = indent + header_w + 2;
     const bool columns = col + url_w <= o.width;
@@ -318,11 +446,11 @@ Block index_only(const Catalog& cat, std::span<const std::int32_t> rows,
       Line l = spaces(indent);
       l.add("<" + std::string(n.header) + ">", Role::Header);
       if (columns) {
-        l.pad_to(col).add(url_of(n.url));
+        l.pad_to(col).add(reference_url(n.url));
         out.push_back(std::move(l));
       } else {
         out.push_back(std::move(l));
-        out.push_back(spaces(indent + 2).add(url_of(n.url)));
+        out.push_back(spaces(indent + 2).add(reference_url(n.url)));
       }
     }
     if (rows.size() > shown)

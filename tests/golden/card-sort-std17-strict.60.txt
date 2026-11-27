@@ -1,0 +1,25 @@
+$ cxxman sort --std 17 --strict --width 60 --color never
+exit 0
+std::sort  <algorithm>                C++98 · parallel C++17
+Sort a range in ascending order. Not stable.
+
+  sort(first, last)
+  sort(first, last, comp)
+      comp(a, b) -> bool: true if a goes before b
+
+  // ascending
+  std::sort(v.begin(), v.end());
+  // descending
+  std::sort(v.begin(), v.end(), std::greater<>{});
+
+  ! needs random-access iterators: for std::list use
+    l.sort()
+  ✗ comp must be a strict weak ordering: use <, never <=
+  ! equal elements may change order: use stable_sort to keep
+    it
+
+3 items need C++20+ (hidden by --std 17 --strict)
+
+O(n log n) comparisons
+see: stable_sort partial_sort nth_element is_sorted
+                                           cxxman sort --web

@@ -4,6 +4,8 @@
 
 #include <algorithm>
 #include <charconv>
+#include <iterator>
+#include <utility>
 
 namespace cxxman::app {
 
@@ -38,20 +40,26 @@ constexpr Flag flags[] = {
     {"--since", "", "", true, "", true},
     {"--coverage", "", "", false, "", true},
     {"--missing", "", "", true, "", true},
+    {"--changelog", "", "", false, "", true},
+    {"--examples", "-e", "", false, "", true},
+    {"--sig", "", "", false, "", true},
+    {"--brief", "-b", "", false, "", true},
+    {"--include", "", "", false, "", true},
+    {"--support", "", "", false, "", true},
+    {"--url", "", "", false, "", true},
     // Later milestones (PLAN §12.1): known, so typos get a useful hint.
     {"--recipe", "-r", "", false, "", false},
     {"--compare", "-c", "", false, "", false},
-    {"--changelog", "", "", false, "", false},
     {"--completions", "", "", false, "", false},
-    {"--examples", "-e", "", false, "", false},
-    {"--sig", "", "", false, "", false},
-    {"--brief", "-b", "", false, "", false},
-    {"--include", "", "", false, "", false},
-    {"--support", "", "", false, "", false},
     {"--copy", "", "", false, "", false},
     {"--web", "", "", false, "", false},
-    {"--url", "", "", false, "", false},
     {"--json", "", "", false, "", false},
+};
+
+// Card modifiers that pick what a card prints (PLAN §3.2).
+constexpr std::pair<std::string_view, Show> show_flags[] = {
+    {"--examples", Show::Examples}, {"--sig", Show::Signatures}, {"--brief", Show::Brief},
+    {"--include", Show::Include},   {"--url", Show::Url},
 };
 
 constexpr std::string_view later_commands[] = {"update", "check-updates", "self-update"};
@@ -191,6 +199,7 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
   };
   bool only_names = false;
   std::string action_flag;  // the flag that set inv.action
+  std::string show_flag;    // the flag that set inv.show
   for (std::size_t i = 0; i < args.size(); ++i) {
     const std::string& arg = args[i];
     if (only_names || arg.size() < 2 || arg[0] != '-') {
@@ -231,11 +240,26 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
     }
 
     const std::string_view flag = f->name;
+    if (auto it = std::ranges::find(show_flags, flag, &std::pair<std::string_view, Show>::first);
+        it != std::end(show_flags) || flag == "--support") {
+      if (flag == "--support") {
+        inv.support = true;
+      } else {
+        if (inv.show != Show::Card && inv.show != it->second)
+          return fail("'" + show_flag + "' and '" + name + "' do not go together");
+        inv.show = it->second;
+        show_flag = name;
+      }
+      if (inv.modifier.empty()) inv.modifier = name;
+      continue;
+    }
     Action a = Action::Usage;
     if (flag == "--version") {
       a = Action::Version;
     } else if (flag == "--help") {
       a = Action::Help;
+    } else if (flag == "--changelog") {
+      a = Action::Changelog;
     } else if (flag == "--config") {  // --config [init|path]
       a = Action::ConfigShow;
       if (i + 1 < args.size() && (args[i + 1] == "init" || args[i + 1] == "path"))
@@ -345,6 +369,8 @@ Invocation parse(std::span<const std::string> args, const render::Getenv& env,
     inv.name += n;
   }
   if (inv.action == Action::Usage && !inv.name.empty()) inv.action = Action::Card;
+  if (!inv.modifier.empty() && inv.action != Action::Card)
+    inv.error = inv.modifier + (inv.action == Action::Usage ? " needs a name" : " only applies to a card");
   return inv;
 }
 

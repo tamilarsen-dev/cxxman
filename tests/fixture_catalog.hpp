@@ -1,5 +1,6 @@
 // A tiny catalog with two classes that share a member name, for the
-// ambiguity cases the real content cannot show yet (PLAN §12.1, M2).
+// ambiguity cases the real content cannot show yet (PLAN §12.1, M2), and a
+// card with support data.
 #pragma once
 
 #include "model/lookup.hpp"
@@ -25,7 +26,10 @@ inline const Entry entries[] = {
      .summary = "Number of characters.", .url = "string/basic_string/size", .parent = "string",
      .kind = Kind::Member, .since = Std::Cpp98, .signatures = size_sig},
     {.id = "vector", .name = "std::vector", .header = "vector", .summary = "A vector.",
-     .url = "container/vector", .kind = Kind::Class, .since = Std::Cpp98, .signatures = vector_sig},
+     .url = "container/vector", .kind = Kind::Class, .since = Std::Cpp98,
+     // Made-up support data: the seed cards have none yet (PLAN §4.3).
+     .support = {.gcc = "13", .clang = "17", .msvc = "19.29", .ftm = "__cpp_lib_fixture"},
+     .signatures = vector_sig},
     {.id = "vector::size", .name = "std::vector::size", .header = "vector",
      .summary = "Number of elements.", .url = "container/vector/size", .parent = "vector",
      .kind = Kind::Member, .since = Std::Cpp98, .signatures = size_sig},

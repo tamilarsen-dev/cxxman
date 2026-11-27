@@ -1,0 +1,9 @@
+$ cxxman optional -e --std 17 --strict --width 80 --color never
+exit 0
+std::optional<T>  <optional>                                               C++17
+
+  std::optional<int> a = 5, b = std::nullopt;   // with / without value
+  if (a) use(*a);                               // check, then use
+  int n = b.value_or(0);                        // fallback
+
+2 items need C++23+ (hidden by --std 17 --strict)

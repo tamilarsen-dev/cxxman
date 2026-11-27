@@ -7,10 +7,12 @@
 
 #include <doctest/doctest.h>
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <map>
 #include <string>
+#include <string_view>
 #include <vector>
 
 using namespace cxxman;
@@ -213,4 +215,50 @@ TEST_CASE("run: color, width and the config file") {
   CHECK(line.ends_with("config"));
   CHECK(e9.find("theme must be dark, light or mono") != std::string::npos);
   std::filesystem::remove_all(dir);
+}
+
+TEST_CASE("card modifiers (PLAN 3.2)") {
+  auto e = parse_with({"sort", "-e"});
+  CHECK(e.action == Action::Card);
+  CHECK(e.show == Show::Examples);
+  CHECK(parse_with({"--sig", "sort"}).show == Show::Signatures);
+  CHECK(parse_with({"sort", "-b"}).show == Show::Brief);
+  CHECK(parse_with({"sort", "--include"}).show == Show::Include);
+  CHECK(parse_with({"sort", "--url"}).show == Show::Url);
+  CHECK(parse_with({"sort", "-e", "--examples"}).show == Show::Examples);  // repeating is fine
+  auto s = parse_with({"sort", "--support", "--std", "17", "--strict"});
+  CHECK(s.show == Show::Card);
+  CHECK(s.support);
+  CHECK(s.settings.std == Std::Cpp17);
+  CHECK(s.settings.strict);
+  CHECK(parse_with({"--changelog"}).action == Action::Changelog);
+
+  CHECK(parse_with({"sort", "-e", "--sig"}).error == "'-e' and '--sig' do not go together");
+  CHECK(parse_with({"--sig"}).error == "--sig needs a name");
+  CHECK(parse_with({"--support"}).error == "--support needs a name");
+  CHECK(parse_with({"-s", "x", "-b"}).error == "-b only applies to a card");
+  CHECK(parse_with({"--list", "--url"}).error == "--url only applies to a card");
+  CHECK(parse_with({"x"}, Env{{{"CXXMAN_OPTS", "--sig"}}}).error ==
+        "CXXMAN_OPTS: '--sig' is not an option you can set here");
+}
+
+TEST_CASE("run: --help fits 40 lines of 80 columns; --changelog prints this version's section") {
+  const Env env;
+  Context ctx{env.get(), Terminal{false, 0, true, true}, Catalog::builtin(), {}};
+  Output help;
+  REQUIRE(run(std::vector<std::string>{"--help"}, ctx, help) == 0);
+  std::size_t lines = 0, widest = 0;
+  for (std::size_t at = 0; at < help.out.size();) {
+    const auto end = help.out.find('\n', at);
+    widest = std::max(widest, render::display_width(std::string_view(help.out).substr(at, end - at)));
+    ++lines;
+    at = end + 1;
+  }
+  CHECK(lines <= 40);
+  CHECK(widest <= 80);
+
+  Output log;
+  REQUIRE(run(std::vector<std::string>{"--changelog"}, ctx, log) == 0);
+  CHECK(log.out.starts_with("cxxman "));
+  CHECK(log.out.find(data::changelog()) != std::string::npos);
 }

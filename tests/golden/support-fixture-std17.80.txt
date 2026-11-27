@@ -1,0 +1,8 @@
+$ cxxman vector --std 17 --width 80 --color never
+exit 0
+std::vector<T>  <vector>                                                   C++98
+A vector.
+
+  vector<T>
+
+                                                 cxxman vector::<member> · --web

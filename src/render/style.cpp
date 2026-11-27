@@ -158,6 +158,8 @@ std::string_view sym(Sym s, bool ascii) {
     case Sym::Perf: return "~";
     case Sym::Dot: return ascii ? "|" : "·";
     case Sym::Ellipsis: return ascii ? "..." : "…";
+    case Sym::Newer: return ascii ? "!" : "⚑";
+    case Sym::Dash: return ascii ? "-" : "—";
   }
   return "?";
 }

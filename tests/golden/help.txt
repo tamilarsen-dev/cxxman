@@ -1,0 +1,39 @@
+$ cxxman --help
+exit 0
+cxxman - C++ standard library reference cards
+
+usage: cxxman [options] <name>     a card: sort, vector::erase, std::optional
+       cxxman                      the interactive finder (in a terminal)
+
+find:
+  -s, --search <words...>   search by task: cxxman -s remove duplicates
+  -r, --recipe <words...>   a recipe: cxxman -r split string
+  -c, --compare <a> <b>     which one to use: cxxman -c map unordered_map
+  -H, --header <header>     what a header has: cxxman -H algorithm
+  --new <std>               names added in a standard: cxxman --new 17
+  --list [--kind K] [--header H] [--since S]
+  --coverage [--missing <header>]
+
+card:
+  -e, --examples            every example, code unwrapped
+  --sig                     signatures only
+  -b, --brief               one line: name, header, summary
+  --include                 the #include line
+  --support                 compiler versions and feature-test macro
+  --url, --web              print or open the cppreference page
+  --copy [N]                copy example N (default 1)
+  --json                    JSON for editors and scripts
+
+display:
+  --std 11..26 [--strict]   mark (or hide) what is newer than your standard
+  --color auto|always|never, --theme dark|light|mono
+  --width N                 60 to 100 columns
+  --ascii, --no-hyperlinks, --pager auto|always|never
+
+other:
+  update [--check]          update cxxman from GitHub Releases
+  --config [init|path]      show, create or locate the config file
+  --completions <shell>     bash, zsh, fish or powershell
+  --changelog, --version, --help
+
+CXXMAN_OPTS holds default options, e.g. CXXMAN_OPTS="--theme light".

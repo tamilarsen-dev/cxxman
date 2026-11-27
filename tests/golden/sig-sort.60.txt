@@ -1,0 +1,10 @@
+$ cxxman sort --sig --width 60 --color never
+exit 0
+std::sort  <algorithm>
+                    C++98 · constexpr C++20 · parallel C++17
+
+  sort(first, last)
+  sort(first, last, comp)
+      comp(a, b) -> bool: true if a goes before b
+  ranges::sort(r, comp = {}, proj = {})
+      C++20 · returns iterator to end of r

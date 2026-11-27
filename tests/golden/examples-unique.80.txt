@@ -1,0 +1,9 @@
+$ cxxman unique -e --width 80 --color never
+exit 0
+std::unique  <algorithm>                                 C++98 · constexpr C++20
+
+  v.erase(std::unique(v.begin(), v.end()), v.end());   // drop adjacent dups
+  std::sort(v.begin(), v.end());                       // drop all dups
+  v.erase(std::unique(v.begin(), v.end()), v.end());
+  auto tail = std::ranges::unique(v);                  // ranges form  C++20
+  v.erase(tail.begin(), tail.end());

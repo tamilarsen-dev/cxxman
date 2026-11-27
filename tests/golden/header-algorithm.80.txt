@@ -21,48 +21,14 @@ exit 0
              minmax_element  mismatch  move_backward  next_permutation
              out_value_result  partial_sort_copy  partition  partition_copy
              partition_point  pop_heap  prev_permutation  push_heap
-             random_shuffle  ranges::adjacent_find  ranges::all_of
-             ranges::any_of  ranges::binary_search  ranges::clamp
-             ranges::contains  ranges::contains_subrange  ranges::copy
-             ranges::copy_backward  ranges::copy_if  ranges::copy_n
-             ranges::count  ranges::count_if  ranges::ends_with  ranges::equal
-             ranges::equal_range  ranges::fill  ranges::fill_n  ranges::find
-             ranges::find_end  ranges::find_first_of  ranges::find_if
-             ranges::find_if_not  ranges::find_last  ranges::find_last_if
-             ranges::find_last_if_not  ranges::fold_left
-             ranges::fold_left_first  ranges::fold_left_first_with_iter
-             ranges::fold_left_with_iter  ranges::fold_right
-             ranges::fold_right_last  ranges::for_each  ranges::for_each_n
-             ranges::generate  ranges::generate_n  ranges::in_found_result
-             ranges::in_fun_result  ranges::in_in_out_result
-             ranges::in_in_result  ranges::in_out_out_result
-             ranges::in_out_result  ranges::in_value_result  ranges::includes
-             ranges::inplace_merge  ranges::is_heap  ranges::is_heap_until
-             ranges::is_partitioned  ranges::is_permutation  ranges::is_sorted
-             ranges::is_sorted_until  ranges::lexicographical_compare
-             ranges::lower_bound  ranges::make_heap  ranges::max
-             ranges::max_element  ranges::merge  ranges::min
-             ranges::min_element  ranges::min_max_result  ranges::minmax
-             ranges::minmax_element  ranges::mismatch  ranges::move
-             ranges::move_backward  ranges::next_permutation  ranges::none_of
-             ranges::nth_element  ranges::out_value_result  ranges::partial_sort
-             ranges::partial_sort_copy  ranges::partition
-             ranges::partition_copy  ranges::partition_point  ranges::pop_heap
-             ranges::prev_permutation  ranges::push_heap  ranges::remove
-             ranges::remove_copy  ranges::remove_copy_if  ranges::remove_if
-             ranges::replace  ranges::replace_copy  ranges::replace_copy_if
-             ranges::replace_if  ranges::reverse  ranges::reverse_copy
-             ranges::rotate  ranges::rotate_copy  ranges::sample  ranges::search
-             ranges::search_n  ranges::set_difference  ranges::set_intersection
-             ranges::set_symmetric_difference  ranges::set_union
-             ranges::shift_left  ranges::shift_right  ranges::shuffle
-             ranges::sort  ranges::sort_heap  ranges::stable_partition
-             ranges::stable_sort  ranges::starts_with  ranges::swap_ranges
-             ranges::transform  ranges::unique  ranges::unique_copy
-             ranges::upper_bound  remove_all  remove_copy  remove_copy_if
-             replace_copy  replace_copy_if  replace_if  reverse_copy
-             rotate_copy  sample  search_n  set_difference  set_intersection
-             set_symmetric_difference  set_union  shift_left  shift_right
-             sort_heap  stable_partition  starts_with  swap_ranges  unique_copy
+             random_shuffle  ranges::contains_subrange  ranges::find_last_if
+             ranges::find_last_if_not  ranges::move  remove_all  remove_copy
+             remove_copy_if  replace_copy  replace_copy_if  replace_if
+             reverse_copy  rotate_copy  sample  search_n  set_difference
+             set_intersection  set_symmetric_difference  set_union  shift_left
+             shift_right  sort_heap  stable_partition  starts_with  swap_ranges
+             unique_copy
+
++ 105 ranges:: versions of the names above (cxxman --list --header algorithm)
 
 4 of 219 names have cards                              cxxman -H algorithm --web

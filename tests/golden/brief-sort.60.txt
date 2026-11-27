@@ -1,0 +1,3 @@
+$ cxxman sort -b --width 60 --color never
+exit 0
+std::sort <algorithm> — Sort a range in ascending order. No…

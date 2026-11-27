@@ -1,4 +1,5 @@
 // Display width, wrapping, colors and the highlighter (PLAN §4.2, §8.4, §8.5).
+#include "render/card.hpp"
 #include "render/highlight.hpp"
 #include "render/layout.hpp"
 #include "render/style.hpp"
@@ -113,4 +114,12 @@ TEST_CASE("highlighter") {
   CHECK(roles_of("#include <vector>\nx") == "kkkkkkkkkkkkkkkkk..");
   CHECK(roles_of("u8'c' /* a */ 1.5e-3") == "sssss.ccccccc.nnnnnn");
   CHECK(roles_of("\"open").size() == 5);  // never fails on broken input
+}
+
+TEST_CASE("std_of_badge reads the standard a badge names (--std marking)") {
+  CHECK(cxxman::render::std_of_badge("constexpr C++20") == cxxman::Std::Cpp20);
+  CHECK(cxxman::render::std_of_badge("parallel C++17") == cxxman::Std::Cpp17);
+  CHECK(cxxman::render::std_of_badge("C++11") == cxxman::Std::Cpp11);
+  CHECK(cxxman::render::std_of_badge("freestanding") == cxxman::Std::Unknown);
+  CHECK(cxxman::render::std_of_badge("C++2c") == cxxman::Std::Unknown);
 }

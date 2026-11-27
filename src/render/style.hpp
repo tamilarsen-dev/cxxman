@@ -28,7 +28,7 @@ Depth detect_depth(const Getenv& env);
 int nearest_256(std::uint32_t rgb);
 
 // Symbols with an ASCII fallback.
-enum class Sym : std::uint8_t { Ub, Warn, Perf, Dot, Ellipsis };
+enum class Sym : std::uint8_t { Ub, Warn, Perf, Dot, Ellipsis, Newer, Dash };
 std::string_view sym(Sym s, bool ascii);
 
 // One string, one '\n' per line; escape codes only when depth != None.

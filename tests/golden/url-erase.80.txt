@@ -1,0 +1,4 @@
+$ cxxman erase --url --width 80 --color never
+exit 2
+--- stderr
+cxxman: 'erase' is in 7 headers; cxxman erase lists them

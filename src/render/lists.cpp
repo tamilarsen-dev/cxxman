@@ -170,16 +170,28 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
     out.push_back(std::move(title));
   }
 
-  // Grouped names first; every other name of the header under "Other".
+  // Grouped names first; every other name of the header under "Other",
+  // except ranges::X when X is also in the header (its card covers both).
   std::vector<std::string_view> grouped;
   if (h)
     for (const auto& g : h->groups) grouped.insert(grouped.end(), g.names.begin(), g.names.end());
   std::ranges::sort(grouped);
+  const auto in_header = [&](std::string_view name) {
+    return std::ranges::binary_search(grouped, name) ||
+           std::ranges::binary_search(names, name, {}, &NameInfo::name);
+  };
+  constexpr std::string_view ranges_prefix = "ranges::";
   std::vector<Line> rest;
+  std::size_t twins = 0;
   for (std::size_t i = 0; i < names.size(); ++i) {
-    if (i > 0 && names[i].name == names[i - 1].name) continue;
-    if (!std::ranges::binary_search(grouped, names[i].name))
-      rest.push_back(name_item(names[i].name, names[i].entry >= 0));
+    const std::string_view name = names[i].name;
+    if (i > 0 && name == names[i - 1].name) continue;
+    if (std::ranges::binary_search(grouped, name)) continue;
+    if (name.starts_with(ranges_prefix) && in_header(name.substr(ranges_prefix.size()))) {
+      ++twins;
+      continue;
+    }
+    rest.push_back(name_item(name, names[i].entry >= 0));
   }
   const std::string_view rest_label = h && !h->groups.empty() ? "Other" : "Names";
   std::size_t label_w = rest.empty() ? 0 : display_width(rest_label);
@@ -195,6 +207,13 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
       group(out, g.title, Role::Plain, items, g.since, col, o);
     }
   if (!rest.empty()) group(out, rest_label, Role::Plain, rest, Std::Unknown, col, o);
+  if (twins > 0) {
+    blank(out);
+    // The command stays on one line.
+    auto items = words("+ " + group_digits(twins) + " ranges:: versions of the names above", Role::Badge);
+    items.emplace_back().add("(cxxman --list --header " + std::string(header) + ")", Role::Badge);
+    push(out, flow(Line{}, items, o.width, 2));
+  }
 
   blank(out);
   const auto [total, covered] = count_names(names);

@@ -40,8 +40,12 @@ struct Settings {
 };
 
 enum class Action : std::uint8_t {
-  Usage, Card, Search, Header, List, New, Coverage, Version, Help, ConfigShow, ConfigPath, ConfigInit,
+  Usage, Card, Search, Header, List, New, Coverage, Version, Help, Changelog,
+  ConfigShow, ConfigPath, ConfigInit,
 };
+
+// What a card prints (PLAN §3.2): the whole card or one part of it. One at a time.
+enum class Show : std::uint8_t { Card, Examples, Signatures, Brief, Include, Url };
 
 struct Invocation {
   Action action = Action::Usage;
@@ -51,6 +55,9 @@ struct Invocation {
   Std new_std = Std::Unknown;  // New
   std::optional<Kind> kind;    // List filter
   Std since = Std::Unknown;    // List filter: since this standard or later
+  Show show = Show::Card;      // Card
+  bool support = false;        // Card: add the support line (--support)
+  std::string modifier;        // the first card modifier given, for messages
   Settings settings;
   std::vector<std::string> warnings;  // printed, not fatal
   std::string error;                  // non-empty: usage error, exit 2
