@@ -992,7 +992,7 @@ options + `CXXMAN_OPTS` + config.
 ambiguity cases work (use fixtures for ambiguity until content exists);
 and startup is ≤ 10 ms locally.
 
-**M3 — Discovery.** `-s` search with the postings index, `-H`,
+**M3 — Discovery.** ✅ 2026-11-27. `-s` search with the postings index, `-H`,
 `--list` filters, `--new`, `--coverage`.
 *Done when:* all six search acceptance cases (§8.3) pass as goldens.
 
