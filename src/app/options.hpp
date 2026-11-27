@@ -45,7 +45,7 @@ enum class Action : std::uint8_t {
 };
 
 // What a card prints (PLAN §3.2): the whole card or one part of it. One at a time.
-enum class Show : std::uint8_t { Card, Examples, Signatures, Brief, Include, Url };
+enum class Show : std::uint8_t { Card, Examples, Signatures, Brief, Include, Url, Web, Copy };
 
 struct Invocation {
   Action action = Action::Usage;
@@ -58,6 +58,7 @@ struct Invocation {
   Show show = Show::Card;      // Card
   bool support = false;        // Card: add the support line (--support)
   bool json = false;           // Card, Search, Header: JSON (docs/JSON.md)
+  int copy = 1;                // Show::Copy: the example number, from 1
   std::string modifier;        // the first card modifier given, for messages
   Settings settings;
   std::vector<std::string> warnings;  // printed, not fatal

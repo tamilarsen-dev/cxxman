@@ -3,6 +3,7 @@
 #include "render/highlight.hpp"
 #include "render/layout.hpp"
 #include "render/style.hpp"
+#include "sys/clipboard.hpp"
 
 #include <doctest/doctest.h>
 
@@ -155,4 +156,15 @@ TEST_CASE("std_of_badge reads the standard a badge names (--std marking)") {
   CHECK(cxxman::render::std_of_badge("C++11") == cxxman::Std::Cpp11);
   CHECK(cxxman::render::std_of_badge("freestanding") == cxxman::Std::Unknown);
   CHECK(cxxman::render::std_of_badge("C++2c") == cxxman::Std::Unknown);
+}
+
+TEST_CASE("base64 and the OSC 52 clipboard sequence (PLAN 4.9)") {
+  using cxxman::sys::base64;
+  CHECK(base64("") == "");
+  CHECK(base64("f") == "Zg==");
+  CHECK(base64("fo") == "Zm8=");
+  CHECK(base64("foo") == "Zm9v");
+  CHECK(base64("foobar") == "Zm9vYmFy");
+  CHECK(base64("\xff\xfe") == "//4=");
+  CHECK(cxxman::sys::osc52("hi") == "\x1b]52;c;aGk=\x07");
 }

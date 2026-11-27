@@ -61,6 +61,9 @@ std::string run_case(const Case& c, const std::vector<std::string>& args) {
   for (const auto& a : args) text += " " + a;
   text += "\nexit " + std::to_string(code) + "\n" + visible(io.out);
   if (!io.err.empty()) text += "--- stderr\n" + visible(io.err);
+  // What main() would do afterwards (--web, --copy).
+  if (!io.open_url.empty()) text += "--- open " + io.open_url + "\n";
+  if (!io.clipboard.empty()) text += "--- clipboard: " + io.copied + "\n" + io.clipboard + "\n";
   return text;
 }
 
@@ -143,6 +146,15 @@ const std::vector<Case> cases = {
     {"support-fixture-std20", {"vector", "--std", "20"}, {80}, {}, true},
     {"support-fixture-std17", {"vector", "--std", "17"}, {80}, {}, true},
     {"help", {"--help"}, {}},
+    // --web and --copy: what run() asks main() to do.
+    {"web-sort", {"sort", "--web"}, {80}},
+    {"web-istringstream", {"istringstream", "--web"}, {80}},
+    {"web-erase", {"erase", "--web"}, {80}},
+    {"web-header-algorithm", {"-H", "algorithm", "--web"}, {80}},
+    {"copy-sort", {"sort", "--copy"}, {80}},
+    {"copy-unique-2", {"unique", "--copy", "2"}, {80}},
+    {"copy-sort-9", {"sort", "--copy=9"}, {80}},
+    {"copy-istringstream", {"istringstream", "--copy"}, {80}},
     // OSC 8 links in a terminal known to show them (PLAN §4.7).
     {"card-sort-links", {"sort", "--color", "always", "--width", "80"}, {},
      {{"COLORTERM", "truecolor"}, {"WT_SESSION", "1"}}, false, true},

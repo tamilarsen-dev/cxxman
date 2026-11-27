@@ -48,18 +48,19 @@ constexpr Flag flags[] = {
     {"--support", "", "", false, "", true},
     {"--url", "", "", false, "", true},
     {"--json", "", "", false, "", true},
+    {"--web", "", "", false, "", true},
+    {"--copy", "", "", false, "", true},
     // Later milestones (PLAN §12.1): known, so typos get a useful hint.
     {"--recipe", "-r", "", false, "", false},
     {"--compare", "-c", "", false, "", false},
     {"--completions", "", "", false, "", false},
-    {"--copy", "", "", false, "", false},
-    {"--web", "", "", false, "", false},
 };
 
 // Card modifiers that pick what a card prints (PLAN §3.2).
 constexpr std::pair<std::string_view, Show> show_flags[] = {
     {"--examples", Show::Examples}, {"--sig", Show::Signatures}, {"--brief", Show::Brief},
-    {"--include", Show::Include},   {"--url", Show::Url},
+    {"--include", Show::Include},   {"--url", Show::Url},       {"--web", Show::Web},
+    {"--copy", Show::Copy},
 };
 
 constexpr std::string_view later_commands[] = {"update", "check-updates", "self-update"};
@@ -223,7 +224,20 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
     if (!f->available) return fail("'" + name + "' is not available yet");
     if (options_only && f->key.empty()) return fail("'" + name + "' is not an option you can set here");
     std::string value;
-    if (f->takes_value) {
+    if (f->name == "--copy") {  // --copy [N]: the number is optional
+      if (eq != std::string::npos)
+        value = arg.substr(eq + 1);
+      else if (i + 1 < args.size() && !args[i + 1].empty() &&
+               std::ranges::all_of(args[i + 1], [](char c) { return c >= '0' && c <= '9'; }))
+        value = args[++i];
+      if (eq != std::string::npos || !value.empty()) {
+        int n = 0;
+        auto [end, ec] = std::from_chars(value.data(), value.data() + value.size(), n);
+        if (ec != std::errc{} || end != value.data() + value.size() || n < 1)
+          return fail("--copy takes an example number, not '" + value + "'");
+        inv.copy = n;
+      }
+    } else if (f->takes_value) {
       if (eq != std::string::npos)
         value = arg.substr(eq + 1);
       else if (i + 1 < args.size())
@@ -375,7 +389,9 @@ Invocation parse(std::span<const std::string> args, const render::Getenv& env,
     inv.name += n;
   }
   if (inv.action == Action::Usage && !inv.name.empty()) inv.action = Action::Card;
-  if (!inv.modifier.empty() && inv.action != Action::Card)
+  // --web also opens a header's page: cxxman -H algorithm --web.
+  const bool header_web = inv.action == Action::Header && inv.show == Show::Web && !inv.support;
+  if (!inv.modifier.empty() && inv.action != Action::Card && !header_web)
     inv.error = inv.modifier + (inv.action == Action::Usage ? " needs a name" : " only applies to a card");
   else if (inv.json && inv.action != Action::Card && inv.action != Action::Search && inv.action != Action::Header)
     inv.error = "--json works with a name, -s or -H";

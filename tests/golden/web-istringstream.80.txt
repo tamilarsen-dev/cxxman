@@ -1,0 +1,3 @@
+$ cxxman istringstream --web --width 80 --color never
+exit 0
+--- open https://en.cppreference.com/cpp/io/basic_istringstream

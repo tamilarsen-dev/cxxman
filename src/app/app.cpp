@@ -183,6 +183,16 @@ View view_for(const Settings& s, const Context& ctx) {
   return v;
 }
 
+// Asks main() to open `url` (--web).
+int open_page(const std::string& url, Output& io) {
+  if (!allowed_url(url)) {
+    io.err += "cxxman: internal error: refusing to open " + url + "\n";
+    return 3;
+  }
+  io.open_url = url;
+  return 0;
+}
+
 // `cxxman <name>` with its modifier (PLAN §3.2) on a card.
 int show_card(const Invocation& inv, const Catalog& cat, const Entry& e,
               std::span<const std::string_view> also, const View& v, Output& io) {
@@ -203,6 +213,23 @@ int show_card(const Invocation& inv, const Catalog& cat, const Entry& e,
     case Show::Brief: io.out += render::paint(render::brief(e, v.o), v.style); return 0;
     case Show::Include: io.out += "#include <" + std::string(e.header) + ">\n"; return 0;
     case Show::Url: io.out += render::reference_url(e.url) + "\n"; return 0;
+    case Show::Web: return open_page(render::reference_url(e.url), io);
+    case Show::Copy: {
+      if (e.examples.empty()) return none("examples");
+      const auto n = static_cast<std::size_t>(inv.copy);
+      if (n > e.examples.size()) {
+        io.err += "cxxman: '" + std::string(e.id) + "' has " + std::to_string(e.examples.size()) +
+                  (e.examples.size() == 1 ? " example" : " examples") + "; --copy takes 1 to " +
+                  std::to_string(e.examples.size()) + "\n";
+        return 2;
+      }
+      const std::string_view code = e.examples[n - 1].code;
+      const auto lines = static_cast<std::size_t>(std::ranges::count(code, '\n')) + 1;
+      io.clipboard = std::string(code);
+      io.copied = "example " + std::to_string(n) + " (" + std::to_string(lines) +
+                  (lines == 1 ? " line)" : " lines)");
+      return 0;
+    }
   }
   return 3;
 }
@@ -214,7 +241,7 @@ int show_index(const Invocation& inv, const Catalog& cat, const Resolution& r, c
     io.out += render::paint(render::index_only(cat, r.rows, r.also, v.o), v.style);
     return 0;
   }
-  if (inv.show != Show::Include && inv.show != Show::Url) {
+  if (inv.show != Show::Include && inv.show != Show::Url && inv.show != Show::Web) {
     io.err += "cxxman: '" + inv.name + "' has no card yet; cxxman " + inv.name + " --url gives its page\n";
     return 1;
   }
@@ -224,6 +251,7 @@ int show_index(const Invocation& inv, const Catalog& cat, const Resolution& r, c
     return 2;
   }
   const IndexName& n = cat.index[static_cast<std::size_t>(r.rows.front())];
+  if (inv.show == Show::Web) return open_page(render::reference_url(n.url), io);
   io.out += inv.show == Show::Include ? "#include <" + std::string(n.header) + ">\n"
                                       : render::reference_url(n.url) + "\n";
   return 0;
@@ -327,6 +355,7 @@ int show_header(const Invocation& inv, const Context& ctx, Output& io) {
     return 0;
   }
   if (names.empty() && !h) return no_header(header, all, io);
+  if (inv.show == Show::Web) return open_page(render::header_url(header), io);
   io.out += render::paint(render::header_index(ctx.catalog, header, h, names, v.o), v.style);
   return 0;
 }
@@ -377,6 +406,15 @@ int show_coverage(const Invocation& inv, const Context& ctx, Output& io) {
 }
 
 }  // namespace
+
+bool allowed_url(std::string_view url) {
+  constexpr std::string_view prefix = "https://en.cppreference.com/";
+  if (!url.starts_with(prefix) || url.size() == prefix.size()) return false;
+  return std::ranges::all_of(url.substr(prefix.size()), [](char c) {
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') ||
+           std::string_view("/_.-%#~").find(c) != std::string_view::npos;
+  });
+}
 
 int run(std::span<const std::string> args, const Context& ctx, Output& io) {
   ConfigFile config;

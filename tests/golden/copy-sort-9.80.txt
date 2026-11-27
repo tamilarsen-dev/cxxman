@@ -1,0 +1,4 @@
+$ cxxman sort --copy=9 --width 80 --color never
+exit 2
+--- stderr
+cxxman: 'sort' has 3 examples; --copy takes 1 to 3

@@ -96,7 +96,7 @@ TEST_CASE("bad config values warn and keep the default") {
 TEST_CASE("usage errors") {
   CHECK(parse_with({"--sgi"}).error == "unknown option '--sgi' (did you mean --sig?)");
   CHECK(parse_with({"--colour", "never"}).error == "unknown option '--colour' (did you mean --color?)");
-  CHECK(parse_with({"--web"}).error == "'--web' is not available yet");
+  CHECK(parse_with({"--completions"}).error == "'--completions' is not available yet");
   CHECK(parse_with({"--width"}).error == "--width needs a value");
   CHECK(parse_with({"--width", "wide"}).error == "--width: width must be a number of columns, not 'wide'");
   CHECK(parse_with({"--ascii=yes"}).error == "--ascii takes no value");
@@ -293,4 +293,42 @@ TEST_CASE("run: --help fits 40 lines of 80 columns; --changelog prints this vers
   REQUIRE(run(std::vector<std::string>{"--changelog"}, ctx, log) == 0);
   CHECK(log.out.starts_with("cxxman "));
   CHECK(log.out.find(data::changelog()) != std::string::npos);
+}
+
+TEST_CASE("--copy [N] and --web (PLAN 3.2)") {
+  auto c = parse_with({"sort", "--copy"});
+  CHECK(c.show == Show::Copy);
+  CHECK(c.copy == 1);
+  CHECK(parse_with({"sort", "--copy", "3"}).copy == 3);
+  CHECK(parse_with({"--copy", "2", "sort"}).name == "sort");
+  CHECK(parse_with({"sort", "--copy=2"}).copy == 2);
+  CHECK(parse_with({"--copy", "sort"}).name == "sort");  // not a number: a name
+  CHECK(parse_with({"sort", "--copy=0"}).error == "--copy takes an example number, not '0'");
+  CHECK(parse_with({"sort", "--copy=x"}).error == "--copy takes an example number, not 'x'");
+  CHECK(parse_with({"sort", "--copy", "--web"}).error == "'--copy' and '--web' do not go together");
+
+  CHECK(parse_with({"sort", "--web"}).show == Show::Web);
+  auto h = parse_with({"-H", "algorithm", "--web"});
+  CHECK(h.action == Action::Header);
+  CHECK(h.error.empty());
+  CHECK(parse_with({"-H", "algorithm", "--url"}).error == "--url only applies to a card");
+  CHECK(parse_with({"-s", "x", "--web"}).error == "--web only applies to a card");
+}
+
+TEST_CASE("allowed_url: only cppreference pages with plain path characters") {
+  CHECK(allowed_url("https://en.cppreference.com/cpp/algorithm/sort"));
+  CHECK(allowed_url("https://en.cppreference.com/cpp/header/algorithm"));
+  CHECK(allowed_url("https://en.cppreference.com/cpp/utility/compare/compare_three_way_result%3Cbool%3E"));
+  CHECK_FALSE(allowed_url("https://en.cppreference.com/"));
+  CHECK_FALSE(allowed_url("http://en.cppreference.com/cpp/algorithm/sort"));
+  CHECK_FALSE(allowed_url("https://en.cppreference.com.evil.example/x"));
+  CHECK_FALSE(allowed_url("https://evil.example/https://en.cppreference.com/"));
+  CHECK_FALSE(allowed_url("file:///etc/passwd"));
+  CHECK_FALSE(allowed_url("https://en.cppreference.com/cpp/a b"));
+  CHECK_FALSE(allowed_url("https://en.cppreference.com/cpp/a\"&calc"));
+  CHECK_FALSE(allowed_url("https://en.cppreference.com/cpp/a\nb"));
+  CHECK_FALSE(allowed_url("https://en.cppreference.com/cpp/a|b"));
+  // Every URL the data can produce passes.
+  for (const auto& n : Catalog::builtin().index)
+    REQUIRE(allowed_url(std::string(cppreference_base) + std::string(n.url)));
 }

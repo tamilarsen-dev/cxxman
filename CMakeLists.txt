@@ -78,9 +78,16 @@ add_library(cxxman-core STATIC
   src/render/style.cpp
   src/search/fuzzy.cpp
   src/search/search.cpp
+  src/sys/browser.cpp
+  src/sys/clipboard.cpp
   src/sys/paths.cpp
+  src/sys/process.cpp
   src/term/terminal.cpp)
 target_link_libraries(cxxman-core PUBLIC cxxman-data)
+if(WIN32)
+  # ShellExecuteW (--web), the clipboard API (--copy).
+  target_link_libraries(cxxman-core PUBLIC shell32 ole32 user32)
+endif()
 target_compile_definitions(cxxman-core PRIVATE CXXMAN_VERSION="${CXXMAN_VERSION}")
 cxxman_warnings(cxxman-core)
 
