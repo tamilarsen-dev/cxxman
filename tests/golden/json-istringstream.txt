@@ -1,0 +1,16 @@
+$ cxxman istringstream --json
+exit 0
+{
+  "schema": 1,
+  "type": "index",
+  "name": "istringstream",
+  "places": [
+    {
+      "header": "sstream",
+      "kind": "alias",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/io/basic_istringstream"
+    }
+  ],
+  "also": []
+}

@@ -1,0 +1,37 @@
+$ cxxman vector --json
+exit 0
+{
+  "schema": 1,
+  "type": "card",
+  "id": "vector",
+  "name": "std::vector",
+  "kind": "class",
+  "header": "vector",
+  "parent": null,
+  "since": "C++98",
+  "badges": [],
+  "summary": "A vector.",
+  "aliases": [],
+  "signatures": [
+    {
+      "text": "vector<T>",
+      "note": null,
+      "since": null
+    }
+  ],
+  "members": [],
+  "examples": [],
+  "gotchas": [],
+  "complexity": null,
+  "support": {
+    "gcc": "13",
+    "clang": "17",
+    "apple_clang": null,
+    "msvc": "19.29",
+    "ftm": "__cpp_lib_fixture",
+    "ftm_value": null
+  },
+  "see_also": [],
+  "url": "https://en.cppreference.com/cpp/container/vector",
+  "also": []
+}

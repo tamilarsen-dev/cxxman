@@ -1,0 +1,10 @@
+$ cxxman srot --json
+exit 1
+{
+  "schema": 1,
+  "type": "missing",
+  "name": "srot",
+  "suggestions": [
+    "sort"
+  ]
+}

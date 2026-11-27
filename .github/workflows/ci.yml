@@ -53,3 +53,27 @@ jobs:
       - name: Test
         if: ${{ !matrix.build_only }}
         run: ctest --preset dev
+
+      # The real binary's --json output parses (PLAN 10), misses included.
+      - name: Smoke --json
+        if: ${{ !matrix.build_only }}
+        shell: bash
+        run: |
+          exe=build/dev/Debug/cxxman.exe
+          [ -f "$exe" ] || exe=build/dev/cxxman
+          py=$(command -v python || command -v python3)
+          check() {
+            want=$1; shift
+            code=0
+            "$exe" "$@" --json > smoke.json || code=$?
+            [ "$code" -eq "$want" ] || { echo "cxxman $* --json: exit $code, want $want"; exit 1; }
+            "$py" -m json.tool smoke.json > /dev/null || { echo "cxxman $* --json: not JSON"; exit 1; }
+          }
+          check 0 sort
+          check 0 vector
+          check 0 istringstream
+          check 1 srot
+          check 0 -s remove duplicates
+          check 1 -s zzzz
+          check 0 -H algorithm
+          check 1 -H algoritm

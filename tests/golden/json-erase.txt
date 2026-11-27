@@ -1,0 +1,54 @@
+$ cxxman erase --json
+exit 0
+{
+  "schema": 1,
+  "type": "index",
+  "name": "erase",
+  "places": [
+    {
+      "header": "deque",
+      "kind": "function",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/container/deque/erase2"
+    },
+    {
+      "header": "forward_list",
+      "kind": "function",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/container/forward_list/erase2"
+    },
+    {
+      "header": "hive",
+      "kind": "function",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/container/hive/erase2"
+    },
+    {
+      "header": "inplace_vector",
+      "kind": "function",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/container/inplace_vector/erase2"
+    },
+    {
+      "header": "list",
+      "kind": "function",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/container/list/erase2"
+    },
+    {
+      "header": "string",
+      "kind": "function",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/string/basic_string/erase2"
+    },
+    {
+      "header": "vector",
+      "kind": "function",
+      "since": null,
+      "url": "https://en.cppreference.com/cpp/container/vector/erase2"
+    }
+  ],
+  "also": [
+    "vector::erase"
+  ]
+}

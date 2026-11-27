@@ -47,13 +47,13 @@ constexpr Flag flags[] = {
     {"--include", "", "", false, "", true},
     {"--support", "", "", false, "", true},
     {"--url", "", "", false, "", true},
+    {"--json", "", "", false, "", true},
     // Later milestones (PLAN §12.1): known, so typos get a useful hint.
     {"--recipe", "-r", "", false, "", false},
     {"--compare", "-c", "", false, "", false},
     {"--completions", "", "", false, "", false},
     {"--copy", "", "", false, "", false},
     {"--web", "", "", false, "", false},
-    {"--json", "", "", false, "", false},
 };
 
 // Card modifiers that pick what a card prints (PLAN §3.2).
@@ -245,12 +245,18 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
       if (flag == "--support") {
         inv.support = true;
       } else {
+        if (inv.json) return fail("'--json' and '" + name + "' do not go together");
         if (inv.show != Show::Card && inv.show != it->second)
           return fail("'" + show_flag + "' and '" + name + "' do not go together");
         inv.show = it->second;
         show_flag = name;
       }
       if (inv.modifier.empty()) inv.modifier = name;
+      continue;
+    }
+    if (flag == "--json") {
+      if (inv.show != Show::Card) return fail("'" + show_flag + "' and '--json' do not go together");
+      inv.json = true;
       continue;
     }
     Action a = Action::Usage;
@@ -371,6 +377,8 @@ Invocation parse(std::span<const std::string> args, const render::Getenv& env,
   if (inv.action == Action::Usage && !inv.name.empty()) inv.action = Action::Card;
   if (!inv.modifier.empty() && inv.action != Action::Card)
     inv.error = inv.modifier + (inv.action == Action::Usage ? " needs a name" : " only applies to a card");
+  else if (inv.json && inv.action != Action::Card && inv.action != Action::Search && inv.action != Action::Header)
+    inv.error = "--json works with a name, -s or -H";
   return inv;
 }
 

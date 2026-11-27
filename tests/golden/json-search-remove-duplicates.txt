@@ -1,0 +1,79 @@
+$ cxxman -s remove duplicates --json
+exit 0
+{
+  "schema": 1,
+  "type": "search",
+  "query": "remove duplicates",
+  "results": [
+    {
+      "target": "card",
+      "name": "unique",
+      "header": "algorithm",
+      "summary": "Remove consecutive duplicates. Does not shrink the container.",
+      "headers": 1
+    },
+    {
+      "target": "card",
+      "name": "vector::erase",
+      "header": "vector",
+      "summary": "Remove elements at a position or in a range.",
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove",
+      "header": "algorithm",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove_cv",
+      "header": "meta",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove_if",
+      "header": "algorithm",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove_all",
+      "header": "algorithm",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove_copy",
+      "header": "algorithm",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove_const",
+      "header": "meta",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove_cvref",
+      "header": "meta",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "remove_extent",
+      "header": "meta",
+      "summary": null,
+      "headers": 1
+    }
+  ]
+}

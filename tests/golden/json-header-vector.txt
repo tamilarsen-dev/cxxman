@@ -1,0 +1,113 @@
+$ cxxman -H vector --json
+exit 0
+{
+  "schema": 1,
+  "type": "header",
+  "header": "vector",
+  "summary": null,
+  "groups": [],
+  "names": [
+    {
+      "name": "erase",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "erase_if",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "operator!=",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "operator<",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "operator<=",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "operator<=>",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "operator>",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "operator>=",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "swap",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "vector",
+      "card": true,
+      "kind": "class",
+      "since": "C++98"
+    },
+    {
+      "name": "vector::clear",
+      "card": false,
+      "kind": "member",
+      "since": null
+    },
+    {
+      "name": "vector::erase",
+      "card": true,
+      "kind": "member",
+      "since": "C++98"
+    },
+    {
+      "name": "vector::operator==",
+      "card": false,
+      "kind": "function",
+      "since": null
+    },
+    {
+      "name": "vector::pop_back",
+      "card": false,
+      "kind": "member",
+      "since": null
+    },
+    {
+      "name": "vector::push_back",
+      "card": false,
+      "kind": "member",
+      "since": null
+    },
+    {
+      "name": "vector<bool>",
+      "card": false,
+      "kind": "class",
+      "since": null
+    },
+    {
+      "name": "vector<bool>::hash<std::vector<bool>>",
+      "card": false,
+      "kind": "class",
+      "since": null
+    }
+  ]
+}

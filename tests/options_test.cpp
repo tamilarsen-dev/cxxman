@@ -96,7 +96,7 @@ TEST_CASE("bad config values warn and keep the default") {
 TEST_CASE("usage errors") {
   CHECK(parse_with({"--sgi"}).error == "unknown option '--sgi' (did you mean --sig?)");
   CHECK(parse_with({"--colour", "never"}).error == "unknown option '--colour' (did you mean --color?)");
-  CHECK(parse_with({"--json"}).error == "'--json' is not available yet");
+  CHECK(parse_with({"--web"}).error == "'--web' is not available yet");
   CHECK(parse_with({"--width"}).error == "--width needs a value");
   CHECK(parse_with({"--width", "wide"}).error == "--width: width must be a number of columns, not 'wide'");
   CHECK(parse_with({"--ascii=yes"}).error == "--ascii takes no value");
@@ -240,6 +240,17 @@ TEST_CASE("card modifiers (PLAN 3.2)") {
   CHECK(parse_with({"--list", "--url"}).error == "--url only applies to a card");
   CHECK(parse_with({"x"}, Env{{{"CXXMAN_OPTS", "--sig"}}}).error ==
         "CXXMAN_OPTS: '--sig' is not an option you can set here");
+}
+
+TEST_CASE("--json goes with a name, -s or -H, and no other card modifier") {
+  CHECK(parse_with({"sort", "--json"}).json);
+  CHECK(parse_with({"-s", "x", "--json"}).json);
+  CHECK(parse_with({"--json", "-H", "vector"}).json);
+  CHECK(parse_with({"sort", "--json", "--support"}).error.empty());
+  CHECK(parse_with({"--json"}).error == "--json works with a name, -s or -H");
+  CHECK(parse_with({"--list", "--json"}).error == "--json works with a name, -s or -H");
+  CHECK(parse_with({"sort", "-e", "--json"}).error == "'-e' and '--json' do not go together");
+  CHECK(parse_with({"sort", "--json", "--url"}).error == "'--json' and '--url' do not go together");
 }
 
 TEST_CASE("run: --help fits 40 lines of 80 columns; --changelog prints this version's section") {

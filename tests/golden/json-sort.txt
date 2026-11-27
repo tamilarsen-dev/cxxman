@@ -1,0 +1,80 @@
+$ cxxman sort --json
+exit 0
+{
+  "schema": 1,
+  "type": "card",
+  "id": "sort",
+  "name": "std::sort",
+  "kind": "algorithm",
+  "header": "algorithm",
+  "parent": null,
+  "since": "C++98",
+  "badges": [
+    "constexpr C++20",
+    "parallel C++17"
+  ],
+  "summary": "Sort a range in ascending order. Not stable.",
+  "aliases": [
+    "ranges::sort",
+    "std::ranges::sort"
+  ],
+  "signatures": [
+    {
+      "text": "sort(first, last)",
+      "note": null,
+      "since": null
+    },
+    {
+      "text": "sort(first, last, comp)",
+      "note": "comp(a, b) -> bool: true if a goes before b",
+      "since": null
+    },
+    {
+      "text": "ranges::sort(r, comp = {}, proj = {})",
+      "note": "returns iterator to end of r",
+      "since": "C++20"
+    }
+  ],
+  "members": [],
+  "examples": [
+    {
+      "code": "std::sort(v.begin(), v.end());",
+      "comment": "ascending",
+      "since": null
+    },
+    {
+      "code": "std::sort(v.begin(), v.end(), std::greater<>{});",
+      "comment": "descending",
+      "since": null
+    },
+    {
+      "code": "std::ranges::sort(people, {}, &Person::age);",
+      "comment": "by member",
+      "since": "C++20"
+    }
+  ],
+  "gotchas": [
+    {
+      "level": "warn",
+      "text": "needs random-access iterators: for std::list use l.sort()"
+    },
+    {
+      "level": "ub",
+      "text": "comp must be a strict weak ordering: use <, never <="
+    },
+    {
+      "level": "warn",
+      "text": "equal elements may change order: use stable_sort to keep it"
+    }
+  ],
+  "complexity": "O(n log n) comparisons",
+  "support": null,
+  "see_also": [
+    "stable_sort",
+    "partial_sort",
+    "nth_element",
+    "is_sorted"
+  ],
+  "url": "https://en.cppreference.com/cpp/algorithm/sort",
+  "also": []
+}

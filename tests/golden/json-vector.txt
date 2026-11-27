@@ -1,0 +1,124 @@
+$ cxxman vector --json
+exit 0
+{
+  "schema": 1,
+  "type": "card",
+  "id": "vector",
+  "name": "std::vector",
+  "kind": "class",
+  "header": "vector",
+  "parent": null,
+  "since": "C++98",
+  "badges": [],
+  "summary": "Dynamic array with contiguous storage. The default container.",
+  "aliases": [],
+  "signatures": [
+    {
+      "text": "vector<T>",
+      "note": null,
+      "since": null
+    },
+    {
+      "text": "pmr::vector<T>",
+      "note": "uses a polymorphic allocator",
+      "since": "C++17"
+    }
+  ],
+  "members": [
+    {
+      "title": "Access",
+      "names": [
+        "at",
+        "operator[]",
+        "front",
+        "back",
+        "data"
+      ],
+      "since": null
+    },
+    {
+      "title": "Capacity",
+      "names": [
+        "empty",
+        "size",
+        "reserve",
+        "capacity",
+        "shrink_to_fit"
+      ],
+      "since": null
+    },
+    {
+      "title": "Modifiers",
+      "names": [
+        "push_back",
+        "emplace_back",
+        "pop_back",
+        "insert",
+        "emplace",
+        "erase",
+        "clear",
+        "resize",
+        "swap"
+      ],
+      "since": null
+    },
+    {
+      "title": "Non-members",
+      "names": [
+        "std::erase",
+        "std::erase_if"
+      ],
+      "since": "C++20"
+    }
+  ],
+  "examples": [
+    {
+      "code": "std::vector<int> v{1, 2, 3};",
+      "comment": "init list",
+      "since": null
+    },
+    {
+      "code": "v.push_back(4);\nv.emplace_back(5);",
+      "comment": "append",
+      "since": null
+    },
+    {
+      "code": "v.reserve(1000);",
+      "comment": "avoid reallocations",
+      "since": null
+    },
+    {
+      "code": "for (int x : v) { /* ... */ }",
+      "comment": "iterate",
+      "since": null
+    }
+  ],
+  "gotchas": [
+    {
+      "level": "warn",
+      "text": "growth may reallocate: all iterators, pointers and references die"
+    },
+    {
+      "level": "ub",
+      "text": "v[i] is unchecked; v.at(i) throws std::out_of_range"
+    },
+    {
+      "level": "warn",
+      "text": "vector<bool> is packed bits, not a container of bool"
+    },
+    {
+      "level": "perf",
+      "text": "reserve(n) changes capacity only; resize(n) creates n elements"
+    }
+  ],
+  "complexity": null,
+  "support": null,
+  "see_also": [
+    "array",
+    "deque",
+    "span",
+    "list"
+  ],
+  "url": "https://en.cppreference.com/cpp/container/vector",
+  "also": []
+}

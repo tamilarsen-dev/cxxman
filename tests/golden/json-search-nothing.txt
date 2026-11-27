@@ -1,0 +1,8 @@
+$ cxxman -s zzzz --json
+exit 1
+{
+  "schema": 1,
+  "type": "search",
+  "query": "zzzz",
+  "results": []
+}

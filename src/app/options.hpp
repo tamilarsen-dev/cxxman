@@ -57,6 +57,7 @@ struct Invocation {
   Std since = Std::Unknown;    // List filter: since this standard or later
   Show show = Show::Card;      // Card
   bool support = false;        // Card: add the support line (--support)
+  bool json = false;           // Card, Search, Header: JSON (docs/JSON.md)
   std::string modifier;        // the first card modifier given, for messages
   Settings settings;
   std::vector<std::string> warnings;  // printed, not fatal

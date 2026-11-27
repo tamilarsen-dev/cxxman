@@ -72,6 +72,7 @@ add_library(cxxman-core STATIC
   src/model/lookup.cpp
   src/render/card.cpp
   src/render/highlight.cpp
+  src/render/json.cpp
   src/render/lists.cpp
   src/render/layout.cpp
   src/render/style.cpp

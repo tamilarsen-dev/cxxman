@@ -1,0 +1,10 @@
+$ cxxman -H algoritm --json
+exit 1
+{
+  "schema": 1,
+  "type": "missing",
+  "name": "algoritm",
+  "suggestions": [
+    "algorithm"
+  ]
+}

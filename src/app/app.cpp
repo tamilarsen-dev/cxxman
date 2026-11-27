@@ -3,6 +3,7 @@
 #include "app/config.hpp"
 #include "app/options.hpp"
 #include "render/card.hpp"
+#include "render/json.hpp"
 #include "render/lists.hpp"
 #include "search/fuzzy.hpp"
 #include "search/search.hpp"
@@ -218,6 +219,18 @@ int show_name(const Invocation& inv, const Context& ctx, Output& io) {
   View v = view_for(inv.settings, ctx);
   v.o.support = inv.support;
   const Resolution r = resolve(ctx.catalog, inv.name);
+  if (inv.json) {
+    switch (r.what) {
+      case Resolution::What::Card:
+        io.out += render::json::card(ctx.catalog.entries[static_cast<std::size_t>(r.entry)], r.also);
+        return 0;
+      case Resolution::What::Index: io.out += render::json::index_only(ctx.catalog, r.rows, r.also); return 0;
+      case Resolution::What::Ambiguous: io.out += render::json::ambiguous(inv.name, r.also); return 2;
+      case Resolution::What::Missing: break;
+    }
+    io.out += render::json::missing(inv.name, r.suggestions);
+    return 1;
+  }
   switch (r.what) {
     case Resolution::What::Card:
       return show_card(inv, ctx.catalog, ctx.catalog.entries[static_cast<std::size_t>(r.entry)], r.also,
@@ -236,6 +249,10 @@ int show_name(const Invocation& inv, const Context& ctx, Output& io) {
 int show_search(const Invocation& inv, const Context& ctx, Output& io) {
   const View v = view_for(inv.settings, ctx);
   const auto hits = search::search(ctx.catalog, inv.name);
+  if (inv.json) {
+    io.out += render::json::search(ctx.catalog, inv.name, hits);
+    return hits.empty() ? 1 : 0;
+  }
   if (hits.empty()) {
     io.err += "cxxman: no results for '" + inv.name + "'\n";
     return 1;
@@ -256,8 +273,8 @@ const Header* header_file(const Catalog& cat, std::string_view header) {
   return it != cat.headers.end() && it->header == header ? &*it : nullptr;
 }
 
-// "cxxman: no header <x>", with the closest known header as a hint.
-int no_header(std::string_view header, std::span<const NameInfo> all, Output& io) {
+// The known header closest to a mistyped one, or "".
+std::string_view closest_header(std::string_view header, std::span<const NameInfo> all) {
   std::string_view best;
   int best_d = 3;
   for (const auto& n : all) {
@@ -267,6 +284,12 @@ int no_header(std::string_view header, std::span<const NameInfo> all, Output& io
       best = n.header;
     }
   }
+  return best;
+}
+
+// "cxxman: no header <x>", with the closest known header as a hint.
+int no_header(std::string_view header, std::span<const NameInfo> all, Output& io) {
+  const std::string_view best = closest_header(header, all);
   io.err += "cxxman: no header <" + std::string(header) + ">";
   if (!best.empty()) io.err += " (did you mean <" + std::string(best) + ">?)";
   io.err += '\n';
@@ -279,6 +302,16 @@ int show_header(const Invocation& inv, const Context& ctx, Output& io) {
   const std::string header = normalize_header(inv.header);
   const auto names = names_in(all, header);
   const Header* h = header_file(ctx.catalog, header);
+  if (inv.json) {
+    if (names.empty() && !h) {
+      const std::string_view best = closest_header(header, all);
+      io.out += render::json::missing(header, best.empty() ? std::span<const std::string_view>{}
+                                                           : std::span<const std::string_view>(&best, 1));
+      return 1;
+    }
+    io.out += render::json::header(header, h, names);
+    return 0;
+  }
   if (names.empty() && !h) return no_header(header, all, io);
   io.out += render::paint(render::header_index(ctx.catalog, header, h, names, v.o), v.style);
   return 0;

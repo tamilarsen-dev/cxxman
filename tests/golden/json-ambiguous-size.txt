@@ -1,0 +1,11 @@
+$ cxxman size --json
+exit 2
+{
+  "schema": 1,
+  "type": "ambiguous",
+  "name": "size",
+  "candidates": [
+    "string::size",
+    "vector::size"
+  ]
+}

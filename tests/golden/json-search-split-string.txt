@@ -1,0 +1,79 @@
+$ cxxman --json -s split string
+exit 0
+{
+  "schema": 1,
+  "type": "search",
+  "query": "split string",
+  "results": [
+    {
+      "target": "recipe",
+      "name": "split-string",
+      "header": null,
+      "summary": "Break \"a,b,c\" into parts. Pick by standard and ownership needs.",
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "split",
+      "header": "ranges",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "string",
+      "header": "string",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "lazy_split",
+      "header": "ranges",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "split_view",
+      "header": "ranges",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "pmr::string",
+      "header": "string",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "string_view",
+      "header": "string_view",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "basic_string",
+      "header": "string",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "views::split",
+      "header": "ranges",
+      "summary": null,
+      "headers": 1
+    },
+    {
+      "target": "index",
+      "name": "format_string",
+      "header": "format",
+      "summary": null,
+      "headers": 1
+    }
+  ]
+}

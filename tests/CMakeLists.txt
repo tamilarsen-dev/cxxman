@@ -9,6 +9,7 @@ add_executable(cxxman-tests
   data_test.cpp
   gen_test.cpp
   golden_test.cpp
+  json_test.cpp
   lookup_test.cpp
   options_test.cpp
   search_test.cpp
