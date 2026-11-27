@@ -1,0 +1,5 @@
+$ cxxman size --width 80 --color never
+exit 2
+--- stderr
+cxxman: 'size' is a member of several classes; pick one:
+  string::size  vector::size

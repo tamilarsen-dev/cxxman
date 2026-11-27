@@ -1,0 +1,19 @@
+$ cxxman erase --width 80 --color never
+exit 0
+std::erase  in 7 places
+No card yet. Full reference:
+  <deque>
+    https://en.cppreference.com/cpp/container/deque/erase2
+  <forward_list>
+    https://en.cppreference.com/cpp/container/forward_list/erase2
+  <hive>
+    https://en.cppreference.com/cpp/container/hive/erase2
+  <inplace_vector>
+    https://en.cppreference.com/cpp/container/inplace_vector/erase2
+  <list>
+    https://en.cppreference.com/cpp/container/list/erase2
+  <string>
+    https://en.cppreference.com/cpp/string/basic_string/erase2
+  <vector>
+    https://en.cppreference.com/cpp/container/vector/erase2
+also: vector::erase

@@ -1,0 +1,21 @@
+$ cxxman sort --color always --theme dark --width 80
+exit 0
+\e[1mstd::sort\e[0m  \e[38;2;86;182;194m<algorithm>\e[0m                  \e[38;2;127;132;142mC++98 · constexpr C++20 · parallel C++17\e[0m
+Sort a range in ascending order. Not stable.
+
+  \e[38;2;152;195;121msort(first, last)\e[0m
+  \e[38;2;152;195;121msort(first, last, comp)\e[0m
+      \e[3;38;2;127;132;142mcomp(a, b) -> bool: true if a goes before b\e[0m
+  \e[38;2;152;195;121mranges::sort(r, comp = {}, proj = {})\e[0m
+      \e[38;2;127;132;142mC++20 ·\e[0m \e[3;38;2;127;132;142mreturns iterator to end of r\e[0m
+
+  \e[38;2;86;182;194mstd::sort\e[0m(v.begin(), v.end());                     \e[3;38;2;127;132;142m// ascending\e[0m
+  \e[38;2;86;182;194mstd::sort\e[0m(v.begin(), v.end(), \e[38;2;86;182;194mstd::greater\e[0m<>{});   \e[3;38;2;127;132;142m// descending\e[0m
+  \e[38;2;86;182;194mstd::ranges::sort\e[0m(people, {}, &Person::age);       \e[3;38;2;127;132;142m// by member\e[0m  \e[38;2;127;132;142mC++20\e[0m
+
+  \e[38;2;229;192;123m!\e[0m needs random-access iterators: for std::list use l.sort()
+  \e[38;2;224;108;117m✗\e[0m comp must be a strict weak ordering: use <, never <=
+  \e[38;2;229;192;123m!\e[0m equal elements may change order: use stable_sort to keep it
+
+O(n log n) comparisons
+see: stable_sort partial_sort nth_element is_sorted            \e[38;2;127;132;142mcxxman sort --web\e[0m

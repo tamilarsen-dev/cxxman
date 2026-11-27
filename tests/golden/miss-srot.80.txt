@@ -1,0 +1,5 @@
+$ cxxman srot --width 80 --color never
+exit 1
+--- stderr
+cxxman: no entry for 'srot'
+  did you mean  sort

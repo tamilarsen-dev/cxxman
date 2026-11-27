@@ -1,0 +1,13 @@
+$ cxxman swap --width 100 --color never
+exit 0
+std::swap  in 49 places
+No card yet. Full reference:
+  <any>           https://en.cppreference.com/cpp/utility/any/swap2
+  <array>         https://en.cppreference.com/cpp/container/array/swap2
+  <deque>         https://en.cppreference.com/cpp/container/deque/swap2
+  <forward_list>  https://en.cppreference.com/cpp/container/forward_list/swap2
+  <fstream>       https://en.cppreference.com/cpp/io/basic_filebuf/swap2
+  <fstream>       https://en.cppreference.com/cpp/io/basic_fstream/swap2
+  <fstream>       https://en.cppreference.com/cpp/io/basic_ifstream/swap2
+  <fstream>       https://en.cppreference.com/cpp/io/basic_ofstream/swap2
+  … 41 more

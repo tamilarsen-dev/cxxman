@@ -59,71 +59,71 @@ constexpr std::string_view to_string(Level l) noexcept {
 inline constexpr std::string_view cppreference_base = "https://en.cppreference.com/cpp/";
 
 struct Signature {
-  std::string_view text, note;
+  std::string_view text{}, note{};
   Std since = Std::Unknown;
 };
 
 // A card example (title empty) or a recipe variant (comment empty).
 struct Snippet {
-  std::string_view title, code, comment;
+  std::string_view title{}, code{}, comment{};
   Std std = Std::Unknown;
 };
 
 struct Gotcha {
   Level level = Level::Warn;
-  std::string_view text;
+  std::string_view text{};
 };
 
 struct Group {
-  std::string_view title;
-  std::span<const std::string_view> names;
+  std::string_view title{};
+  std::span<const std::string_view> names{};
   Std since = Std::Unknown;
 };
 
 struct Support {
-  std::string_view gcc, clang, msvc, apple_clang, ftm, ftm_value;
+  std::string_view gcc{}, clang{}, msvc{}, apple_clang{}, ftm{}, ftm_value{};
 };
 
 struct Entry {
-  std::string_view id, name, header, summary, complexity, url, parent, verified;
+  std::string_view id{}, name{}, header{}, summary{}, complexity{}, url{}, parent{}, verified{};
   Kind kind = Kind::Unknown;
   Std since = Std::Unknown;
-  Support support;
-  std::span<const std::string_view> badges, aliases, tags, see_also;
-  std::span<const Signature> signatures;
-  std::span<const Group> members;
-  std::span<const Snippet> examples;
-  std::span<const Gotcha> gotchas;
+  Support support{};
+  std::span<const std::string_view> badges{}, aliases{}, tags{}, see_also{};
+  std::span<const Signature> signatures{};
+  std::span<const Group> members{};
+  std::span<const Snippet> examples{};
+  std::span<const Gotcha> gotchas{};
 };
 
 struct Recipe {
-  std::string_view id, title, summary;
-  std::span<const std::string_view> tags, uses;
-  std::span<const Snippet> variants;
-  std::span<const Gotcha> gotchas;
+  std::string_view id{}, title{}, summary{};
+  std::span<const std::string_view> tags{}, uses{};
+  std::span<const Snippet> variants{};
+  std::span<const Gotcha> gotchas{};
 };
 
 struct Row {
-  std::string_view label;
-  std::span<const std::string_view> values;
+  std::string_view label{};
+  std::span<const std::string_view> values{};
 };
 
 struct Compare {
-  std::string_view id, title;
-  std::span<const std::string_view> subjects, tags, verdicts;
-  std::span<const Row> rows;
+  std::string_view id{}, title{};
+  std::span<const std::string_view> subjects{}, tags{}, verdicts{};
+  std::span<const Row> rows{};
 };
 
 struct IndexName {
-  std::string_view name, header, url;
+  std::string_view name{}, header{}, url{};
   Kind kind = Kind::Unknown;
   Std since = Std::Unknown;
   std::int32_t entry = -1;  // the card that covers this name, or -1
 };
 
 struct Header {
-  std::string_view header, summary;
-  std::span<const Group> groups;
+  std::string_view header{}, summary{};
+  std::span<const Group> groups{};
 };
 
 // One lookup key (an id, alias or name with a leading std:: removed) and what
@@ -131,7 +131,7 @@ struct Header {
 // exact and case-insensitive lookups are an equal_range on `folded`.
 enum class Target : std::uint8_t { Entry, Recipe, Compare, Index };
 struct Key {
-  std::string_view key, folded;  // folded: ASCII lowercase of key
+  std::string_view key{}, folded{};  // folded: ASCII lowercase of key
   Target target = Target::Entry;
   std::int32_t index = -1;
 };

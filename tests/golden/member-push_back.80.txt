@@ -1,0 +1,5 @@
+$ cxxman push_back --width 80 --color never
+exit 0
+std::vector::push_back  <vector>
+No card yet. Full reference:
+https://en.cppreference.com/cpp/container/vector/push_back

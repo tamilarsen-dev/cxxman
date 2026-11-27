@@ -1,0 +1,32 @@
+$ cxxman unique --width 60 --color never
+exit 0
+std::unique  <algorithm>             C++98 · constexpr C++20
+Remove consecutive duplicates. Does not shrink the
+container.
+
+  unique(first, last) -> iterator
+      returns the new logical end
+  unique(first, last, pred) -> iterator
+      pred(a, b) -> bool: true if a and b are duplicates
+  ranges::unique(r, pred = {}, proj = {}) -> subrange
+      C++20 · subrange of the leftover tail
+
+  // drop adjacent dups
+  v.erase(std::unique(v.begin(), v.end()), v.end());
+  // drop all dups
+  std::sort(v.begin(), v.end());
+  v.erase(std::unique(v.begin(), v.end()), v.end());
+  // ranges form  C++20
+  auto tail = std::ranges::unique(v);
+  v.erase(tail.begin(), tail.end());
+
+  ! size is unchanged: always erase from the returned
+    iterator to end()
+  ! only adjacent duplicates are removed: sort first to
+    remove all
+  ! elements after the new end hold valid but unspecified
+    values
+
+O(n): exactly n-1 comparisons for a non-empty range
+see: sort unique_copy remove vector::erase set
+                                         cxxman unique --web

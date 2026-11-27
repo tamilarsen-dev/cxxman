@@ -4,13 +4,22 @@ FetchContent_Declare(doctest
   SYSTEM)
 FetchContent_MakeAvailable(doctest)
 
-add_executable(cxxman-tests main.cpp gen_test.cpp data_test.cpp)
-target_link_libraries(cxxman-tests PRIVATE cxxman-gen-lib cxxman-data doctest::doctest)
-target_compile_definitions(cxxman-tests PRIVATE DOCTEST_CONFIG_USE_STD_HEADERS)
+add_executable(cxxman-tests
+  main.cpp
+  data_test.cpp
+  gen_test.cpp
+  golden_test.cpp
+  lookup_test.cpp
+  options_test.cpp
+  render_test.cpp)
+target_link_libraries(cxxman-tests PRIVATE cxxman-gen-lib cxxman-core doctest::doctest)
+target_compile_definitions(cxxman-tests PRIVATE
+  DOCTEST_CONFIG_USE_STD_HEADERS
+  CXXMAN_GOLDEN_DIR="${CMAKE_CURRENT_SOURCE_DIR}/golden")
 cxxman_warnings(cxxman-tests)
 add_test(NAME unit COMMAND cxxman-tests)
 
-add_test(NAME version COMMAND cxxman)
+add_test(NAME version COMMAND cxxman --version)
 set_tests_properties(version PROPERTIES
   PASS_REGULAR_EXPRESSION "^cxxman ${CXXMAN_VERSION}\n$")
 

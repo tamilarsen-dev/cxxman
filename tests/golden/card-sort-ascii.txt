@@ -1,0 +1,21 @@
+$ cxxman sort --ascii --width 80
+exit 0
+std::sort  <algorithm>                  C++98 | constexpr C++20 | parallel C++17
+Sort a range in ascending order. Not stable.
+
+  sort(first, last)
+  sort(first, last, comp)
+      comp(a, b) -> bool: true if a goes before b
+  ranges::sort(r, comp = {}, proj = {})
+      C++20 | returns iterator to end of r
+
+  std::sort(v.begin(), v.end());                     // ascending
+  std::sort(v.begin(), v.end(), std::greater<>{});   // descending
+  std::ranges::sort(people, {}, &Person::age);       // by member  C++20
+
+  ! needs random-access iterators: for std::list use l.sort()
+  x comp must be a strict weak ordering: use <, never <=
+  ! equal elements may change order: use stable_sort to keep it
+
+O(n log n) comparisons
+see: stable_sort partial_sort nth_element is_sorted            cxxman sort --web

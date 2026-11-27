@@ -1,0 +1,26 @@
+$ cxxman vector::erase --width 60 --color never
+exit 0
+std::vector::erase  <vector>         C++98 · constexpr C++20
+Remove elements at a position or in a range.
+
+  erase(pos) -> iterator
+  erase(first, last) -> iterator
+      returns iterator after the last removed element
+
+  // remove index 1
+  v.erase(v.begin() + 1);
+  // erase while looping
+  for (auto it = v.begin(); it != v.end(); )
+      it = (*it % 2 == 0) ? v.erase(it) : it + 1;
+  // remove all matching  C++20
+  std::erase_if(v, [](int x) { return x % 2 == 0; });
+
+  ✗ invalidates iterators and references at or after pos,
+    including end()
+  ✗ erase(v.end()) is undefined: pos must point to an
+    element
+  ~ erasing near the front shifts every later element
+
+O(elements after the erased ones)
+see: vector::clear vector::pop_back remove unique
+                                  cxxman vector::erase --web

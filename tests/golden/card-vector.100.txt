@@ -1,0 +1,25 @@
+$ cxxman vector --width 100 --color never
+exit 0
+std::vector<T>  <vector>                                                                       C++98
+Dynamic array with contiguous storage. The default container.
+
+  vector<T>
+  pmr::vector<T>   C++17 · uses a polymorphic allocator
+
+  Access       at  operator[]  front  back  data
+  Capacity     empty  size  reserve  capacity  shrink_to_fit
+  Modifiers    push_back  emplace_back  pop_back  insert  emplace  erase  clear  resize  swap
+  Non-members  std::erase  std::erase_if                                                       C++20
+
+  std::vector<int> v{1, 2, 3};    // init list
+  v.push_back(4);                 // append
+  v.emplace_back(5);
+  v.reserve(1000);                // avoid reallocations
+  for (int x : v) { /* ... */ }   // iterate
+
+  ! growth may reallocate: all iterators, pointers and references die
+  ✗ v[i] is unchecked; v.at(i) throws std::out_of_range
+  ! vector<bool> is packed bits, not a container of bool
+  ~ reserve(n) changes capacity only; resize(n) creates n elements
+
+see: array deque span list                                           cxxman vector::<member> · --web

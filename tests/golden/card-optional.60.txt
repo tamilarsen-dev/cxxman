@@ -1,0 +1,30 @@
+$ cxxman optional --width 60 --color never
+exit 0
+std::optional<T>  <optional>                           C++17
+A value that may or may not be present.
+
+  optional<T>
+
+  Check    has_value  operator bool
+  Access   value  value_or  operator*  operator->
+  Modify   emplace  reset  swap
+  Monadic  and_then  transform  or_else                C++23
+
+  // with / without value
+  std::optional<int> a = 5, b = std::nullopt;
+  // check, then use
+  if (a) use(*a);
+  // fallback
+  int n = b.value_or(0);
+  // map if present  C++23
+  auto s = a.transform([](int x) { return x * 2; });
+
+  ✗ *opt on an empty optional is undefined; opt.value()
+    throws
+  ! for optional<bool>, if (opt) tests presence, not the
+    bool
+  ! no optional<T&> before C++26: use T* or
+    std::reference_wrapper
+
+see: variant expected any
+                           cxxman optional::<member> · --web

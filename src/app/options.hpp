@@ -1,0 +1,56 @@
+// Command line, CXXMAN_OPTS / CXXMAN_STD and the config file, merged with the
+// precedence flag > environment > config > default (PLAN §3.3).
+#pragma once
+
+#include "app/config.hpp"
+#include "model/model.hpp"
+#include "render/style.hpp"
+
+#include <array>
+#include <cstdint>
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#include <vector>
+
+namespace cxxman::app {
+
+enum class Mode : std::uint8_t { Auto, Always, Never };
+enum class Source : std::uint8_t { Default, Config, Env, Flag };
+
+// The settings a config file can hold, in display order.
+inline constexpr std::array<std::string_view, 9> setting_keys{
+    "theme", "color", "std", "strict", "width", "ascii", "hyperlinks", "pager", "interactive"};
+
+struct Settings {
+  render::Theme theme = render::Theme::Dark;
+  Mode color = Mode::Auto;
+  Std std = Std::Unknown;  // none
+  bool strict = false;
+  int width = 0;  // 0: the terminal's
+  std::optional<bool> ascii;  // unset: automatic
+  Mode hyperlinks = Mode::Auto;
+  Mode pager = Mode::Auto;
+  bool interactive = true;
+  std::array<Source, setting_keys.size()> source{};  // per setting_keys entry
+
+  Source source_of(std::string_view key) const;
+  std::string value_of(std::string_view key) const;  // as --config shows it
+};
+
+enum class Action : std::uint8_t { Usage, Card, Version, Help, ConfigShow, ConfigPath, ConfigInit };
+
+struct Invocation {
+  Action action = Action::Usage;
+  std::string name;  // Card: the positional words joined by spaces
+  Settings settings;
+  std::vector<std::string> warnings;  // printed, not fatal
+  std::string error;                  // non-empty: usage error, exit 2
+};
+
+// `config` may be null (no file).
+Invocation parse(std::span<const std::string> args, const render::Getenv& env,
+                 const ConfigFile* config);
+
+}  // namespace cxxman::app

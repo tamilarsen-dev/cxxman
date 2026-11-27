@@ -63,9 +63,26 @@ target_include_directories(cxxman-data PUBLIC src)
 cxxman_warnings(cxxman-data)
 
 # --- the app -------------------------------------------------------------------
+# Everything but main(), so the tests can drive app::run directly.
+# Platform code lives only in src/term, src/sys, src/net and src/update.
+add_library(cxxman-core STATIC
+  src/app/app.cpp
+  src/app/config.cpp
+  src/app/options.cpp
+  src/model/lookup.cpp
+  src/render/card.cpp
+  src/render/highlight.cpp
+  src/render/layout.cpp
+  src/render/style.cpp
+  src/search/fuzzy.cpp
+  src/sys/paths.cpp
+  src/term/terminal.cpp)
+target_link_libraries(cxxman-core PUBLIC cxxman-data)
+target_compile_definitions(cxxman-core PRIVATE CXXMAN_VERSION="${CXXMAN_VERSION}")
+cxxman_warnings(cxxman-core)
+
 add_executable(cxxman src/main.cpp)
-target_link_libraries(cxxman PRIVATE cxxman-data)
-target_compile_definitions(cxxman PRIVATE CXXMAN_VERSION="${CXXMAN_VERSION}")
+target_link_libraries(cxxman PRIVATE cxxman-core)
 cxxman_warnings(cxxman)
 
 # --- snippet tests: a nested build with the same toolchain (PLAN 5.5) ----------
