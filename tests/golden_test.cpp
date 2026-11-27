@@ -107,6 +107,24 @@ const std::vector<Case> cases = {
     {"miss-srot", {"srot"}, {80}},
     {"miss-nothing", {"zzzz"}, {80}},
     {"ambiguous-size", {"size"}, {80}, {}, true},
+    // Task search: the acceptance queries (PLAN §8.3), ASCII markers, a miss.
+    {"search-remove-duplicates", {"-s", "remove", "duplicates"}, {60, 80, 100}},
+    {"search-dynamic-array", {"-s", "dynamic", "array"}, {60, 80, 100}},
+    {"search-erase-element", {"-s", "erase", "element"}, {60, 80, 100}},
+    {"search-maybe-value", {"-s", "maybe", "value"}, {60, 80, 100}},
+    {"search-split-string", {"-s", "split", "string"}, {60, 80, 100}},
+    {"search-hash-map", {"-s", "hash", "map"}, {60, 80, 100}},
+    {"search-hash-map-ascii", {"-s", "hash", "map", "--ascii", "--width", "80"}, {}},
+    {"search-nothing", {"-s", "zzzz"}, {80}},
+    // Header index, with and without a header file; a typo.
+    {"header-algorithm", {"-H", "algorithm"}, {60, 80, 100}},
+    {"header-vector", {"-H", "<vector>"}, {80}},
+    {"header-typo", {"-H", "algoritm"}, {80}},
+    // --new, --list, --coverage.
+    {"new-17", {"--new", "17"}, {60, 80, 100}},
+    {"list-vector", {"--list", "--header", "vector"}, {80}},
+    {"coverage", {"--coverage"}, {80}},
+    {"coverage-missing-vector", {"--coverage", "--missing", "vector"}, {80}},
 };
 
 }  // namespace

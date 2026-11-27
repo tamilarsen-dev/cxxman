@@ -1,0 +1,21 @@
+$ cxxman --list --header vector --width 80 --color never
+exit 0
+erase               <vector>  function
+erase_if            <vector>  function
+operator!=          <vector>  function
+operator<           <vector>  function
+operator<=          <vector>  function
+operator<=>         <vector>  function
+operator>           <vector>  function
+operator>=          <vector>  function
+swap                <vector>  function
+vector              <vector>  class     C++98
+vector::clear       <vector>  member
+vector::erase       <vector>  member    C++98
+vector::operator==  <vector>  function
+vector::pop_back    <vector>  member
+vector::push_back   <vector>  member
+vector<bool>        <vector>  class
+vector<bool>::hash<std::vector<bool>>  <vector>  class
+
+17 names

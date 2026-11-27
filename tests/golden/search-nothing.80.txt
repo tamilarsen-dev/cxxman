@@ -1,0 +1,4 @@
+$ cxxman -s zzzz --width 80 --color never
+exit 1
+--- stderr
+cxxman: no results for 'zzzz'

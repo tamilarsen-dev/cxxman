@@ -1,5 +1,6 @@
 // Writes data.cpp (PLAN §7.3) and the snippet translation units (PLAN §5.5).
 #include "schema.hpp"
+#include "search/tokenize.hpp"
 
 #include <algorithm>
 #include <cctype>
@@ -155,6 +156,61 @@ class Tables {
   int next_ = 0;
 };
 
+// The search postings (PLAN §8.3): word -> (target, field, index), each once.
+// Index names that a card covers get no postings; the card stands for them.
+std::string emit_terms(Tables& t, const Data& data, const std::map<std::string, std::int32_t>& card_of) {
+  enum { entry, recipe, compare, index };
+  enum { id, tag, phrase, text, name };
+  using Post = std::tuple<int, int, std::int32_t>;  // target, field, index
+  std::map<std::string, std::set<Post>> terms;
+  auto words = [&](std::string_view s, int target, int field, std::size_t i) {
+    for (auto& w : search::tokenize(s)) terms[w].emplace(target, field, static_cast<std::int32_t>(i));
+  };
+  auto tags = [&](const std::vector<std::string>& v, int target, std::size_t i) {
+    for (const auto& s : v) {
+      words(s, target, tag, i);
+      if (auto p = search::phrase(s); !p.empty())
+        terms[p].emplace(target, phrase, static_cast<std::int32_t>(i));
+    }
+  };
+  for (std::size_t i = 0; i < data.entries.size(); ++i) {
+    const Entry& e = data.entries[i];
+    words(e.id, entry, id, i);
+    for (const auto& a : e.aliases) words(a, entry, id, i);
+    tags(e.tags, entry, i);
+    words(e.summary, entry, text, i);
+  }
+  for (std::size_t i = 0; i < data.recipes.size(); ++i) {
+    const Recipe& r = data.recipes[i];
+    words(r.id, recipe, id, i);
+    tags(r.tags, recipe, i);
+    words(r.title, recipe, text, i);
+    words(r.summary, recipe, text, i);
+  }
+  for (std::size_t i = 0; i < data.compares.size(); ++i) {
+    const Compare& c = data.compares[i];
+    words(c.id, compare, id, i);
+    for (const auto& s : c.subjects) words(s, compare, id, i);
+    tags(c.tags, compare, i);
+    words(c.title, compare, text, i);
+  }
+  for (std::size_t i = 0; i < data.index.size(); ++i)
+    if (!card_of.contains(normalize_key(data.index[i].name)))
+      words(normalize_key(data.index[i].name), index, name, i);
+
+  constexpr std::string_view targets[] = {"Entry", "Recipe", "Compare", "Index"};
+  constexpr std::string_view fields[] = {"Id", "Tag", "Phrase", "Text", "Name"};
+  std::vector<std::string> items;
+  for (const auto& [term, posts] : terms) {
+    std::vector<std::string> ps;
+    for (const auto& [target, field, i] : posts)
+      ps.push_back("{Target::" + std::string(targets[target]) + ", Field::" +
+                   std::string(fields[field]) + ", " + std::to_string(i) + "}");
+    items.push_back("{" + lit(term) + ", " + t.array("Posting", ps) + "}");
+  }
+  return t.array("Term", items);
+}
+
 std::string accessor(std::string_view type, std::string_view fn, std::string_view table) {
   return "std::span<const " + std::string(type) + "> " + std::string(fn) + "() noexcept { return " +
          (table == "{}" ? std::string("{}") : std::string(table)) + "; }\n";
@@ -238,6 +294,7 @@ std::string emit_data_cpp(const Data& data, std::string_view changelog) {
   for (std::size_t i = 0; i < data.compares.size(); ++i) add_key(data.compares[i].id, 2, i);
   for (std::size_t i = 0; i < data.index.size(); ++i) add_key(data.index[i].name, 3, i);
   constexpr std::string_view targets[] = {"Entry", "Recipe", "Compare", "Index"};
+  const std::string terms_table = emit_terms(t, data, card_of);
   std::vector<std::string> key_items;
   for (const auto& [folded, key, target, i] : keys)
     key_items.push_back("{" + lit(key) + ", " + lit(folded) + ", Target::" +
@@ -259,6 +316,7 @@ std::string emit_data_cpp(const Data& data, std::string_view changelog) {
   out += accessor("Header", "headers", headers_table);
   out += accessor("IndexName", "index_names", index_table);
   out += accessor("Key", "keys", keys_table);
+  out += accessor("Term", "terms", terms_table);
   out += "std::string_view changelog() noexcept { return changelog_text; }\n\n";
   out += "}  // namespace cxxman::data\n";
   return out;

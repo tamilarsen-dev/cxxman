@@ -108,6 +108,22 @@ std::vector<std::string> wrap(std::string_view text, std::size_t width) {
   return lines;
 }
 
+std::string truncate(std::string_view text, std::size_t width, std::string_view ellipsis) {
+  if (display_width(text) <= width) return std::string(text);
+  const std::size_t room = width > display_width(ellipsis) ? width - display_width(ellipsis) : 0;
+  std::size_t i = 0, w = 0;
+  while (i < text.size()) {
+    std::size_t j = i;
+    const auto cw = width_of(next(text, j));
+    if (w + cw > room) break;
+    w += cw;
+    i = j;
+  }
+  // Do not leave a space before the ellipsis.
+  while (i > 0 && text[i - 1] == ' ') --i;
+  return std::string(text.substr(0, i)) + std::string(ellipsis);
+}
+
 Line& Line::add(std::string_view text, Role role) {
   if (text.empty()) return *this;
   if (!spans_.empty() && spans_.back().role == role)
@@ -126,6 +142,21 @@ Line& Line::append(const Line& other) {
 Line& Line::pad_to(std::size_t column) {
   if (width_ < column) add(std::string(column - width_, ' '));
   return *this;
+}
+
+Line spaces(std::size_t n) {
+  Line l;
+  l.add(std::string(n, ' '));
+  return l;
+}
+
+std::string group_digits(std::size_t n) {
+  std::string digits = std::to_string(n), out;
+  for (std::size_t i = 0; i < digits.size(); ++i) {
+    if (i > 0 && (digits.size() - i) % 3 == 0) out += ',';
+    out += digits[i];
+  }
+  return out;
 }
 
 bool put_right(Line& left, const Line& right, std::size_t width, std::size_t gap) {

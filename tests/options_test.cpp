@@ -114,6 +114,51 @@ TEST_CASE("actions and names") {
   CHECK(parse_with({"--", "--weird"}).name == "--weird");
 }
 
+TEST_CASE("discovery actions (PLAN 3.1)") {
+  auto s = parse_with({"-s", "remove", "duplicates"});
+  CHECK(s.action == Action::Search);
+  CHECK(s.name == "remove duplicates");
+  CHECK(parse_with({"remove", "--search", "duplicates"}).name == "remove duplicates");
+
+  auto h = parse_with({"-H", "<algorithm>"});
+  CHECK(h.action == Action::Header);
+  CHECK(h.header == "<algorithm>");
+  CHECK(parse_with({"--header=vector"}).action == Action::Header);
+
+  auto l = parse_with({"--list", "--header", "vector", "--kind", "class", "--since", "17"});
+  CHECK(l.action == Action::List);
+  CHECK(l.header == "vector");
+  CHECK(l.kind == Kind::Class);
+  CHECK(l.since == Std::Cpp17);
+
+  auto n = parse_with({"--new", "C++23"});
+  CHECK(n.action == Action::New);
+  CHECK(n.new_std == Std::Cpp23);
+
+  CHECK(parse_with({"--coverage"}).action == Action::Coverage);
+  auto m = parse_with({"--missing", "vector"});
+  CHECK(m.action == Action::Coverage);
+  CHECK(m.missing == "vector");
+  CHECK(parse_with({"--coverage", "--missing", "vector"}).missing == "vector");
+}
+
+TEST_CASE("discovery usage errors") {
+  CHECK(parse_with({"-s"}).error == "--search needs words to search for");
+  CHECK(parse_with({"-H"}).error == "-H needs a value");
+  CHECK(parse_with({"--header="}).error == "--header needs a value");
+  CHECK(parse_with({"--new", "18"}).error == "--new must be 11, 14, 17, 20, 23 or 26, not '18'");
+  CHECK(parse_with({"--list", "--kind", "thing"}).error.starts_with("--kind must be one of function, "));
+  CHECK(parse_with({"--kind", "class"}).error == "--kind only filters --list");
+  CHECK(parse_with({"--since", "17", "sort"}).error == "--since only filters --list");
+  CHECK(parse_with({"-H", "vector", "sort"}).error == "--header shows a header, or filters --list");
+  CHECK(parse_with({"-s", "sort", "-H", "vector"}).error == "--header shows a header, or filters --list");
+  CHECK(parse_with({"--list", "sort"}).error == "unexpected 'sort'");
+  CHECK(parse_with({"--list", "-s", "x"}).error == "'--list' and '-s' do not go together");
+  CHECK(parse_with({"--list=yes"}).error == "--list takes no value");
+  CHECK(parse_with({"x"}, Env{{{"CXXMAN_OPTS", "--list"}}}).error ==
+        "CXXMAN_OPTS: '--list' is not an option you can set here");
+}
+
 TEST_CASE("run: color, width and the config file") {
   auto run_with = [](std::vector<std::string> args, Env env, Terminal term,
                      std::filesystem::path config = {}) {

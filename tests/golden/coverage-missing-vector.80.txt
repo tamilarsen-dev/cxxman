@@ -1,0 +1,7 @@
+$ cxxman --coverage --missing vector --width 80 --color never
+exit 0
+<vector>: 15 of 17 names have no card
+
+  erase  erase_if  operator!=  operator<  operator<=  operator<=>  operator>
+  operator>=  swap  vector::clear  vector::operator==  vector::pop_back
+  vector::push_back  vector<bool>  vector<bool>::hash<std::vector<bool>>

@@ -24,6 +24,22 @@ TEST_CASE("wrap") {
   CHECK(wrap("", 10) == std::vector<std::string>{""});
 }
 
+TEST_CASE("truncate counts columns and adds an ellipsis only when it cuts") {
+  CHECK(truncate("short", 10, "…") == "short");
+  CHECK(truncate("exactly10!", 10, "…") == "exactly10!");
+  CHECK(truncate("one two three", 8, "…") == "one two…");  // no space before the …
+  CHECK(truncate("one two three", 8, "...") == "one t...");
+  CHECK(truncate("中文中文", 5, "…") == "中文…");          // wide characters
+  CHECK(truncate("abc", 0, "…") == "…");
+}
+
+TEST_CASE("group_digits") {
+  CHECK(group_digits(0) == "0");
+  CHECK(group_digits(999) == "999");
+  CHECK(group_digits(3225) == "3,225");
+  CHECK(group_digits(1234567) == "1,234,567");
+}
+
 TEST_CASE("flow keeps roles and hangs continuation lines") {
   Line prefix;
   prefix.add("  ! ", Role::Warn);

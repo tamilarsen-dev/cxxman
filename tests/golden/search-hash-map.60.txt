@@ -1,0 +1,12 @@
+$ cxxman -s hash map --width 60 --color never
+exit 0
+≠ map-vs-unordered_map  compare          map vs unordered_m…
+  map                   <map>            no card yet
+  hash                  <stacktrace>     no card yet
+  flat_map              <flat_map>       no card yet
+  hash<T*>              <functional>     no card yet
+  owner_hash            <memory>         no card yet
+  unordered_map         <unordered_map>  no card yet
+  map::operator==       <map>            no card yet
+  hash<Arithmetic>      <functional>     no card yet
+  hash<Enumeration>     <functional>     no card yet

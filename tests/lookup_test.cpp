@@ -5,6 +5,9 @@
 
 #include <doctest/doctest.h>
 
+#include <algorithm>
+#include <tuple>
+
 using namespace cxxman;
 using What = Resolution::What;
 
@@ -83,4 +86,38 @@ TEST_CASE("did you mean") {
   CHECK(resolve(cat, "zzzz").suggestions.empty());
   CHECK(card_for(cat, "std::unique") >= 0);
   CHECK(card_for(cat, "remove") < 0);
+}
+
+TEST_CASE("known names: index rows plus cards missing from the index") {
+  const auto cat = Catalog::builtin();
+  const auto names = known_names(cat);
+  CHECK(std::ranges::is_sorted(names, [](const NameInfo& a, const NameInfo& b) {
+    return std::tie(a.name, a.header) < std::tie(b.name, b.header);
+  }));
+  auto find = [&](std::string_view name, std::string_view header) -> const NameInfo* {
+    for (const auto& n : names)
+      if (n.name == name && n.header == header) return &n;
+    return nullptr;
+  };
+  // vector::erase has a card but no index row.
+  const NameInfo* erase = find("vector::erase", "vector");
+  REQUIRE(erase);
+  CHECK(erase->entry >= 0);
+  CHECK(erase->kind == Kind::Member);
+  // The index does not know when sort arrived; its card does.
+  const NameInfo* sort = find("sort", "algorithm");
+  REQUIRE(sort);
+  CHECK(sort->since == Std::Cpp98);
+  CHECK(sort->kind == Kind::Algorithm);
+  // An alias covers its index name.
+  const NameInfo* ranges_sort = find("ranges::sort", "algorithm");
+  REQUIRE(ranges_sort);
+  CHECK(ranges_sort->entry == sort->entry);
+}
+
+TEST_CASE("normalize_header") {
+  CHECK(normalize_header("<algorithm>") == "algorithm");
+  CHECK(normalize_header(" vector ") == "vector");
+  CHECK(normalize_header("<>") == "");
+  CHECK(normalize_header("") == "");
 }

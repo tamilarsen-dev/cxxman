@@ -1,0 +1,12 @@
+$ cxxman -s dynamic array --width 80 --color never
+exit 0
+  vector               <vector>       Dynamic array with contiguous storage. Th…
+  array                <array>        no card yet
+  is_array             <type_traits>  no card yet
+  is_array_type        <meta>         no card yet
+  dynamic_format       <format>       no card yet
+  array::to_array      <array>        no card yet
+  is_bounded_array     <type_traits>  no card yet
+  array::operator==    <array>        no card yet
+  is_unbounded_array   <type_traits>  no card yet
+  define_static_array  <meta>         no card yet

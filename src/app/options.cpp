@@ -30,17 +30,17 @@ constexpr Flag flags[] = {
     {"--version", "", "", false, "", true},
     {"--help", "", "", false, "", true},
     {"--config", "", "", false, "", true},
+    {"--search", "-s", "", false, "", true},
+    {"--header", "-H", "", true, "", true},
+    {"--new", "", "", true, "", true},
+    {"--list", "", "", false, "", true},
+    {"--kind", "", "", true, "", true},
+    {"--since", "", "", true, "", true},
+    {"--coverage", "", "", false, "", true},
+    {"--missing", "", "", true, "", true},
     // Later milestones (PLAN §12.1): known, so typos get a useful hint.
-    {"--search", "-s", "", false, "", false},
     {"--recipe", "-r", "", false, "", false},
     {"--compare", "-c", "", false, "", false},
-    {"--header", "-H", "", false, "", false},
-    {"--new", "", "", false, "", false},
-    {"--list", "", "", false, "", false},
-    {"--kind", "", "", false, "", false},
-    {"--since", "", "", false, "", false},
-    {"--coverage", "", "", false, "", false},
-    {"--missing", "", "", false, "", false},
     {"--changelog", "", "", false, "", false},
     {"--completions", "", "", false, "", false},
     {"--examples", "-e", "", false, "", false},
@@ -128,6 +128,18 @@ std::string apply(Settings& s, std::string_view key, std::string_view v, Source 
   return {};
 }
 
+constexpr bool discovery(Action a) {
+  return a == Action::Search || a == Action::Header || a == Action::List || a == Action::New ||
+         a == Action::Coverage;
+}
+
+std::string kind_list() {
+  std::string out;
+  for (std::size_t i = 0; i < kind_names.size(); ++i)
+    out += std::string(i == 0 ? "" : i + 1 == kind_names.size() ? " or " : ", ") + std::string(kind_names[i]);
+  return out;
+}
+
 const Flag* find_flag(std::string_view name) {
   for (const auto& f : flags)
     if (f.name == name || (!f.short_name.empty() && f.short_name == name)) return &f;
@@ -178,6 +190,7 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
     return false;
   };
   bool only_names = false;
+  std::string action_flag;  // the flag that set inv.action
   for (std::size_t i = 0; i < args.size(); ++i) {
     const std::string& arg = args[i];
     if (only_names || arg.size() < 2 || arg[0] != '-') {
@@ -199,37 +212,86 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
       return fail("unknown option '" + name + "'" + (hint.empty() ? "" : " (did you mean " + hint + "?)"));
     }
     if (!f->available) return fail("'" + name + "' is not available yet");
+    if (options_only && f->key.empty()) return fail("'" + name + "' is not an option you can set here");
+    std::string value;
+    if (f->takes_value) {
+      if (eq != std::string::npos)
+        value = arg.substr(eq + 1);
+      else if (i + 1 < args.size())
+        value = args[++i];
+      if (value.empty()) return fail(name + " needs a value");
+    } else {
+      if (eq != std::string::npos) return fail(name + " takes no value");
+      value = f->fixed;
+    }
     if (!f->key.empty()) {
-      std::string value;
-      if (f->takes_value) {
-        if (eq != std::string::npos)
-          value = arg.substr(eq + 1);
-        else if (i + 1 < args.size())
-          value = args[++i];
-        else
-          return fail(name + " needs a value");
-      } else {
-        if (eq != std::string::npos) return fail(name + " takes no value");
-        value = f->fixed;
-      }
       if (auto problem = apply(inv.settings, f->key, value, src); !problem.empty())
         return fail(name + ": " + problem);
       continue;
     }
-    if (options_only) return fail("'" + name + "' is not an option you can set here");
+
+    const std::string_view flag = f->name;
     Action a = Action::Usage;
-    if (name == "--version") {
+    if (flag == "--version") {
       a = Action::Version;
-    } else if (name == "--help") {
+    } else if (flag == "--help") {
       a = Action::Help;
-    } else {  // --config [init|path]
+    } else if (flag == "--config") {  // --config [init|path]
       a = Action::ConfigShow;
       if (i + 1 < args.size() && (args[i + 1] == "init" || args[i + 1] == "path"))
         a = args[++i] == "init" ? Action::ConfigInit : Action::ConfigPath;
+    } else if (flag == "--search") {
+      a = Action::Search;
+    } else if (flag == "--list") {
+      a = Action::List;
+    } else if (flag == "--coverage") {
+      a = Action::Coverage;
+    } else if (flag == "--missing") {
+      a = Action::Coverage;
+      inv.missing = value;
+    } else if (flag == "--new") {
+      auto s = std_of(value);
+      if (!s || *s == Std::Unknown) return fail("--new must be 11, 14, 17, 20, 23 or 26, not '" + value + "'");
+      inv.new_std = *s;
+      a = Action::New;
+    } else {
+      // --header, --kind, --since: what they mean depends on the action; see parse().
+      if (flag == "--header") {
+        inv.header = value;
+      } else if (flag == "--kind") {
+        inv.kind = enum_from<Kind>(kind_names, value);
+        if (!inv.kind) return fail("--kind must be one of " + kind_list() + ", not '" + value + "'");
+      } else {
+        auto s = std_of(value);
+        if (!s || *s == Std::Unknown) return fail("--since must be 11, 14, 17, 20, 23 or 26, not '" + value + "'");
+        inv.since = *s;
+      }
+      continue;
     }
-    if (inv.action == Action::Usage) inv.action = a;
+    if (inv.action == Action::Usage) {
+      inv.action = a;
+      action_flag = name;
+    } else if (a != inv.action && discovery(a) && discovery(inv.action)) {
+      return fail("'" + action_flag + "' and '" + name + "' do not go together");
+    }
   }
   return true;
+}
+
+// Ties --header, --kind and --since to their action and checks the names.
+std::string check_action(Invocation& inv, std::span<const std::string> names) {
+  if (!inv.header.empty()) {
+    if (inv.action == Action::Usage && names.empty())
+      inv.action = Action::Header;
+    else if (inv.action != Action::List)
+      return "--header shows a header, or filters --list";
+  }
+  if ((inv.kind || inv.since != Std::Unknown) && inv.action != Action::List)
+    return std::string(inv.kind ? "--kind" : "--since") + " only filters --list";
+  if (inv.action == Action::Search && names.empty()) return "--search needs words to search for";
+  if (discovery(inv.action) && inv.action != Action::Search && !names.empty())
+    return "unexpected '" + names.front() + "'";
+  return {};
 }
 
 }  // namespace
@@ -276,6 +338,7 @@ Invocation parse(std::span<const std::string> args, const render::Getenv& env,
     if (!parse_args(inv, opts, Source::Env, true, "CXXMAN_OPTS: ", names)) return inv;
   }
   if (!parse_args(inv, args, Source::Flag, false, "", names)) return inv;
+  if (inv.error = check_action(inv, names); !inv.error.empty()) return inv;
 
   for (const auto& n : names) {
     if (!inv.name.empty()) inv.name += ' ';

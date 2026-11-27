@@ -61,6 +61,37 @@ TEST_CASE("a card is reachable by id and alias, and covers its index name") {
   CHECK(data::entries()[static_cast<std::size_t>(row->entry)].id == "sort");
 }
 
+TEST_CASE("search postings (PLAN 7.3)") {
+  const auto terms = data::terms();
+  REQUIRE_FALSE(terms.empty());
+  CHECK(std::ranges::is_sorted(terms, {}, &Term::term));
+  CHECK(std::ranges::adjacent_find(terms, {}, &Term::term) == terms.end());
+  for (const auto& t : terms) {
+    CHECK_FALSE(t.postings.empty());
+    for (const auto& p : t.postings) {
+      const auto i = static_cast<std::size_t>(p.index);
+      switch (p.target) {
+        case Target::Entry: CHECK(i < data::entries().size()); break;
+        case Target::Recipe: CHECK(i < data::recipes().size()); break;
+        case Target::Compare: CHECK(i < data::compares().size()); break;
+        case Target::Index:
+          REQUIRE(i < data::index_names().size());
+          CHECK(p.field == Field::Name);
+          CHECK(data::index_names()[i].entry < 0);  // a card stands for covered names
+          break;
+      }
+    }
+  }
+  auto find = [&](std::string_view s) {
+    auto it = std::ranges::lower_bound(terms, s, {}, &Term::term);
+    return it != terms.end() && it->term == s ? &*it : nullptr;
+  };
+  const Term* phrase = find("remove duplicates");
+  REQUIRE(phrase);
+  CHECK(phrase->postings.front().field == Field::Phrase);
+  CHECK_FALSE(find("the"));  // stop words are not indexed
+}
+
 TEST_CASE("the changelog section of this version is embedded") {
   CHECK(data::changelog().find("### ") != std::string_view::npos);
 }

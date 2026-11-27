@@ -1,0 +1,12 @@
+$ cxxman -s maybe value --width 100 --color never
+exit 0
+  optional                 <optional>   A value that may or may not be present.
+  is_value                 <meta>       no card yet
+  iter_value_t             <iterator>   no card yet
+  in_value_result          <algorithm>  no card yet
+  out_value_result         <algorithm>  no card yet
+  projected_value_t        <iterator>   no card yet
+  execution::let_value     <execution>  no card yet
+  execution::set_value     <execution>  no card yet
+  ranges::range_value_t    <ranges>     no card yet
+  ranges::in_value_result  <algorithm>  no card yet

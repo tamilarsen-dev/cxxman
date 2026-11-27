@@ -3,6 +3,9 @@
 #include "app/config.hpp"
 #include "app/options.hpp"
 #include "render/card.hpp"
+#include "render/lists.hpp"
+#include "search/fuzzy.hpp"
+#include "search/search.hpp"
 
 #include <algorithm>
 #include <charconv>
@@ -28,6 +31,11 @@ constexpr std::string_view help_text =
     "cxxman - C++ standard library reference cards\n"
     "\n"
     "usage: cxxman [options] <name>      a card: sort, vector::erase, std::optional\n"
+    "       cxxman -s <words...>          search by task: cxxman -s remove duplicates\n"
+    "       cxxman -H <header>            what a header has: cxxman -H algorithm\n"
+    "       cxxman --list [--kind K] [--header H] [--since S]\n"
+    "       cxxman --new <std>            names added in a standard: cxxman --new 17\n"
+    "       cxxman --coverage [--missing <header>]\n"
     "\n"
     "options:\n"
     "  --color auto|always|never        color output; auto honors NO_COLOR\n"
@@ -125,33 +133,137 @@ int init_config(const Context& ctx, Output& io) {
   return 0;
 }
 
-int show_name(const Invocation& inv, const Context& ctx, Output& io) {
-  const Settings& s = inv.settings;
-  const render::Options o{width_for(s, ctx), s.ascii.value_or(!ctx.term.utf8)};
-  render::Style style;
-  style.theme = s.theme;
-  style.ascii = o.ascii;
-  if (color_on(s, ctx)) style.depth = render::detect_depth(ctx.env);
-  const render::Style plain{render::Depth::None, s.theme, o.ascii};
+// Layout options and the styles for stdout and for stderr (never colored).
+struct View {
+  render::Options o;
+  render::Style style, plain;
+};
 
+View view_for(const Settings& s, const Context& ctx) {
+  View v;
+  v.o = {width_for(s, ctx), s.ascii.value_or(!ctx.term.utf8)};
+  v.style.theme = v.plain.theme = s.theme;
+  v.style.ascii = v.plain.ascii = v.o.ascii;
+  if (color_on(s, ctx)) v.style.depth = render::detect_depth(ctx.env);
+  return v;
+}
+
+int show_name(const Invocation& inv, const Context& ctx, Output& io) {
+  const View v = view_for(inv.settings, ctx);
   const Resolution r = resolve(ctx.catalog, inv.name);
   switch (r.what) {
     case Resolution::What::Card:
       io.out += render::paint(
-          render::card(ctx.catalog, ctx.catalog.entries[static_cast<std::size_t>(r.entry)], r.also, o),
-          style);
+          render::card(ctx.catalog, ctx.catalog.entries[static_cast<std::size_t>(r.entry)], r.also, v.o),
+          v.style);
       return 0;
     case Resolution::What::Index:
-      io.out += render::paint(render::index_only(ctx.catalog, r.rows, r.also, o), style);
+      io.out += render::paint(render::index_only(ctx.catalog, r.rows, r.also, v.o), v.style);
       return 0;
     case Resolution::What::Ambiguous:
-      io.err += render::paint(render::ambiguous(inv.name, r.also, o), plain);
+      io.err += render::paint(render::ambiguous(inv.name, r.also, v.o), v.plain);
       return 2;
     case Resolution::What::Missing:
       break;
   }
-  io.err += render::paint(render::not_found(inv.name, r.suggestions, o), plain);
+  io.err += render::paint(render::not_found(inv.name, r.suggestions, v.o), v.plain);
   return 1;
+}
+
+int show_search(const Invocation& inv, const Context& ctx, Output& io) {
+  const View v = view_for(inv.settings, ctx);
+  const auto hits = search::search(ctx.catalog, inv.name);
+  if (hits.empty()) {
+    io.err += "cxxman: no results for '" + inv.name + "'\n";
+    return 1;
+  }
+  io.out += render::paint(render::search_results(ctx.catalog, hits, v.o), v.style);
+  return 0;
+}
+
+std::vector<NameInfo> names_in(std::span<const NameInfo> all, std::string_view header) {
+  std::vector<NameInfo> out;
+  for (const auto& n : all)
+    if (n.header == header) out.push_back(n);
+  return out;
+}
+
+const Header* header_file(const Catalog& cat, std::string_view header) {
+  auto it = std::ranges::lower_bound(cat.headers, header, {}, &Header::header);
+  return it != cat.headers.end() && it->header == header ? &*it : nullptr;
+}
+
+// "cxxman: no header <x>", with the closest known header as a hint.
+int no_header(std::string_view header, std::span<const NameInfo> all, Output& io) {
+  std::string_view best;
+  int best_d = 3;
+  for (const auto& n : all) {
+    const int d = search::edit_distance(header, n.header, 2);
+    if (d < best_d) {
+      best_d = d;
+      best = n.header;
+    }
+  }
+  io.err += "cxxman: no header <" + std::string(header) + ">";
+  if (!best.empty()) io.err += " (did you mean <" + std::string(best) + ">?)";
+  io.err += '\n';
+  return 1;
+}
+
+int show_header(const Invocation& inv, const Context& ctx, Output& io) {
+  const View v = view_for(inv.settings, ctx);
+  const auto all = known_names(ctx.catalog);
+  const std::string header = normalize_header(inv.header);
+  const auto names = names_in(all, header);
+  const Header* h = header_file(ctx.catalog, header);
+  if (names.empty() && !h) return no_header(header, all, io);
+  io.out += render::paint(render::header_index(ctx.catalog, header, h, names, v.o), v.style);
+  return 0;
+}
+
+int show_list(const Invocation& inv, const Context& ctx, Output& io) {
+  const View v = view_for(inv.settings, ctx);
+  const std::string header = normalize_header(inv.header);
+  std::vector<NameInfo> names;
+  for (const auto& n : known_names(ctx.catalog)) {
+    if (!header.empty() && n.header != header) continue;
+    if (inv.kind && n.kind != *inv.kind) continue;
+    if (inv.since != Std::Unknown && (n.since == Std::Unknown || n.since < inv.since)) continue;
+    names.push_back(n);
+  }
+  if (names.empty()) {
+    io.err += "cxxman: no names match\n";
+    return 1;
+  }
+  io.out += render::paint(render::name_list(names, v.o), v.style);
+  return 0;
+}
+
+int show_new(const Invocation& inv, const Context& ctx, Output& io) {
+  const View v = view_for(inv.settings, ctx);
+  std::vector<NameInfo> names;
+  for (const auto& n : known_names(ctx.catalog))
+    if (n.since == inv.new_std) names.push_back(n);
+  if (names.empty()) {
+    io.err += "cxxman: no names known for " + std::string(to_string(inv.new_std)) + " yet\n";
+    return 1;
+  }
+  io.out += render::paint(render::whats_new(names, inv.new_std, v.o), v.style);
+  return 0;
+}
+
+int show_coverage(const Invocation& inv, const Context& ctx, Output& io) {
+  const View v = view_for(inv.settings, ctx);
+  const auto all = known_names(ctx.catalog);
+  if (inv.missing.empty()) {
+    io.out += render::paint(render::coverage(all, v.o), v.style);
+    return 0;
+  }
+  const std::string header = normalize_header(inv.missing);
+  const auto names = names_in(all, header);
+  if (names.empty()) return no_header(header, all, io);
+  io.out += render::paint(render::missing(header, names, v.o), v.style);
+  return 0;
 }
 
 }  // namespace
@@ -185,6 +297,11 @@ int run(std::span<const std::string> args, const Context& ctx, Output& io) {
     case Action::ConfigShow: io.out += show_config(inv.settings, ctx); return 0;
     case Action::ConfigInit: return init_config(ctx, io);
     case Action::Card: return show_name(inv, ctx, io);
+    case Action::Search: return show_search(inv, ctx, io);
+    case Action::Header: return show_header(inv, ctx, io);
+    case Action::List: return show_list(inv, ctx, io);
+    case Action::New: return show_new(inv, ctx, io);
+    case Action::Coverage: return show_coverage(inv, ctx, io);
     case Action::Usage: break;
   }
   io.err += usage_text;

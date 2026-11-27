@@ -1,0 +1,5 @@
+$ cxxman --new 17 --width 100 --color never
+exit 0
+C++17: 1 name across 1 header (1 with a card)
+
+  <optional>  optional

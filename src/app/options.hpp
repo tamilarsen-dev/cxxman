@@ -39,11 +39,18 @@ struct Settings {
   std::string value_of(std::string_view key) const;  // as --config shows it
 };
 
-enum class Action : std::uint8_t { Usage, Card, Version, Help, ConfigShow, ConfigPath, ConfigInit };
+enum class Action : std::uint8_t {
+  Usage, Card, Search, Header, List, New, Coverage, Version, Help, ConfigShow, ConfigPath, ConfigInit,
+};
 
 struct Invocation {
   Action action = Action::Usage;
-  std::string name;  // Card: the positional words joined by spaces
+  std::string name;  // Card, Search: the positional words joined by spaces
+  std::string header;   // Header: the header; List: a filter
+  std::string missing;  // Coverage: the header whose uncovered names to list
+  Std new_std = Std::Unknown;  // New
+  std::optional<Kind> kind;    // List filter
+  Std since = Std::Unknown;    // List filter: since this standard or later
   Settings settings;
   std::vector<std::string> warnings;  // printed, not fatal
   std::string error;                  // non-empty: usage error, exit 2

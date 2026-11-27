@@ -25,6 +25,9 @@ std::size_t display_width(std::string_view utf8);
 // the width is cut.
 std::vector<std::string> wrap(std::string_view text, std::size_t width);
 
+// `text` cut to `width` columns, ending in `ellipsis` when it was cut.
+std::string truncate(std::string_view text, std::size_t width, std::string_view ellipsis);
+
 struct Span {
   Role role = Role::Plain;
   std::string text;
@@ -45,6 +48,11 @@ class Line {
 };
 
 using Block = std::vector<Line>;
+
+Line spaces(std::size_t n);  // a line of n spaces
+
+// "3,225" for 3225.
+std::string group_digits(std::size_t n);
 
 // `left`, then `right` ending at column `width`, at least `gap` spaces apart.
 // Returns false (and leaves `left` alone) when they do not fit on one line.

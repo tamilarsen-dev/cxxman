@@ -1,0 +1,12 @@
+$ cxxman -s remove duplicates --width 60 --color never
+exit 0
+  unique         <algorithm>  Remove consecutive duplicates…
+  vector::erase  <vector>     Remove elements at a position…
+  remove         <algorithm>  no card yet
+  remove_cv      <meta>       no card yet
+  remove_if      <algorithm>  no card yet
+  remove_all     <algorithm>  no card yet
+  remove_copy    <algorithm>  no card yet
+  remove_const   <meta>       no card yet
+  remove_cvref   <meta>       no card yet
+  remove_extent  <meta>       no card yet

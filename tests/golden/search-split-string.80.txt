@@ -1,0 +1,12 @@
+$ cxxman -s split string --width 80 --color never
+exit 0
+# split-string   recipe         Break "a,b,c" into parts. Pick by standard and…
+  split          <ranges>       no card yet
+  string         <string>       no card yet
+  lazy_split     <ranges>       no card yet
+  split_view     <ranges>       no card yet
+  pmr::string    <string>       no card yet
+  string_view    <string_view>  no card yet
+  basic_string   <string>       no card yet
+  views::split   <ranges>       no card yet
+  format_string  <format>       no card yet

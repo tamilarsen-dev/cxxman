@@ -136,6 +136,26 @@ struct Key {
   std::int32_t index = -1;
 };
 
+// The search index (PLAN §8.3): for every word, the documents that contain it
+// and where. Phrase terms are whole tags (their words joined by one space);
+// they only match a query that equals the tag.
+enum class Field : std::uint8_t {
+  Id,      // a word of an id, alias or compare subject
+  Tag,     // a word of a tag
+  Phrase,  // a whole tag
+  Text,    // a word of a summary or title
+  Name,    // a word of an index name that has no card
+};
+struct Posting {
+  Target target = Target::Entry;
+  Field field = Field::Id;
+  std::int32_t index = -1;
+};
+struct Term {
+  std::string_view term{};
+  std::span<const Posting> postings{};
+};
+
 namespace data {
 // Defined in the generated data.cpp. Every table is sorted by its id.
 std::span<const Entry> entries() noexcept;
@@ -144,6 +164,7 @@ std::span<const Compare> compares() noexcept;
 std::span<const Header> headers() noexcept;
 std::span<const IndexName> index_names() noexcept;
 std::span<const Key> keys() noexcept;
+std::span<const Term> terms() noexcept;  // sorted by term
 // CHANGELOG.md section of this version, without its heading.
 std::string_view changelog() noexcept;
 }  // namespace data

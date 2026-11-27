@@ -17,9 +17,29 @@ struct Catalog {
   std::span<const Entry> entries;
   std::span<const IndexName> index;
   std::span<const Key> keys;
+  std::span<const Recipe> recipes{};
+  std::span<const Compare> compares{};
+  std::span<const Header> headers{};
+  std::span<const Term> terms{};  // sorted by term
 
   static Catalog builtin() noexcept;
 };
+
+// One known name in one header: an index row, or a card missing from the
+// index. Kind and since come from the card when the index does not know them
+// and the card is about the same header.
+struct NameInfo {
+  std::string_view name{}, header{};
+  Kind kind = Kind::Unknown;
+  Std since = Std::Unknown;
+  std::int32_t entry = -1;  // the covering card, or -1
+};
+
+// Every (name, header) pair once, sorted by name, then header.
+std::vector<NameInfo> known_names(const Catalog& cat);
+
+// "algorithm" for "<algorithm>", " algorithm " or "algorithm".
+std::string normalize_header(std::string_view input);
 
 // Trims, drops a leading std:: and accepts '.' for "::" (vector.push_back).
 std::string normalize_name(std::string_view input);

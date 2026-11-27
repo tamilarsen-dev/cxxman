@@ -72,9 +72,11 @@ add_library(cxxman-core STATIC
   src/model/lookup.cpp
   src/render/card.cpp
   src/render/highlight.cpp
+  src/render/lists.cpp
   src/render/layout.cpp
   src/render/style.cpp
   src/search/fuzzy.cpp
+  src/search/search.cpp
   src/sys/paths.cpp
   src/term/terminal.cpp)
 target_link_libraries(cxxman-core PUBLIC cxxman-data)

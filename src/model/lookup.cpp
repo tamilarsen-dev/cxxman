@@ -52,7 +52,47 @@ std::vector<std::string_view> members_named(const Catalog& cat, std::string_view
 }  // namespace
 
 Catalog Catalog::builtin() noexcept {
-  return {data::entries(), data::index_names(), data::keys()};
+  return {data::entries(), data::index_names(), data::keys(), data::recipes(),
+          data::compares(),  data::headers(),     data::terms()};
+}
+
+std::vector<NameInfo> known_names(const Catalog& cat) {
+  std::vector<NameInfo> out;
+  out.reserve(cat.index.size() + cat.entries.size());
+  for (const IndexName& n : cat.index) {
+    NameInfo info{n.name, n.header, n.kind, n.since, n.entry};
+    if (n.entry >= 0) {
+      const Entry& e = cat.entries[static_cast<std::size_t>(n.entry)];
+      if (e.header == n.header) {
+        if (info.kind == Kind::Unknown) info.kind = e.kind;
+        if (info.since == Std::Unknown) info.since = e.since;
+      }
+    }
+    out.push_back(info);
+  }
+  for (std::size_t i = 0; i < cat.entries.size(); ++i) {
+    const Entry& e = cat.entries[i];
+    const auto rows = std::ranges::equal_range(cat.index, e.id, {}, &IndexName::name);
+    const bool indexed = std::ranges::any_of(rows, [&](const IndexName& n) { return n.header == e.header; });
+    if (!indexed) out.push_back({e.id, e.header, e.kind, e.since, static_cast<std::int32_t>(i)});
+  }
+  std::ranges::sort(out, [](const NameInfo& a, const NameInfo& b) {
+    return std::tie(a.name, a.header) < std::tie(b.name, b.header);
+  });
+  const auto dup = std::ranges::unique(out, [](const NameInfo& a, const NameInfo& b) {
+    return a.name == b.name && a.header == b.header;
+  });
+  out.erase(dup.begin(), dup.end());
+  return out;
+}
+
+std::string normalize_header(std::string_view input) {
+  const auto first = input.find_first_not_of(" \t");
+  if (first == std::string_view::npos) return {};
+  input = input.substr(first, input.find_last_not_of(" \t") - first + 1);
+  if (input.size() >= 2 && input.front() == '<' && input.back() == '>')
+    input = input.substr(1, input.size() - 2);
+  return std::string(input);
 }
 
 std::string fold(std::string_view s) {

@@ -1,0 +1,12 @@
+$ cxxman -s erase element --width 100 --color never
+exit 0
+  vector::erase        <vector>     Remove elements at a position or in a range.
+  erase                <deque>      no card yet · in 7 headers
+  erase_if             <deque>      no card yet · in 13 headers
+  max_element          <algorithm>  no card yet
+  min_element          <algorithm>  no card yet
+  nth_element          <algorithm>  no card yet
+  tuple_element        <meta>       no card yet
+  minmax_element       <algorithm>  no card yet
+  ranges::max_element  <algorithm>  no card yet
+  ranges::min_element  <algorithm>  no card yet

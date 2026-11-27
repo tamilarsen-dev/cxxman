@@ -1,0 +1,4 @@
+$ cxxman -H algoritm --width 80 --color never
+exit 1
+--- stderr
+cxxman: no header <algoritm> (did you mean <algorithm>?)

@@ -1,0 +1,10 @@
+$ cxxman -H <vector> --width 80 --color never
+exit 0
+<vector>
+
+  Names  erase  erase_if  operator!=  operator<  operator<=  operator<=>
+         operator>  operator>=  swap  vector  vector::clear  vector::erase
+         vector::operator==  vector::pop_back  vector::push_back  vector<bool>
+         vector<bool>::hash<std::vector<bool>>
+
+2 of 17 names have cards                                  cxxman -H vector --web

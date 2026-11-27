@@ -27,12 +27,6 @@ void push(Block& out, Block lines) {
   for (auto& l : lines) out.push_back(std::move(l));
 }
 
-Line spaces(std::size_t n) {
-  Line l;
-  l.add(std::string(n, ' '));
-  return l;
-}
-
 // "std::vector<T>" for a class whose first signature is "vector<T>".
 std::string title_text(const Entry& e) {
   if (e.kind == Kind::Class && !e.signatures.empty()) {
