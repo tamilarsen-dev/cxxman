@@ -14,7 +14,8 @@ struct Info {
 };
 
 // Prepares the console (VT processing and UTF-8 output on Windows; SIGPIPE
-// ignored on POSIX) and restores it when destroyed.
+// ignored on POSIX) and restores it when destroyed. One per process: what it
+// must restore lives in terminal.cpp, so this header stays platform-free.
 class Console {
  public:
   Console();
@@ -26,9 +27,6 @@ class Console {
 
  private:
   Info info_;
-  unsigned long old_mode_ = 0;
-  unsigned old_cp_ = 0;
-  bool restore_mode_ = false;
 };
 
 // Write everything; false when the reader went away (broken pipe).

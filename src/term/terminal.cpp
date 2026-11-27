@@ -25,6 +25,11 @@ namespace cxxman::term {
 
 namespace {
 
+// What the destructor puts back; the console is one per process.
+DWORD saved_mode = 0;
+UINT saved_cp = 0;
+bool restore_mode = false;
+
 bool is_console(DWORD which) {
   DWORD mode = 0;
   return GetConsoleMode(GetStdHandle(which), &mode) != 0;
@@ -51,8 +56,8 @@ Console::Console() {
   info_.in_tty = is_console(STD_INPUT_HANDLE);
   if (!info_.out_tty) return;
 
-  old_mode_ = mode;
-  restore_mode_ = true;
+  saved_mode = mode;
+  restore_mode = true;
   info_.vt = (mode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0 ||
              SetConsoleMode(out, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0;
 
@@ -60,13 +65,13 @@ Console::Console() {
   if (GetConsoleScreenBufferInfo(out, &csbi))
     info_.columns = static_cast<std::size_t>(csbi.srWindow.Right - csbi.srWindow.Left + 1);
 
-  old_cp_ = GetConsoleOutputCP();
-  info_.utf8 = old_cp_ == CP_UTF8 || SetConsoleOutputCP(CP_UTF8) != 0;
+  saved_cp = GetConsoleOutputCP();
+  info_.utf8 = saved_cp == CP_UTF8 || SetConsoleOutputCP(CP_UTF8) != 0;
 }
 
 Console::~Console() {
-  if (restore_mode_) SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), old_mode_);
-  if (old_cp_ != 0 && old_cp_ != CP_UTF8) SetConsoleOutputCP(old_cp_);
+  if (restore_mode) SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), saved_mode);
+  if (saved_cp != 0 && saved_cp != CP_UTF8) SetConsoleOutputCP(saved_cp);
 }
 
 bool write_out(std::string_view s) { return write_all(STD_OUTPUT_HANDLE, s); }
