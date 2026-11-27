@@ -160,12 +160,26 @@ struct View {
   render::Style style, plain;
 };
 
+// OSC 8 links (PLAN §4.7), when color is on: `always` and `never` decide;
+// `auto` wants a terminal on stdout that is known to show them.
+bool links_on(const Settings& s, const Context& ctx) {
+  switch (s.hyperlinks) {
+    case Mode::Always: return true;
+    case Mode::Never: return false;
+    case Mode::Auto: break;
+  }
+  return ctx.term.out_tty && render::detect_hyperlinks(ctx.env);
+}
+
 View view_for(const Settings& s, const Context& ctx) {
   View v;
   v.o = {width_for(s, ctx), s.ascii.value_or(!ctx.term.utf8), s.std, s.strict};
   v.style.theme = v.plain.theme = s.theme;
   v.style.ascii = v.plain.ascii = v.o.ascii;
-  if (color_on(s, ctx)) v.style.depth = render::detect_depth(ctx.env);
+  if (color_on(s, ctx)) {
+    v.style.depth = render::detect_depth(ctx.env);
+    v.style.hyperlinks = links_on(s, ctx);
+  }
   return v;
 }
 
@@ -331,7 +345,7 @@ int show_list(const Invocation& inv, const Context& ctx, Output& io) {
     io.err += "cxxman: no names match\n";
     return 1;
   }
-  io.out += render::paint(render::name_list(names, v.o), v.style);
+  io.out += render::paint(render::name_list(ctx.catalog, names, v.o), v.style);
   return 0;
 }
 
@@ -344,7 +358,7 @@ int show_new(const Invocation& inv, const Context& ctx, Output& io) {
     io.err += "cxxman: no names known for " + std::string(to_string(inv.new_std)) + " yet\n";
     return 1;
   }
-  io.out += render::paint(render::whats_new(names, inv.new_std, v.o), v.style);
+  io.out += render::paint(render::whats_new(ctx.catalog, names, inv.new_std, v.o), v.style);
   return 0;
 }
 

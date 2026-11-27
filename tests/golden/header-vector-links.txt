@@ -1,0 +1,10 @@
+$ cxxman -H vector --color always --width 80
+exit 0
+\e]8;;https://en.cppreference.com/cpp/header/vector\e\\e[38;2;86;182;194m<vector>\e[0m\e]8;;\e\
+
+  Names  erase  erase_if  operator!=  operator<  operator<=  operator<=>
+         operator>  operator>=  swap  \e]8;;https://en.cppreference.com/cpp/container/vector\e\\e[1;4mvector\e[0m\e]8;;\e\  vector::clear  \e]8;;https://en.cppreference.com/cpp/container/vector/erase\e\\e[1;4mvector::erase\e[0m\e]8;;\e\
+         vector::operator==  vector::pop_back  vector::push_back  vector<bool>
+         vector<bool>::hash<std::vector<bool>>
+
+2 of 17 names have cards                                  \e]8;;https://en.cppreference.com/cpp/header/vector\e\\e[38;2;127;132;142mcxxman -H vector --web\e[0m\e]8;;\e\

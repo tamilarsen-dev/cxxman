@@ -189,6 +189,19 @@ TEST_CASE("run: color, width and the config file") {
   auto [c5, out5, e5] = run_with({"sort", "--color", "always"}, Env{{{"NO_COLOR", "1"}}}, pipe);
   CHECK(out5.find('\x1b') != std::string::npos);
 
+  // OSC 8 links: color on, and a known terminal on stdout, unless set.
+  const std::string osc = "\x1b]8;;";
+  const Env wt{{{"WT_SESSION", "1"}}};
+  auto has_links = [&](std::vector<std::string> args, const Env& env, Terminal term) {
+    return std::get<1>(run_with(std::move(args), env, term)).find(osc) != std::string::npos;
+  };
+  CHECK(has_links({"sort"}, wt, tty));
+  CHECK_FALSE(has_links({"sort"}, {}, tty));                              // unknown terminal
+  CHECK_FALSE(has_links({"sort", "--no-hyperlinks"}, wt, tty));
+  CHECK_FALSE(has_links({"sort", "--color", "always"}, wt, pipe));        // not a terminal
+  CHECK_FALSE(has_links({"sort", "--color", "never"}, wt, tty));          // no color, no links
+  CHECK(has_links({"sort"}, Env{{{"TERM_PROGRAM", "vscode"}}}, tty));
+
   // ASCII when the console cannot show UTF-8.
   auto [c6, out6, e6] = run_with({"sort", "--color", "never"}, {}, Terminal{true, 80, true, false});
   CHECK(out6.find("C++98 | constexpr") != std::string::npos);
@@ -214,6 +227,14 @@ TEST_CASE("run: color, width and the config file") {
   CHECK(line.find(" 60 ") != std::string::npos);
   CHECK(line.ends_with("config"));
   CHECK(e9.find("theme must be dark, light or mono") != std::string::npos);
+  // Config hyperlinks = always: links wherever color is on, even in a pipe.
+  {
+    std::ofstream(file, std::ios::trunc) << "hyperlinks = always\n";
+  }
+  CHECK(std::get<1>(run_with({"sort", "--color", "always"}, {}, pipe, file)).find(osc) != std::string::npos);
+  CHECK(std::get<1>(run_with({"sort"}, {}, pipe, file)).find(osc) == std::string::npos);  // no color
+  CHECK(std::get<1>(run_with({"sort", "--color", "always", "--no-hyperlinks"}, {}, pipe, file)).find(osc) ==
+        std::string::npos);
   std::filesystem::remove_all(dir);
 }
 

@@ -124,18 +124,18 @@ std::string truncate(std::string_view text, std::size_t width, std::string_view 
   return std::string(text.substr(0, i)) + std::string(ellipsis);
 }
 
-Line& Line::add(std::string_view text, Role role) {
+Line& Line::add(std::string_view text, Role role, std::string_view url) {
   if (text.empty()) return *this;
-  if (!spans_.empty() && spans_.back().role == role)
+  if (!spans_.empty() && spans_.back().role == role && spans_.back().url == url)
     spans_.back().text += text;
   else
-    spans_.push_back({role, std::string(text)});
+    spans_.push_back({role, std::string(text), std::string(url)});
   width_ += display_width(text);
   return *this;
 }
 
 Line& Line::append(const Line& other) {
-  for (const auto& s : other.spans()) add(s.text, s.role);
+  for (const auto& s : other.spans()) add(s.text, s.role, s.url);
   return *this;
 }
 

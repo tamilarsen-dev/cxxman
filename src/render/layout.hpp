@@ -31,11 +31,12 @@ std::string truncate(std::string_view text, std::size_t width, std::string_view 
 struct Span {
   Role role = Role::Plain;
   std::string text;
+  std::string url{};  // a hyperlink target (PLAN §4.7), or empty
 };
 
 class Line {
  public:
-  Line& add(std::string_view text, Role role = Role::Plain);
+  Line& add(std::string_view text, Role role = Role::Plain, std::string_view url = {});
   Line& append(const Line& other);
   Line& pad_to(std::size_t column);  // spaces up to `column`; no-op if past it
   std::size_t width() const noexcept { return width_; }

@@ -24,6 +24,10 @@ Std std_of_badge(std::string_view badge);
 
 // The full cppreference URL of a url path from the data.
 std::string reference_url(std::string_view path);
+// The cppreference page of a header: "algorithm" -> .../header/algorithm.
+std::string header_url(std::string_view header);
+// The page of the card for `name` (id or alias), or "" when it has none.
+std::string card_url(const Catalog& cat, std::string_view name);
 
 // Function, algorithm, member and class cards. `also` lists members of other
 // classes with the same name.

@@ -54,9 +54,9 @@ std::string covered_text(std::size_t covered, std::size_t total) {
 // A labelled group: `label` padded to `col`, then the items, wrapped under
 // the column; a `since` badge right-aligned on the last line.
 void group(Block& out, std::string_view label, Role label_role, const std::vector<Line>& items,
-           Std since, std::size_t col, const Options& o) {
+           Std since, std::size_t col, const Options& o, std::string_view label_url = {}) {
   Line prefix = spaces(indent);
-  prefix.add(label, label_role);
+  prefix.add(label, label_role, label_url);
   column(prefix, col);
   Block lines = flow(prefix, items, o.width, col, 2);
   if (since != Std::Unknown) {
@@ -71,9 +71,20 @@ void group(Block& out, std::string_view label, Role label_role, const std::vecto
   push(out, std::move(lines));
 }
 
-Line name_item(std::string_view name, bool card) {
+// A name; a link to its card's page when it has one (`entry` >= 0).
+Line name_item(const Catalog& cat, std::string_view name, std::int32_t entry) {
   Line l;
-  l.add(name, card ? Role::Link : Role::Plain);
+  if (entry < 0)
+    l.add(name);
+  else
+    l.add(name, Role::Link, reference_url(cat.entries[static_cast<std::size_t>(entry)].url));
+  return l;
+}
+
+// "<algorithm>" in header, linked to the header's page.
+Line header_item(std::string_view header) {
+  Line l;
+  l.add(bracket(header), Role::Header, header_url(header));
   return l;
 }
 
@@ -97,7 +108,7 @@ Block search_results(const Catalog& cat, std::span<const search::Hit> hits, cons
   struct Row {
     std::string_view marker{}, name{};
     bool openable = false;
-    std::string where{};
+    std::string name_url{}, where{}, where_url{};
     Role where_role = Role::Badge;
     std::string summary{};
     Role summary_role = Role::Plain;
@@ -109,7 +120,9 @@ Block search_results(const Catalog& cat, std::span<const search::Hit> hits, cons
     switch (h.target) {
       case Target::Entry:
         r.openable = true;
+        r.name_url = reference_url(cat.entries[i].url);
         r.where = bracket(cat.entries[i].header);
+        r.where_url = header_url(cat.entries[i].header);
         r.where_role = Role::Header;
         r.summary = cat.entries[i].summary;
         break;
@@ -127,6 +140,7 @@ Block search_results(const Catalog& cat, std::span<const search::Hit> hits, cons
         break;
       case Target::Index:
         r.where = bracket(cat.index[i].header);
+        r.where_url = header_url(cat.index[i].header);
         r.where_role = Role::Header;
         r.summary = "no card yet";
         if (h.headers > 1)
@@ -147,9 +161,9 @@ Block search_results(const Catalog& cat, std::span<const search::Hit> hits, cons
   for (const auto& r : rows) {
     Line l;
     l.add(r.marker, Role::Badge).add(" ");
-    l.add(r.name, r.openable ? Role::Link : Role::Plain);
+    l.add(r.name, r.openable ? Role::Link : Role::Plain, r.name_url);
     column(l, where_col);
-    l.add(r.where, r.where_role);
+    l.add(r.where, r.where_role, r.where_url);
     column(l, summary_col);
     if (l.width() < o.width)
       l.add(truncate(r.summary, o.width - l.width(), sym(Sym::Ellipsis, o.ascii)), r.summary_role);
@@ -162,7 +176,7 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
                    std::span<const NameInfo> names, const Options& o) {
   Block out;
   Line title;
-  title.add(bracket(header), Role::Header);
+  title.add(bracket(header), Role::Header, header_url(header));
   if (h && !h->summary.empty()) {
     title.add("  ");
     push(out, flow(title, words(h->summary), o.width, 0));
@@ -191,7 +205,7 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
       ++twins;
       continue;
     }
-    rest.push_back(name_item(name, names[i].entry >= 0));
+    rest.push_back(name_item(cat, name, names[i].entry));
   }
   const std::string_view rest_label = h && !h->groups.empty() ? "Other" : "Names";
   std::size_t label_w = rest.empty() ? 0 : display_width(rest_label);
@@ -203,7 +217,7 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
   if (h)
     for (const auto& g : h->groups) {
       std::vector<Line> items;
-      for (auto n : g.names) items.push_back(name_item(n, card_for(cat, n) >= 0));
+      for (auto n : g.names) items.push_back(name_item(cat, n, card_for(cat, n)));
       group(out, g.title, Role::Plain, items, g.since, col, o);
     }
   if (!rest.empty()) group(out, rest_label, Role::Plain, rest, Std::Unknown, col, o);
@@ -220,7 +234,7 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
   Line footer;
   footer.add(covered_text(covered, total));
   Line hint;
-  hint.add("cxxman -H " + std::string(header) + " --web", Role::Badge);
+  hint.add("cxxman -H " + std::string(header) + " --web", Role::Badge, header_url(header));
   if (!put_right(footer, hint, o.width, 3)) {
     out.push_back(std::move(footer));
     footer = Line{};
@@ -230,7 +244,7 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
   return out;
 }
 
-Block name_list(std::span<const NameInfo> names, [[maybe_unused]] const Options& o) {
+Block name_list(const Catalog& cat, std::span<const NameInfo> names, [[maybe_unused]] const Options& o) {
   std::size_t name_w = 0, header_w = 0, kind_w = 0;
   for (const auto& n : names) {
     name_w = fit(name_w, display_width(n.name), max_list_col);
@@ -242,9 +256,9 @@ Block name_list(std::span<const NameInfo> names, [[maybe_unused]] const Options&
   Block out;
   for (const auto& n : names) {
     Line l;
-    l.add(n.name, n.entry >= 0 ? Role::Link : Role::Plain);
+    l.append(name_item(cat, n.name, n.entry));
     column(l, header_col);
-    l.add(bracket(n.header), Role::Header);
+    l.append(header_item(n.header));
     if (n.kind != Kind::Unknown) {
       column(l, kind_col);
       l.add(to_string(n.kind));
@@ -260,7 +274,7 @@ Block name_list(std::span<const NameInfo> names, [[maybe_unused]] const Options&
   return out;
 }
 
-Block whats_new(std::span<const NameInfo> names, Std s, const Options& o) {
+Block whats_new(const Catalog& cat, std::span<const NameInfo> names, Std s, const Options& o) {
   std::map<std::string_view, std::vector<const NameInfo*>> by_header;
   for (const auto& n : names) by_header[n.header].push_back(&n);
   const auto [total, covered] = count_names(names);
@@ -277,8 +291,8 @@ Block whats_new(std::span<const NameInfo> names, Std s, const Options& o) {
   const std::size_t col = indent + label_w + 2;
   for (const auto& [h, list] : by_header) {
     std::vector<Line> items;
-    for (const auto* n : list) items.push_back(name_item(n->name, n->entry >= 0));
-    group(out, bracket(h), Role::Header, items, Std::Unknown, col, o);
+    for (const auto* n : list) items.push_back(name_item(cat, n->name, n->entry));
+    group(out, bracket(h), Role::Header, items, Std::Unknown, col, o, header_url(h));
   }
   return out;
 }
@@ -316,7 +330,7 @@ Block coverage(std::span<const NameInfo> names, const Options& o) {
   }
   for (const auto& r : rows) {
     Line l = spaces(indent);
-    l.add(bracket(r.header), Role::Header);
+    l.append(header_item(r.header));
     const std::string c = group_digits(r.covered), t = group_digits(r.total);
     l.pad_to(indent + label_w + 2 + covered_w - c.size());
     l.add(c).add(" / ").add(std::string(total_w - t.size(), ' ') + t);
@@ -332,14 +346,14 @@ Block coverage(std::span<const NameInfo> names, const Options& o) {
 Block missing(std::string_view header, std::span<const NameInfo> names, const Options& o) {
   std::vector<Line> items;
   for (const auto& n : names)
-    if (n.entry < 0) items.push_back(name_item(n.name, false));
+    if (n.entry < 0) items.emplace_back().add(n.name);
   Block out;
   if (items.empty()) {
-    out.emplace_back().add(bracket(header), Role::Header).add(": every name has a card");
+    out.push_back(header_item(header).add(": every name has a card"));
     return out;
   }
   Line head;
-  head.add(bracket(header), Role::Header)
+  head.add(bracket(header), Role::Header, header_url(header))
       .add(": " + group_digits(items.size()) + " of " + plural(names.size(), "name", "names") +
            (items.size() == 1 ? " has" : " have") + " no card");
   out.push_back(std::move(head));

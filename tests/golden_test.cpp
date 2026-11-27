@@ -25,6 +25,7 @@ struct Case {
   std::vector<int> widths{};  // one golden per width; none: args carry it
   std::map<std::string, std::string> env{};
   bool fixture = false;
+  bool tty = false;  // stdout is a terminal (120 columns)
 };
 
 std::string read(const std::filesystem::path& p) {
@@ -52,7 +53,7 @@ std::string run_case(const Case& c, const std::vector<std::string>& args) {
     auto it = c.env.find(n);
     return it == c.env.end() ? nullptr : it->second.c_str();
   };
-  ctx.term = {false, 0, true, true};
+  ctx.term = {c.tty, c.tty ? 120u : 0u, true, true};
   ctx.catalog = c.fixture ? fixture::catalog() : Catalog::builtin();
   app::Output io;
   const int code = app::run(args, ctx, io);
@@ -142,6 +143,11 @@ const std::vector<Case> cases = {
     {"support-fixture-std20", {"vector", "--std", "20"}, {80}, {}, true},
     {"support-fixture-std17", {"vector", "--std", "17"}, {80}, {}, true},
     {"help", {"--help"}, {}},
+    // OSC 8 links in a terminal known to show them (PLAN §4.7).
+    {"card-sort-links", {"sort", "--color", "always", "--width", "80"}, {},
+     {{"COLORTERM", "truecolor"}, {"WT_SESSION", "1"}}, false, true},
+    {"header-vector-links", {"-H", "vector", "--color", "always", "--width", "80"}, {},
+     {{"WT_SESSION", "1"}}, false, true},
     // --json (docs/JSON.md): every name result, search, -H.
     {"json-sort", {"sort", "--json"}, {}},
     {"json-vector", {"vector", "--json"}, {}},

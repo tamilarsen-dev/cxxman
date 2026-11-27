@@ -110,7 +110,8 @@ void title_block(Block& out, Line title, const Line& badges, std::size_t width) 
 // Title, header and badges.
 void head(Block& out, const Entry& e, const Parts& p, const Options& o) {
   Line title;
-  title.add(title_text(e), Role::Title).add("  ").add("<" + std::string(e.header) + ">", Role::Header);
+  title.add(title_text(e), Role::Title, reference_url(e.url)).add("  ");
+  title.add("<" + std::string(e.header) + ">", Role::Header, header_url(e.header));
   Line badges;
   if (e.since != Std::Unknown) badges.append(std_badge(to_string(e.since), e.since, o));
   for (auto [b, s] : p.badges) {
@@ -173,9 +174,9 @@ void members(Block& out, const Catalog& cat, const Entry& e, std::span<const Gro
     std::vector<Line> items;
     for (std::string_view name : g.names) {
       // A member with its own card is a link: "vector::erase".
-      const bool card = card_for(cat, std::string(e.id) + "::" + std::string(name)) >= 0 ||
-                        (name.starts_with("std::") && card_for(cat, name) >= 0);
-      items.emplace_back().add(name, card ? Role::Link : Role::Plain);
+      std::string url = card_url(cat, std::string(e.id) + "::" + std::string(name));
+      if (url.empty() && name.starts_with("std::")) url = card_url(cat, name);
+      items.emplace_back().add(name, url.empty() ? Role::Plain : Role::Link, url);
     }
     Block lines = flow(prefix, items, o.width, col, 2);
     if (g.since != Std::Unknown) {
@@ -330,6 +331,13 @@ std::string reference_url(std::string_view path) {
   return std::string(cppreference_base) + std::string(path);
 }
 
+std::string header_url(std::string_view header) { return reference_url("header/" + std::string(header)); }
+
+std::string card_url(const Catalog& cat, std::string_view name) {
+  const std::int32_t i = card_for(cat, name);
+  return i < 0 ? std::string{} : reference_url(cat.entries[static_cast<std::size_t>(i)].url);
+}
+
 Block card(const Catalog& cat, const Entry& e, std::span<const std::string_view> also,
            const Options& o) {
   Block out;
@@ -359,14 +367,17 @@ Block card(const Catalog& cat, const Entry& e, std::span<const std::string_view>
   if (!e.complexity.empty()) out.emplace_back().add(e.complexity);
   support_line(out, e, o);
   Line hint;
-  hint.add("cxxman " + std::string(e.id), Role::Badge);
-  if (e.kind == Kind::Class) hint.add("::<member>" + sep(o) + "--web", Role::Badge);
-  else hint.add(" --web", Role::Badge);
+  const std::string page = reference_url(e.url);
+  hint.add("cxxman " + std::string(e.id), Role::Badge, page);
+  if (e.kind == Kind::Class) hint.add("::<member>" + sep(o) + "--web", Role::Badge, page);
+  else hint.add(" --web", Role::Badge, page);
   Block footer;
   if (!e.see_also.empty()) {
     std::vector<Line> items;
-    for (auto name : e.see_also)
-      items.emplace_back().add(name, card_for(cat, name) >= 0 ? Role::Link : Role::Plain);
+    for (auto name : e.see_also) {
+      const std::string url = card_url(cat, name);
+      items.emplace_back().add(name, url.empty() ? Role::Plain : Role::Link, url);
+    }
     Line prefix;
     prefix.add("see: ");
     footer = flow(prefix, items, o.width, 5);
@@ -407,7 +418,8 @@ Block signatures_only(const Entry& e, const Options& o) {
 
 Block brief(const Entry& e, const Options& o) {
   Line l;
-  l.add(e.name, Role::Title).add(" ").add("<" + std::string(e.header) + ">", Role::Header);
+  l.add(e.name, Role::Title, reference_url(e.url)).add(" ");
+  l.add("<" + std::string(e.header) + ">", Role::Header, header_url(e.header));
   l.add(" " + std::string(sym(Sym::Dash, o.ascii)) + " ");
   const std::size_t room = o.width > l.width() ? o.width - l.width() : 1;
   l.add(truncate(e.summary, room, sym(Sym::Ellipsis, o.ascii)));
@@ -422,7 +434,7 @@ Block index_only(const Catalog& cat, std::span<const std::int32_t> rows,
   Line title;
   title.add(display_name(first), Role::Title).add("  ");
   if (rows.size() == 1) {
-    title.add("<" + std::string(first.header) + ">", Role::Header);
+    title.add("<" + std::string(first.header) + ">", Role::Header, header_url(first.header));
     Line badge;
     if (first.since != Std::Unknown) badge = std_badge(to_string(first.since), first.since, o);
     title_block(out, std::move(title), badge, o.width);
@@ -444,7 +456,7 @@ Block index_only(const Catalog& cat, std::span<const std::int32_t> rows,
     for (std::size_t i = 0; i < shown; ++i) {
       const IndexName& n = cat.index[static_cast<std::size_t>(rows[i])];
       Line l = spaces(indent);
-      l.add("<" + std::string(n.header) + ">", Role::Header);
+      l.add("<" + std::string(n.header) + ">", Role::Header, header_url(n.header));
       if (columns) {
         l.pad_to(col).add(reference_url(n.url));
         out.push_back(std::move(l));

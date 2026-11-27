@@ -1,6 +1,7 @@
 #include "render/style.hpp"
 
 #include <array>
+#include <charconv>
 #include <cstdlib>
 #include <string>
 
@@ -129,6 +130,21 @@ Depth detect_depth(const Getenv& env) {
   return Depth::Ansi16;
 }
 
+bool detect_hyperlinks(const Getenv& env) {
+  auto get = [&](const char* name) -> std::string_view {
+    const char* v = env(name);
+    return v ? v : "";
+  };
+  if (!get("WT_SESSION").empty() || get("TERM") == "xterm-kitty") return true;
+  const auto program = get("TERM_PROGRAM");
+  if (program == "iTerm.app" || program == "WezTerm" || program == "vscode" || program == "ghostty")
+    return true;
+  const auto vte = get("VTE_VERSION");
+  int version = 0;
+  const auto [end, ec] = std::from_chars(vte.data(), vte.data() + vte.size(), version);
+  return ec == std::errc{} && end == vte.data() + vte.size() && version >= 5000;
+}
+
 int nearest_256(std::uint32_t rgb) {
   const int c[3] = {static_cast<int>((rgb >> 16) & 0xFF), static_cast<int>((rgb >> 8) & 0xFF),
                     static_cast<int>(rgb & 0xFF)};
@@ -173,6 +189,8 @@ std::string paint(const Block& lines, const Style& style) {
       const std::string on = style.depth == Depth::None
                                  ? std::string{}
                                  : sgr(p[static_cast<std::size_t>(span.role)], style.depth, style.theme);
+      const bool link = style.hyperlinks && style.depth != Depth::None && !span.url.empty();
+      if (link) text += "\x1b]8;;" + span.url + "\x1b\\";
       if (on.empty()) {
         text += span.text;
       } else {
@@ -180,6 +198,7 @@ std::string paint(const Block& lines, const Style& style) {
         text += span.text;
         text += "\x1b[0m";
       }
+      if (link) text += "\x1b]8;;\x1b\\";
     }
     // Padding before a right-aligned item can leave trailing spaces.
     while (!text.empty() && text.back() == ' ') text.pop_back();

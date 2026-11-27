@@ -91,6 +91,39 @@ TEST_CASE("paint") {
   CHECK(sym(Sym::Ub, true) == "x");
 }
 
+TEST_CASE("OSC 8 links: which terminals, and how a link is painted (PLAN 4.7)") {
+  auto links = [](std::map<std::string, std::string> vars) {
+    return detect_hyperlinks([&](const char* n) -> const char* {
+      auto it = vars.find(n);
+      return it == vars.end() ? nullptr : it->second.c_str();
+    });
+  };
+  CHECK(links({{"WT_SESSION", "x"}}));
+  CHECK(links({{"TERM_PROGRAM", "WezTerm"}}));
+  CHECK(links({{"TERM_PROGRAM", "ghostty"}}));
+  CHECK(links({{"TERM", "xterm-kitty"}}));
+  CHECK(links({{"VTE_VERSION", "6003"}}));
+  CHECK_FALSE(links({{"VTE_VERSION", "4802"}}));
+  CHECK_FALSE(links({{"VTE_VERSION", "60x"}}));
+  CHECK_FALSE(links({{"TERM_PROGRAM", "Apple_Terminal"}}));
+  CHECK_FALSE(links({}));
+
+  Block b(1);
+  b[0].add("sort", Role::Link, "https://e.x/sort").add(" ").add("<a>", Role::Header, "https://e.x/a");
+  const Style on{Depth::Ansi16, Theme::Dark, false, true};
+  CHECK(paint(b, on) ==
+        "\x1b]8;;https://e.x/sort\x1b\\\x1b[1;4msort\x1b[0m\x1b]8;;\x1b\\ "
+        "\x1b]8;;https://e.x/a\x1b\\\x1b[36m<a>\x1b[0m\x1b]8;;\x1b\\\n");
+  CHECK(paint(b, {Depth::Ansi16, Theme::Dark, false, false}) == "\x1b[1;4msort\x1b[0m \x1b[36m<a>\x1b[0m\n");
+  CHECK(paint(b, {Depth::None, Theme::Dark, false, true}) == "sort <a>\n");  // no color, no links
+
+  // Spans with different targets never merge.
+  Line l;
+  l.add("a", Role::Link, "u1").add("b", Role::Link, "u2").add("c", Role::Link, "u2");
+  REQUIRE(l.spans().size() == 2);
+  CHECK(l.spans()[1].text == "bc");
+}
+
 TEST_CASE("highlighter") {
   auto roles_of = [](std::string_view code) {
     auto roles = highlight(code);

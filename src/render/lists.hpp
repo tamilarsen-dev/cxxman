@@ -20,10 +20,10 @@ Block header_index(const Catalog& cat, std::string_view header, const Header* h,
                    std::span<const NameInfo> names, const Options& o);
 
 // `--list`: one name per line with header, kind and since.
-Block name_list(std::span<const NameInfo> names, const Options& o);
+Block name_list(const Catalog& cat, std::span<const NameInfo> names, const Options& o);
 
 // `--new`: the names added in `s`, grouped by header.
-Block whats_new(std::span<const NameInfo> names, Std s, const Options& o);
+Block whats_new(const Catalog& cat, std::span<const NameInfo> names, Std s, const Options& o);
 
 // `--coverage`: names with cards per header, most uncovered first. `names` is
 // every known name.
