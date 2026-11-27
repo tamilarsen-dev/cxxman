@@ -983,7 +983,7 @@ only); `data/LICENSE`; `CHANGELOG.md`.
 compilers; a broken snippet fails with `file.toml:line`; and an unknown
 field fails the lint.
 
-**M2 — Core rendering.** Lookup (§3.4), the fuzzy did-you-mean, the
+**M2 — Core rendering.** ✅ 2026-11-27. Lookup (§3.4), the fuzzy did-you-mean, the
 style system (roles, themes, color depth, `--ascii`), the layout engine
 (display width, alignment, wrapping), the card and class layouts, the
 highlighter, the terminal basics (tty, size, VT, UTF-8, broken pipe),
