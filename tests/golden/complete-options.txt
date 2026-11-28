@@ -1,0 +1,8 @@
+$ cxxman --complete --c
+exit 0
+--changelog
+--color
+--completions
+--config
+--copy
+--coverage

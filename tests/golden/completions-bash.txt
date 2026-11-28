@@ -1,0 +1,29 @@
+$ cxxman --completions bash
+exit 0
+# cxxman completion for bash. Load it with:
+#   eval "$(cxxman --completions bash)"
+_cxxman() {
+  local cur=${COMP_WORDS[COMP_CWORD]} prev=${COMP_WORDS[COMP_CWORD-1]} words
+  case $prev in
+    --color|--pager) words='auto always never' ;;
+    --theme) words='dark light mono' ;;
+    --std|--new|--since) words='11 14 17 20 23 26' ;;
+    --completions) words='bash zsh fish powershell' ;;
+    --width|--header|-H|--missing|--kind|--copy|--complete) return ;;
+  esac
+  if [[ -n $words ]]; then
+    COMPREPLY=($(compgen -W "$words" -- "$cur"))
+    return
+  fi
+  # bash splits words at ':'; complete the whole name, then drop the part
+  # before the last ':' that bash already has.
+  local word=${COMP_LINE:0:COMP_POINT}
+  word=${word##*[[:space:]]}
+  local IFS=$'\n'
+  COMPREPLY=($(cxxman --complete "$word" 2>/dev/null))
+  if [[ $word == *:* ]]; then
+    local head=${word%"${word##*:}"}
+    COMPREPLY=("${COMPREPLY[@]#"$head"}")
+  fi
+}
+complete -F _cxxman cxxman

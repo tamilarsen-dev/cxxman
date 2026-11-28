@@ -1,0 +1,7 @@
+$ cxxman --complete vector::
+exit 0
+vector::clear
+vector::erase
+vector::operator==
+vector::pop_back
+vector::push_back

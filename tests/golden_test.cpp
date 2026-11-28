@@ -178,6 +178,14 @@ const std::vector<Case> cases = {
     {"list-vector", {"--list", "--header", "vector"}, {80}},
     {"coverage", {"--coverage"}, {80}},
     {"coverage-missing-vector", {"--coverage", "--missing", "vector"}, {80}},
+    // Shell completion: the scripts, and what they ask --complete for.
+    {"completions-bash", {"--completions", "bash"}, {}},
+    {"completions-zsh", {"--completions", "zsh"}, {}},
+    {"completions-fish", {"--completions", "fish"}, {}},
+    {"completions-powershell", {"--completions", "powershell"}, {}},
+    {"complete-vector", {"--complete", "vector::"}, {}},
+    {"complete-std-sor", {"--complete", "std::SOR"}, {}},
+    {"complete-options", {"--complete", "--c"}, {}},
 };
 
 }  // namespace

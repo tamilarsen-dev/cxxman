@@ -1,0 +1,18 @@
+$ cxxman --completions zsh
+exit 0
+#compdef cxxman
+# cxxman completion for zsh. Load it with (after compinit):
+#   eval "$(cxxman --completions zsh)"
+_cxxman() {
+  case ${words[CURRENT-1]} in
+    --color|--pager) compadd -- auto always never; return ;;
+    --theme) compadd -- dark light mono; return ;;
+    --std|--new|--since) compadd -- 11 14 17 20 23 26; return ;;
+    --completions) compadd -- bash zsh fish powershell; return ;;
+    --width|--header|-H|--missing|--kind|--copy|--complete) return ;;
+  esac
+  local -a names
+  names=(${(f)"$(cxxman --complete "$PREFIX" 2>/dev/null)"})
+  compadd -- $names
+}
+compdef _cxxman cxxman

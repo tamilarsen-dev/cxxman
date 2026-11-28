@@ -1,0 +1,12 @@
+$ cxxman --completions fish
+exit 0
+# cxxman completion for fish. Load it with:
+#   cxxman --completions fish | source
+complete -c cxxman -f -a '(cxxman --complete (commandline -ct) 2>/dev/null)'
+complete -c cxxman -l color -x -a 'auto always never'
+complete -c cxxman -l pager -x -a 'auto always never'
+complete -c cxxman -l theme -x -a 'dark light mono'
+complete -c cxxman -l std -x -a '11 14 17 20 23 26'
+complete -c cxxman -l new -x -a '11 14 17 20 23 26'
+complete -c cxxman -l since -x -a '11 14 17 20 23 26'
+complete -c cxxman -l completions -x -a 'bash zsh fish powershell'

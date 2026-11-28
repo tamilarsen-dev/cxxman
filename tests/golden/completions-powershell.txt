@@ -1,0 +1,28 @@
+$ cxxman --completions powershell
+exit 0
+# cxxman completion for PowerShell. Load it with:
+#   cxxman --completions powershell | Out-String | Invoke-Expression
+Register-ArgumentCompleter -Native -CommandName cxxman, cxxman.exe -ScriptBlock {
+  param($wordToComplete, $commandAst, $cursorPosition)
+  $before = $commandAst.CommandElements |
+    Where-Object { $_.Extent.EndOffset -lt $cursorPosition -or
+                   ($_.Extent.EndOffset -eq $cursorPosition -and -not $wordToComplete) }
+  $prev = if ($before) { "$(@($before)[-1])" } else { '' }
+  $words = switch ($prev) {
+    { $_ -in '--color', '--pager' } { 'auto', 'always', 'never' }
+    '--theme' { 'dark', 'light', 'mono' }
+    { $_ -in '--std', '--new', '--since' } { '11', '14', '17', '20', '23', '26' }
+    '--completions' { 'bash', 'zsh', 'fish', 'powershell' }
+    { $_ -in '--width', '--header', '-H', '--missing', '--kind', '--copy' } { return }
+  }
+  if ($words) {
+    $words = $words | Where-Object { $_.StartsWith($wordToComplete) }
+  } else {
+    $words = cxxman --complete "$wordToComplete" 2>$null
+  }
+  foreach ($w in $words) {
+    # Quote names that PowerShell would read as syntax: operator<<, operator[].
+    $text = if ($w -match '[\s<>|&;(){}\[\]@$#,''"`]') { "'" + ($w -replace "'", "''") + "'" } else { $w }
+    [System.Management.Automation.CompletionResult]::new($text, $w, 'ParameterValue', $w)
+  }
+}

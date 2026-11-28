@@ -67,6 +67,7 @@ cxxman_warnings(cxxman-data)
 # Platform code lives only in src/term, src/sys, src/net and src/update.
 add_library(cxxman-core STATIC
   src/app/app.cpp
+  src/app/completions.cpp
   src/app/config.cpp
   src/app/options.cpp
   src/model/lookup.cpp

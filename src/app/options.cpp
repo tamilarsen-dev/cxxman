@@ -18,6 +18,7 @@ struct Flag {
   bool takes_value = false;
   std::string_view fixed;  // the value a switch sets
   bool available = true;
+  bool hidden = false;     // for the shell scripts only: no hint, no completion
 };
 
 constexpr Flag flags[] = {
@@ -50,11 +51,14 @@ constexpr Flag flags[] = {
     {"--json", "", "", false, "", true},
     {"--web", "", "", false, "", true},
     {"--copy", "", "", false, "", true},
+    {"--completions", "", "", true, "", true},
+    {"--complete", "", "", true, "", true, true},
     // Later milestones (PLAN §12.1): known, so typos get a useful hint.
     {"--recipe", "-r", "", false, "", false},
     {"--compare", "-c", "", false, "", false},
-    {"--completions", "", "", false, "", false},
 };
+
+constexpr std::string_view shells[] = {"bash", "zsh", "fish", "powershell"};
 
 // Card modifiers that pick what a card prints (PLAN §3.2).
 constexpr std::pair<std::string_view, Show> show_flags[] = {
@@ -159,6 +163,7 @@ std::string closest_flag(std::string_view name) {
   std::string_view best;
   int best_d = 3;
   for (const auto& f : flags) {
+    if (f.hidden) continue;
     const int d = search::edit_distance(name, f.name, 2);
     if (d < best_d) {
       best_d = d;
@@ -224,7 +229,12 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
     if (!f->available) return fail("'" + name + "' is not available yet");
     if (options_only && f->key.empty()) return fail("'" + name + "' is not an option you can set here");
     std::string value;
-    if (f->name == "--copy") {  // --copy [N]: the number is optional
+    if (f->name == "--complete") {  // --complete <prefix>: the prefix may be empty
+      if (eq != std::string::npos)
+        value = arg.substr(eq + 1);
+      else if (i + 1 < args.size())
+        value = args[++i];
+    } else if (f->name == "--copy") {  // --copy [N]: the number is optional
       if (eq != std::string::npos)
         value = arg.substr(eq + 1);
       else if (i + 1 < args.size() && !args[i + 1].empty() &&
@@ -293,6 +303,14 @@ bool parse_args(Invocation& inv, std::span<const std::string> args, Source src, 
     } else if (flag == "--missing") {
       a = Action::Coverage;
       inv.missing = value;
+    } else if (flag == "--completions") {
+      if (std::ranges::find(shells, value) == std::end(shells))
+        return fail("--completions takes bash, zsh, fish or powershell, not '" + value + "'");
+      inv.shell = value;
+      a = Action::Completions;
+    } else if (flag == "--complete") {
+      inv.prefix = value;
+      a = Action::Complete;
     } else if (flag == "--new") {
       auto s = std_of(value);
       if (!s || *s == Std::Unknown) return fail("--new must be 11, 14, 17, 20, 23 or 26, not '" + value + "'");
@@ -333,12 +351,24 @@ std::string check_action(Invocation& inv, std::span<const std::string> names) {
   if ((inv.kind || inv.since != Std::Unknown) && inv.action != Action::List)
     return std::string(inv.kind ? "--kind" : "--since") + " only filters --list";
   if (inv.action == Action::Search && names.empty()) return "--search needs words to search for";
-  if (discovery(inv.action) && inv.action != Action::Search && !names.empty())
+  const bool shell = inv.action == Action::Completions || inv.action == Action::Complete;
+  if ((shell || discovery(inv.action)) && inv.action != Action::Search && !names.empty())
     return "unexpected '" + names.front() + "'";
   return {};
 }
 
 }  // namespace
+
+std::vector<std::string_view> option_names() {
+  std::vector<std::string_view> out;
+  for (const auto& f : flags) {
+    if (!f.available || f.hidden) continue;
+    out.push_back(f.name);
+    if (!f.short_name.empty()) out.push_back(f.short_name);
+  }
+  std::ranges::sort(out);
+  return out;
+}
 
 Source Settings::source_of(std::string_view key) const { return source[key_index(key)]; }
 

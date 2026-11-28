@@ -41,7 +41,7 @@ struct Settings {
 
 enum class Action : std::uint8_t {
   Usage, Card, Search, Header, List, New, Coverage, Version, Help, Changelog,
-  ConfigShow, ConfigPath, ConfigInit,
+  ConfigShow, ConfigPath, ConfigInit, Completions, Complete,
 };
 
 // What a card prints (PLAN §3.2): the whole card or one part of it. One at a time.
@@ -59,11 +59,16 @@ struct Invocation {
   bool support = false;        // Card: add the support line (--support)
   bool json = false;           // Card, Search, Header: JSON (docs/JSON.md)
   int copy = 1;                // Show::Copy: the example number, from 1
+  std::string shell;           // Completions: bash, zsh, fish or powershell
+  std::string prefix;          // Complete: what the shell has typed so far
   std::string modifier;        // the first card modifier given, for messages
   Settings settings;
   std::vector<std::string> warnings;  // printed, not fatal
   std::string error;                  // non-empty: usage error, exit 2
 };
+
+// Every option a user can type, short ones too, sorted (for --complete).
+std::vector<std::string_view> option_names();
 
 // `config` may be null (no file).
 Invocation parse(std::span<const std::string> args, const render::Getenv& env,

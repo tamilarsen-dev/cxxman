@@ -96,7 +96,7 @@ TEST_CASE("bad config values warn and keep the default") {
 TEST_CASE("usage errors") {
   CHECK(parse_with({"--sgi"}).error == "unknown option '--sgi' (did you mean --sig?)");
   CHECK(parse_with({"--colour", "never"}).error == "unknown option '--colour' (did you mean --color?)");
-  CHECK(parse_with({"--completions"}).error == "'--completions' is not available yet");
+  CHECK(parse_with({"--recipe"}).error == "'--recipe' is not available yet");
   CHECK(parse_with({"--width"}).error == "--width needs a value");
   CHECK(parse_with({"--width", "wide"}).error == "--width: width must be a number of columns, not 'wide'");
   CHECK(parse_with({"--ascii=yes"}).error == "--ascii takes no value");
@@ -331,4 +331,28 @@ TEST_CASE("allowed_url: only cppreference pages with plain path characters") {
   // Every URL the data can produce passes.
   for (const auto& n : Catalog::builtin().index)
     REQUIRE(allowed_url(std::string(cppreference_base) + std::string(n.url)));
+}
+
+TEST_CASE("--completions and the hidden --complete") {
+  auto inv = parse_with({"--completions", "fish"});
+  CHECK(inv.action == Action::Completions);
+  CHECK(inv.shell == "fish");
+  CHECK(parse_with({"--completions", "tcsh"}).error ==
+        "--completions takes bash, zsh, fish or powershell, not 'tcsh'");
+  CHECK(parse_with({"--completions"}).error == "--completions needs a value");
+  CHECK(parse_with({"--completions", "bash", "sort"}).error == "unexpected 'sort'");
+  // The prefix may be empty, missing or look like an option.
+  inv = parse_with({"--complete", ""});
+  CHECK(inv.action == Action::Complete);
+  CHECK(inv.prefix.empty());
+  CHECK(parse_with({"--complete"}).action == Action::Complete);
+  CHECK(parse_with({"--complete", "--col"}).prefix == "--col");
+  CHECK(parse_with({"--complete=vec"}).prefix == "vec");
+  // Hidden: never a hint, never a candidate.
+  CHECK(parse_with({"--completion"}).error == "unknown option '--completion' (did you mean --completions?)");
+  const auto names = option_names();
+  CHECK(std::ranges::find(names, "--complete") == names.end());
+  CHECK(std::ranges::find(names, "--recipe") == names.end());  // not available yet
+  CHECK(std::ranges::find(names, "-H") != names.end());
+  CHECK(std::ranges::is_sorted(names));
 }

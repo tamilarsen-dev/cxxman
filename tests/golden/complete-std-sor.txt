@@ -1,0 +1,9 @@
+$ cxxman --complete std::SOR
+exit 0
+std::sort
+std::sort_heap
+std::sortable
+std::sorted_equivalent
+std::sorted_equivalent_t
+std::sorted_unique
+std::sorted_unique_t

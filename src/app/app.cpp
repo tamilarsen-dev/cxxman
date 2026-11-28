@@ -1,5 +1,6 @@
 #include "app/app.hpp"
 
+#include "app/completions.hpp"
 #include "app/config.hpp"
 #include "app/options.hpp"
 #include "render/card.hpp"
@@ -437,7 +438,8 @@ int run(std::span<const std::string> args, const Context& ctx, Output& io) {
   }
 
   // Text for people may be paged; JSON is for programs, --copy may add OSC 52.
-  if (ctx.term.out_tty && !inv.json && inv.show != Show::Copy && inv.settings.pager != Mode::Never)
+  if (ctx.term.out_tty && !inv.json && inv.show != Show::Copy && inv.action != Action::Complete &&
+      inv.settings.pager != Mode::Never)
     io.page = inv.settings.pager == Mode::Always ? Paging::Always : Paging::Auto;
 
   switch (inv.action) {
@@ -461,6 +463,8 @@ int run(std::span<const std::string> args, const Context& ctx, Output& io) {
     case Action::List: return show_list(inv, ctx, io);
     case Action::New: return show_new(inv, ctx, io);
     case Action::Coverage: return show_coverage(inv, ctx, io);
+    case Action::Completions: io.out += completion_script(inv.shell); return 0;
+    case Action::Complete: io.out += complete(ctx.catalog, inv.prefix); return 0;
     case Action::Usage: break;
   }
   io.err += usage_text;
