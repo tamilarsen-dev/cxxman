@@ -12,6 +12,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <optional>
 #include <string>
@@ -52,6 +53,18 @@ class Finder {
   bool examples() const { return examples_; }
   Std standard() const { return settings_.std; }
 
+  // The selected item in full, painted, for the pager and Ctrl-O: what
+  // `cxxman <name>` prints (its examples after Ctrl-E). "" when nothing is
+  // selected.
+  std::string text(std::size_t width) const;
+  // Example 1 of the selected card (Ctrl-Y), with "example 1 (3 lines)" for
+  // the message; empty when it has none.
+  std::pair<std::string, std::string> example() const;
+  // The cppreference page of the selection (Ctrl-W); "" when it has none.
+  std::string url() const;
+  // A message shown once in place of the key help.
+  void notice(std::string message) { notice_ = std::move(message); }
+
  private:
   enum class Mode : std::uint8_t { Side, Stacked, List };
   struct Layout {
@@ -65,6 +78,7 @@ class Finder {
   render::Line help(std::size_t cols) const;
   std::vector<render::Line> list(std::size_t rows, std::size_t width) const;
   const std::vector<render::Line>& preview(std::size_t width);
+  render::Block block(const Item& it, std::size_t width) const;
   std::string paint(const render::Line& line) const;
 
   const Catalog* cat_;
@@ -79,6 +93,7 @@ class Finder {
   std::size_t sel_ = 0, top_ = 0;
   std::optional<bool> preview_on_;  // unset: on when the screen is 60+ wide
   bool examples_ = false;
+  std::string notice_;
 
   // The preview of one item at one width, kept until either changes.
   struct Cached {
@@ -90,6 +105,19 @@ class Finder {
   } cached_;
   std::vector<render::Line> preview_lines_;
 };
+
+// What the finder asks of the system, so tests can stand in for it.
+struct Effects {
+  enum class Copied : std::uint8_t { No, Clipboard, Terminal };
+  std::function<Copied(const std::string&)> copy;  // text -> where it went
+  std::function<bool(const std::string&)> open;    // URL -> opened
+};
+
+// The whole interactive session (PLAN §4.6): Enter pages the selection and
+// returns to the finder on q; Ctrl-Y and Ctrl-W go through `fx` and report in
+// the help line; Esc, Ctrl-C or the input going away end it with "", and
+// Ctrl-O ends it with the text to print after the terminal is restored.
+std::string session(term::Tty& tty, Finder& f, const Effects& fx);
 
 // Shows the finder on `tty` until a key asks for an action (Open, Print,
 // Copy, Web, Quit) or the input goes away (Quit). The query and selection

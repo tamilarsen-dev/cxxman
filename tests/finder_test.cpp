@@ -220,3 +220,64 @@ TEST_CASE("run() draws only what changed and returns the first action") {
   test::FakeTty gone({16, 100}, {});
   CHECK(tui::run(gone, f) == A::Quit);
 }
+
+TEST_CASE("session: Enter pages and q returns, Ctrl-Y and Ctrl-W report, Ctrl-O prints") {
+  std::vector<std::string> copied, opened;
+  tui::Effects fx;
+  fx.copy = [&](const std::string& t) {
+    copied.push_back(t);
+    return tui::Effects::Copied::Clipboard;
+  };
+  fx.open = [&](const std::string& u) {
+    opened.push_back(u);
+    return true;
+  };
+  auto f = finder();
+  test::FakeTty tty({16, 100}, {chr('s'), chr('o'), chr('r'), chr('t'), key(C::Enter), chr('q'), ctrl('y'),
+                                ctrl('w'), ctrl('o')});
+  const std::string printed = tui::session(tty, f, fx);
+  CHECK(tty.left() == 0);
+  CHECK(printed.starts_with("std::sort  <algorithm>"));
+  CHECK(printed.find("Sort a range in ascending order.") != std::string::npos);
+  REQUIRE(copied.size() == 1);
+  CHECK(copied[0].starts_with("std::sort(v.begin(), v.end());"));
+  CHECK(opened == std::vector<std::string>{"https://en.cppreference.com/cpp/algorithm/sort"});
+  // The pager showed the card; the notices showed in the help line.
+  CHECK(tty.written.find("lines 1-") != std::string::npos);
+  CHECK(tty.written.find("copied example 1 (") != std::string::npos);
+  CHECK(tty.written.find("opened https://en.cppreference.com/cpp/algorithm/sort") != std::string::npos);
+}
+
+TEST_CASE("session: failures and things without examples or pages") {
+  tui::Effects fx;
+  fx.copy = [](const std::string&) { return tui::Effects::Copied::No; };
+  fx.open = [](const std::string&) { return false; };
+  auto f = finder();
+  test::FakeTty tty({16, 100}, {chr('s'), chr('o'), chr('r'), chr('t'), ctrl('y'), ctrl('w'), ctrl('u'), chr('#'),
+                                ctrl('y'), ctrl('w'), key(C::Esc)});
+  CHECK(tui::session(tty, f, fx).empty());  // Esc prints nothing
+  CHECK(tty.written.find("no clipboard tool found") != std::string::npos);
+  CHECK(tty.written.find("could not open a browser; the page is https://") != std::string::npos);
+  CHECK(tty.written.find("no example to copy") != std::string::npos);    // a recipe
+  CHECK(tty.written.find("no web page for this one") != std::string::npos);
+  // Eof ends it too.
+  test::FakeTty gone({16, 100}, {});
+  CHECK(tui::session(gone, f, fx).empty());
+}
+
+TEST_CASE("finder text and url follow the selection and Ctrl-E") {
+  auto f = finder();
+  type(f, "istringstream");
+  CHECK(f.url().starts_with("https://en.cppreference.com/cpp/"));
+  CHECK(f.example().first.empty());  // an index name has no examples
+  f.handle(ctrl('u'), {24, 100});
+  type(f, "unique");
+  const std::string full = f.text(80);
+  f.handle(ctrl('e'), {24, 100});
+  const std::string ex = f.text(80);
+  CHECK(ex != full);
+  CHECK(ex.find("// drop all dups") != std::string::npos);
+  f.handle(ctrl('u'), {24, 100});
+  type(f, "<algorithm");
+  CHECK(f.url() == "https://en.cppreference.com/cpp/header/algorithm");
+}

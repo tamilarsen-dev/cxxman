@@ -2,6 +2,7 @@
 
 #include "render/lists.hpp"
 #include "term/screen.hpp"
+#include "tui/pager.hpp"
 
 #include <algorithm>
 
@@ -110,6 +111,7 @@ void Finder::move(std::ptrdiff_t by, std::size_t rows) {
 }
 
 Finder::Action Finder::handle(const term::Key& k, term::Size s) {
+  if (k.code != C::Resize) notice_.clear();
   const Layout l = layout(s);
   const auto page = static_cast<std::ptrdiff_t>(std::max<std::size_t>(l.list_rows, 1));
   switch (k.code) {
@@ -181,8 +183,9 @@ std::size_t Finder::cursor_column() const {
   return render::display_width(" cxxman ❯ ") + render::display_width(query_) + 1;
 }
 
-// The keys, as many whole items as fit.
+// The keys, as many whole items as fit; or the last notice.
 Line Finder::help(std::size_t cols) const {
+  if (!notice_.empty()) return Line().add(" " + render::truncate(notice_, cols > 1 ? cols - 1 : 0, ""), Role::Accent);
   const std::string_view items[] = {settings_.ascii ? "up/down move" : "↑↓ move",
                                     settings_.ascii ? "enter open" : "⏎ open",
                                     "tab preview", "^E examples", "^Y copy", "^W web", "^S std", "esc quit"};
@@ -250,43 +253,32 @@ std::vector<Line> Finder::list(std::size_t rows, std::size_t width) const {
   return out;
 }
 
-const std::vector<Line>& Finder::preview(std::size_t width) {
-  const Item* it = selected();
-  if (!it) {
-    preview_lines_.clear();
-    cached_.valid = false;
-    return preview_lines_;
-  }
-  const std::uint32_t item = matches_[sel_].item;
-  if (cached_.valid && cached_.item == item && cached_.width == width && cached_.std == settings_.std &&
-      cached_.examples == examples_)
-    return preview_lines_;
-  cached_ = {item, width, settings_.std, examples_, true};
-
+// The item as `cxxman <name>` shows it, at `width` (60 to 100).
+render::Block Finder::block(const Item& it, std::size_t width) const {
   // The renderers are made for 60 to 100 columns; a narrower cell is cut.
   render::Options o{std::clamp<std::size_t>(width, 60, 100), settings_.ascii, settings_.std, settings_.strict};
   render::Block b;
-  const auto i = static_cast<std::size_t>(it->index);
-  switch (it->kind) {
+  const auto i = static_cast<std::size_t>(it.index);
+  switch (it.kind) {
     case K::Card: {
       const Entry& e = cat_->entries[i];
-      b = examples_ && !e.examples.empty() ? render::examples_only(e, o) : render::card(*cat_, e, {}, o);
+      b = examples_ && !e.examples.empty() ? render::examples_only(e, o) : render::card(*cat_, e, resolve(*cat_, e.id).also, o);
       break;
     }
     case K::Name: {
       std::vector<std::int32_t> rows;
       for (std::size_t r = 0; r < cat_->index.size(); ++r)
-        if (cat_->index[r].name == it->name) rows.push_back(static_cast<std::int32_t>(r));
+        if (cat_->index[r].name == it.name) rows.push_back(static_cast<std::int32_t>(r));
       b = render::index_only(*cat_, rows, {}, o);
       break;
     }
     case K::Header: {
       std::vector<NameInfo> names;
       for (const auto& n : known_)
-        if (n.header == it->name) names.push_back(n);
-      auto h = std::ranges::lower_bound(cat_->headers, it->name, {}, &Header::header);
-      const Header* hp = h != cat_->headers.end() && h->header == it->name ? &*h : nullptr;
-      b = render::header_index(*cat_, it->name, hp, names, o);
+        if (n.header == it.name) names.push_back(n);
+      auto h = std::ranges::lower_bound(cat_->headers, it.name, {}, &Header::header);
+      const Header* hp = h != cat_->headers.end() && h->header == it.name ? &*h : nullptr;
+      b = render::header_index(*cat_, it.name, hp, names, o);
       break;
     }
     case K::Recipe: {
@@ -301,6 +293,23 @@ const std::vector<Line>& Finder::preview(std::size_t width) {
       break;
     }
   }
+  return b;
+}
+
+const std::vector<Line>& Finder::preview(std::size_t width) {
+  const Item* it = selected();
+  if (!it) {
+    preview_lines_.clear();
+    cached_.valid = false;
+    return preview_lines_;
+  }
+  const std::uint32_t item = matches_[sel_].item;
+  if (cached_.valid && cached_.item == item && cached_.width == width && cached_.std == settings_.std &&
+      cached_.examples == examples_)
+    return preview_lines_;
+  cached_ = {item, width, settings_.std, examples_, true};
+
+  const render::Block b = block(*it, width);
   preview_lines_.clear();
   for (const auto& l : b) preview_lines_.push_back(clip(l, width));
   return preview_lines_;
@@ -344,6 +353,73 @@ std::vector<std::string> Finder::frame(term::Size s) {
   if (s.rows >= 3) rows.push_back(paint(help(s.cols)));
   rows.resize(std::min(rows.size(), s.rows));
   return rows;
+}
+
+std::string Finder::text(std::size_t width) const {
+  const Item* it = selected();
+  return it ? render::paint(block(*it, width), settings_.style) : std::string();
+}
+
+std::pair<std::string, std::string> Finder::example() const {
+  const Item* it = selected();
+  if (!it || it->kind != K::Card) return {};
+  const Entry& e = cat_->entries[static_cast<std::size_t>(it->index)];
+  if (e.examples.empty()) return {};
+  const std::string_view code = e.examples.front().code;
+  const auto lines = static_cast<std::size_t>(std::ranges::count(code, '\n')) + 1;
+  return {std::string(code), "example 1 (" + std::to_string(lines) + (lines == 1 ? " line)" : " lines)")};
+}
+
+std::string Finder::url() const {
+  const Item* it = selected();
+  if (!it) return {};
+  const auto i = static_cast<std::size_t>(it->index);
+  switch (it->kind) {
+    case K::Card: return render::reference_url(cat_->entries[i].url);
+    case K::Name: return render::reference_url(cat_->index[i].url);
+    case K::Header: return render::header_url(it->name);
+    case K::Recipe: case K::Compare: break;
+  }
+  return {};
+}
+
+std::string session(term::Tty& tty, Finder& f, const Effects& fx) {
+  for (;;) {
+    switch (run(tty, f)) {
+      case Finder::Action::Quit: return {};
+      case Finder::Action::Print: {
+        const auto cols = tty.size().cols;
+        return f.text(std::clamp<std::size_t>(cols, 60, 100));
+      }
+      case Finder::Action::Open: {
+        const auto text = f.text(std::clamp<std::size_t>(tty.size().cols, 60, 100));
+        page(tty, text);
+        break;
+      }
+      case Finder::Action::Copy: {
+        const auto [code, what] = f.example();
+        if (code.empty()) {
+          f.notice("no example to copy");
+          break;
+        }
+        switch (fx.copy(code)) {
+          case Effects::Copied::Clipboard: f.notice("copied " + what); break;
+          case Effects::Copied::Terminal: f.notice("sent " + what + " to the terminal's clipboard (OSC 52)"); break;
+          case Effects::Copied::No: f.notice("no clipboard tool found (wl-copy, xclip or xsel)"); break;
+        }
+        break;
+      }
+      case Finder::Action::Web: {
+        const std::string u = f.url();
+        if (u.empty())
+          f.notice("no web page for this one");
+        else
+          f.notice(fx.open(u) ? "opened " + u : "could not open a browser; the page is " + u);
+        break;
+      }
+      case Finder::Action::None: break;
+    }
+  }
 }
 
 Finder::Action run(term::Tty& tty, Finder& f) {

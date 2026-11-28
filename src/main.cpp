@@ -5,6 +5,8 @@
 #include "sys/paths.hpp"
 #include "term/terminal.hpp"
 #include "term/tty.hpp"
+#include "tui/finder.hpp"
+#include "tui/finder_model.hpp"
 #include "tui/pager.hpp"
 
 #include <algorithm>
@@ -28,6 +30,24 @@ bool page(app::Output& io, const term::Info& t) {
   return true;
 }
 
+// The interactive finder (PLAN §4.6); false when there is no terminal to
+// draw on. Ctrl-O leaves its text in io.out to print.
+bool finder(const app::FinderRequest& r, const Catalog& cat, app::Output& io) {
+  auto tty = term::open_fullscreen();  // restores the terminal when it goes
+  if (!tty) return false;
+  const tui::FinderModel model(cat);
+  tui::Finder f(cat, model, {r.style, r.ascii, r.std, r.strict});
+  tui::Effects fx;
+  fx.copy = [&](const std::string& text) {
+    if (sys::copy(text)) return tui::Effects::Copied::Clipboard;
+    tty->write(sys::osc52(text));
+    return tui::Effects::Copied::Terminal;
+  };
+  fx.open = [](const std::string& url) { return app::allowed_url(url) && sys::open_url(url); };
+  io.out = tui::session(*tty, f, fx);
+  return true;
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -36,7 +56,7 @@ int main(int argc, char** argv) {
   app::Context ctx;
   ctx.env = [](const char* name) { return sys::getenv(name); };
   const auto& t = console.info();
-  ctx.term = {t.out_tty, t.columns, t.vt, t.utf8};
+  ctx.term = {t.out_tty, t.columns, t.vt, t.utf8, t.in_tty};
   ctx.catalog = Catalog::builtin();
   ctx.config_file = sys::config_file(ctx.env);
 
@@ -68,6 +88,10 @@ int main(int argc, char** argv) {
   }
   bool paged = false;
   try {
+    if (io.finder && !finder(*io.finder, ctx.catalog, io)) {
+      io.err += "cxxman: cannot open the terminal for the finder; try 'cxxman --help'\n";
+      code = 2;
+    }
     paged = page(io, t);
   } catch (const std::exception& e) {  // the terminal is restored by now
     io.err += std::string("cxxman: internal error: ") + e.what() + "\n";

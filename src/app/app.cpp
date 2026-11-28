@@ -465,7 +465,16 @@ int run(std::span<const std::string> args, const Context& ctx, Output& io) {
     case Action::Coverage: return show_coverage(inv, ctx, io);
     case Action::Completions: io.out += completion_script(inv.shell); return 0;
     case Action::Complete: io.out += complete(ctx.catalog, inv.prefix); return 0;
-    case Action::Usage: break;
+    case Action::Usage:
+      // `cxxman` without a name (display options allowed) opens the finder when
+      // stdin and stdout are terminals, unless the config says interactive = false.
+      if (ctx.term.out_tty && ctx.term.in_tty && inv.settings.interactive) {
+        const View v = view_for(inv.settings, ctx);
+        io.finder = FinderRequest{v.style, v.o.ascii, inv.settings.std, inv.settings.strict};
+        io.page = Paging::Off;
+        return 0;
+      }
+      break;
   }
   io.err += usage_text;
   return 2;

@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
+#include <optional>
 #include <span>
 #include <string>
 #include <string_view>
@@ -19,6 +20,7 @@ struct Terminal {
   std::size_t columns = 0;  // 0: unknown
   bool vt = true;           // escape codes are understood
   bool utf8 = true;         // the console shows UTF-8
+  bool in_tty = false;      // stdin is a terminal (the finder needs keys)
 };
 
 struct Context {
@@ -32,6 +34,14 @@ struct Context {
 // taller than the terminal.
 enum class Paging : std::uint8_t { Off, Auto, Always };
 
+// How main() should draw the finder (PLAN §4.6).
+struct FinderRequest {
+  render::Style style;
+  bool ascii = false;
+  Std std = Std::Unknown;
+  bool strict = false;
+};
+
 // What run() printed, and what main() should do for it afterwards; run()
 // itself never opens a browser, touches the clipboard or pages, so tests can
 // see what it asked for.
@@ -41,6 +51,7 @@ struct Output {
   std::string clipboard;  // --copy: text for the clipboard
   std::string copied;     // --copy: "example 1 (3 lines)", for the message
   Paging page = Paging::Off;  // stdout is a terminal and --pager allows it
+  std::optional<FinderRequest> finder;  // a bare `cxxman` in a terminal
 };
 
 // Exit codes (PLAN §3.5): 0 ok, 1 not found, 2 ambiguous or usage, 3 internal.

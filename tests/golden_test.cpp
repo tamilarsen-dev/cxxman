@@ -225,3 +225,22 @@ TEST_CASE("run asks for the pager only for text on a terminal") {
   CHECK(paging({"sort", "-e"}, false) == app::Paging::Off);
   CHECK(paging({"sort", "--pager", "always"}, false) == app::Paging::Off);
 }
+
+// A bare `cxxman` asks main() for the finder only with both ends a terminal
+// (PLAN §4.6); otherwise it prints the usage.
+TEST_CASE("run asks for the finder only in a terminal") {
+  auto ask = [](bool out_tty, bool in_tty, std::vector<std::string> args) {
+    app::Context ctx;
+    ctx.env = [](const char*) -> const char* { return nullptr; };
+    ctx.term = {out_tty, out_tty ? 120u : 0u, true, true, in_tty};
+    ctx.catalog = Catalog::builtin();
+    app::Output io;
+    const int code = app::run(args, ctx, io);
+    return std::pair{code, io.finder.has_value()};
+  };
+  CHECK(ask(true, true, {}) == std::pair{0, true});
+  CHECK(ask(true, false, {}) == std::pair{2, false});
+  CHECK(ask(false, true, {}) == std::pair{2, false});
+  CHECK(ask(true, true, {"--std", "17"}) == std::pair{0, true});   // options alone: still the finder
+  CHECK(ask(true, true, {"sort"}) == std::pair{0, false});
+}
