@@ -1,0 +1,25 @@
+ cxxman ❯ sort                                                      231 / 2,866
+▌sort                 <algorithm>
+ sortable             <iterator>
+ sort_heap            <algorithm>
+ ranges::sort_heap    <algorithm>
+ sorted_unique        <flat_map>
+ sorted_unique_t      <flat_map>
+ sorted_equivalent    <flat_map>
+ sorted_equivalent_t  <flat_map>
+────────────────────────────────────────────────────────────────────────────────
+std::sort  <algorithm>                  C++98 · constexpr C++20 · parallel C++17
+Sort a range in ascending order. Not stable.
+
+  sort(first, last)
+  sort(first, last, comp)
+      comp(a, b) -> bool: true if a goes before b
+  ranges::sort(r, comp = {}, proj = {})
+      C++20 · returns iterator to end of r
+
+  std::sort(v.begin(), v.end());                     // ascending
+  std::sort(v.begin(), v.end(), std::greater<>{});   // descending
+  std::ranges::sort(people, {}, &Person::age);       // by member  C++20
+
+ ↑↓ move  ⏎ open  tab preview  ^E examples  ^Y copy  ^W web  ^S std  esc quit
+~

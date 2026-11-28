@@ -1,9 +1,10 @@
 // The built-in pager (PLAN §4.8), driven with keys and a fake terminal.
 #include "tui/pager.hpp"
 
+#include "fake_tty.hpp"
+
 #include <doctest/doctest.h>
 
-#include <deque>
 #include <string>
 #include <string_view>
 
@@ -22,30 +23,7 @@ std::string numbered(int n) {
   return s;
 }
 
-// A terminal of a fixed size that plays back keys and keeps what was written.
-class FakeTty final : public term::Tty {
- public:
-  FakeTty(term::Size s, std::deque<term::Key> keys) : size_(s), keys_(std::move(keys)) {}
-  term::Size size() override { return size_; }
-  term::Key read() override {
-    if (keys_.empty()) return key(C::Eof);
-    const term::Key k = keys_.front();
-    keys_.pop_front();
-    if (k.code == C::Resize) size_ = {size_.rows + 5, size_.cols};
-    return k;
-  }
-  void write(std::string_view s) override {
-    written += s;
-    ++frames;
-  }
-  std::string written;
-  int frames = 0;
-  std::size_t left() const { return keys_.size(); }
-
- private:
-  term::Size size_;
-  std::deque<term::Key> keys_;
-};
+using test::FakeTty;
 
 constexpr std::size_t rows = 11;  // 10 text rows and the status line
 

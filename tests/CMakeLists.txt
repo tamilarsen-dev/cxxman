@@ -8,6 +8,7 @@ add_executable(cxxman-tests
   main.cpp
   data_test.cpp
   finder_model_test.cpp
+  finder_test.cpp
   gen_test.cpp
   golden_test.cpp
   json_test.cpp

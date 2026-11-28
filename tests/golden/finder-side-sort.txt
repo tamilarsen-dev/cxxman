@@ -1,0 +1,17 @@
+ cxxman ❯ sort                                                                          231 / 2,866
+╭───────────────────────────────────┬──────────────────────────────────────────────────────────────╮
+│▌sort                 <algorithm>  │ std::sort  <algorithm>                                       │
+│ sortable             <iterator>   │                     C++98 · constexpr C++20 · parallel C++17 │
+│ sort_heap            <algorithm>  │ Sort a range in ascending order. Not stable.                 │
+│ ranges::sort_heap    <algorithm>  │                                                              │
+│ sorted_unique        <flat_map>   │   sort(first, last)                                          │
+│ sorted_unique_t      <flat_map>   │   sort(first, last, comp)                                    │
+│ sorted_equivalent    <flat_map>   │       comp(a, b) -> bool: true if a goes before b            │
+│ sorted_equivalent_t  <flat_map>   │   ranges::sort(r, comp = {}, proj = {})                      │
+│ sqrt                 <cmath>      │       C++20 · returns iterator to end of r                   │
+│ qsort                <cstdlib>    │                                                              │
+│ partial_sort         <algorithm>  │   // ascending                                               │
+│ partial_sort_copy    <algorithm>  │   std::sort(v.begin(), v.end());                             │
+╰───────────────────────────────────┴──────────────────────────────────────────────────────────────╯
+ ↑↓ move  ⏎ open  tab preview  ^E examples  ^Y copy  ^W web  ^S std  esc quit
+~

@@ -1,0 +1,11 @@
+ cxxman ❯ zzzzqq                                                      0 / 2,866
+ no matches
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+ ↑↓ move  ⏎ open  tab preview  ^E examples  ^Y copy  ^W web  ^S std  esc quit
+~

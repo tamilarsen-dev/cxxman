@@ -1,0 +1,21 @@
+ cxxman ❯ unique                                                                 C++14 · 12 / 2,866
+╭───────────────────────────────────┬──────────────────────────────────────────────────────────────╮
+│▌unique                <algorithm> │ std::unique  <algorithm>           C++98 · ⚑ constexpr C++20 │
+│ unique_ptr            <memory>    │                                                              │
+│ unique_copy           <algorithm> │   // drop adjacent dups                                      │
+│ unique_lock           <mutex>     │   v.erase(std::unique(v.begin(), v.end()), v.end());         │
+│ ranges::unique_copy   <algorithm> │   // drop all dups                                           │
+│ hash<std::unique_pt…  <memory>    │   std::sort(v.begin(), v.end());                             │
+│ unique_ptr::operato…  <memory>    │   v.erase(std::unique(v.begin(), v.end()), v.end());         │
+│ unique_ptr::make_un…  <memory>    │   // ranges form  ⚑ C++20                                    │
+│ sorted_unique         <flat_map>  │   auto tail = std::ranges::unique(v);                        │
+│ sorted_unique_t       <flat_map>  │   v.erase(tail.begin(), tail.end());                         │
+│ make_unique_for_ove…  <memory>    │                                                              │
+│ has_unique_object_r…  <meta>      │                                                              │
+│                                   │                                                              │
+│                                   │                                                              │
+│                                   │                                                              │
+│                                   │                                                              │
+╰───────────────────────────────────┴──────────────────────────────────────────────────────────────╯
+ ↑↓ move  ⏎ open  tab preview  ^E examples  ^Y copy  ^W web  ^S std  esc quit
+~

@@ -87,6 +87,7 @@ add_library(cxxman-core STATIC
   src/term/screen.cpp
   src/term/terminal.cpp
   src/term/tty.cpp
+  src/tui/finder.cpp
   src/tui/finder_model.cpp
   src/tui/pager.cpp)
 target_link_libraries(cxxman-core PUBLIC cxxman-data)
