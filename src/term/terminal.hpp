@@ -9,6 +9,7 @@ namespace cxxman::term {
 struct Info {
   bool out_tty = false, err_tty = false, in_tty = false;
   std::size_t columns = 0;  // 0: unknown
+  std::size_t rows = 0;     // 0: unknown
   bool vt = false;          // escape codes are understood
   bool utf8 = true;         // the console shows UTF-8
 };

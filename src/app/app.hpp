@@ -6,6 +6,7 @@
 #include "render/style.hpp"
 
 #include <cstddef>
+#include <cstdint>
 #include <filesystem>
 #include <span>
 #include <string>
@@ -27,14 +28,19 @@ struct Context {
   std::filesystem::path config_file;  // empty: none
 };
 
+// When main() shows `out` in the built-in pager (PLAN §4.8): Auto when it is
+// taller than the terminal.
+enum class Paging : std::uint8_t { Off, Auto, Always };
+
 // What run() printed, and what main() should do for it afterwards; run()
-// itself never opens a browser or touches the clipboard, so tests can see
-// what it asked for.
+// itself never opens a browser, touches the clipboard or pages, so tests can
+// see what it asked for.
 struct Output {
   std::string out, err;
   std::string open_url;   // --web: a page that passed allowed_url()
   std::string clipboard;  // --copy: text for the clipboard
   std::string copied;     // --copy: "example 1 (3 lines)", for the message
+  Paging page = Paging::Off;  // stdout is a terminal and --pager allows it
 };
 
 // Exit codes (PLAN §3.5): 0 ok, 1 not found, 2 ambiguous or usage, 3 internal.

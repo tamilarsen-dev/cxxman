@@ -195,3 +195,25 @@ TEST_CASE("golden output") {
     }
   }
 }
+
+// When main() may page stdout (PLAN §4.8): text on a terminal, never JSON,
+// never through a pipe, and as --pager says.
+TEST_CASE("run asks for the pager only for text on a terminal") {
+  auto paging = [](std::vector<std::string> args, bool tty) {
+    app::Context ctx;
+    ctx.env = [](const char*) -> const char* { return nullptr; };
+    ctx.term = {tty, tty ? 120u : 0u, true, true};
+    ctx.catalog = Catalog::builtin();
+    app::Output io;
+    app::run(args, ctx, io);
+    return io.page;
+  };
+  CHECK(paging({"sort", "-e"}, true) == app::Paging::Auto);
+  CHECK(paging({"-H", "algorithm"}, true) == app::Paging::Auto);
+  CHECK(paging({"sort", "--pager", "always"}, true) == app::Paging::Always);
+  CHECK(paging({"sort", "--pager", "never"}, true) == app::Paging::Off);
+  CHECK(paging({"sort", "--json"}, true) == app::Paging::Off);
+  CHECK(paging({"sort", "--copy"}, true) == app::Paging::Off);
+  CHECK(paging({"sort", "-e"}, false) == app::Paging::Off);
+  CHECK(paging({"sort", "--pager", "always"}, false) == app::Paging::Off);
+}

@@ -10,8 +10,10 @@ add_executable(cxxman-tests
   gen_test.cpp
   golden_test.cpp
   json_test.cpp
+  keys_test.cpp
   lookup_test.cpp
   options_test.cpp
+  pager_test.cpp
   search_test.cpp
   render_test.cpp)
 target_link_libraries(cxxman-tests PRIVATE cxxman-gen-lib cxxman-core doctest::doctest)

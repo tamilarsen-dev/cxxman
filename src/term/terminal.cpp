@@ -62,8 +62,10 @@ Console::Console() {
              SetConsoleMode(out, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0;
 
   CONSOLE_SCREEN_BUFFER_INFO csbi;
-  if (GetConsoleScreenBufferInfo(out, &csbi))
+  if (GetConsoleScreenBufferInfo(out, &csbi)) {
     info_.columns = static_cast<std::size_t>(csbi.srWindow.Right - csbi.srWindow.Left + 1);
+    info_.rows = static_cast<std::size_t>(csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
+  }
 
   saved_cp = GetConsoleOutputCP();
   info_.utf8 = saved_cp == CP_UTF8 || SetConsoleOutputCP(CP_UTF8) != 0;
@@ -117,7 +119,10 @@ Console::Console() {
   info_.vt = true;
   if (!info_.out_tty) return;
   winsize ws{};
-  if (::ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == 0 && ws.ws_col > 0) info_.columns = ws.ws_col;
+  if (::ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == 0) {
+    info_.columns = ws.ws_col;
+    info_.rows = ws.ws_row;
+  }
   info_.utf8 = locale_is_utf8();
 }
 

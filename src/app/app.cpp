@@ -436,6 +436,10 @@ int run(std::span<const std::string> args, const Context& ctx, Output& io) {
     return 2;
   }
 
+  // Text for people may be paged; JSON is for programs, --copy may add OSC 52.
+  if (ctx.term.out_tty && !inv.json && inv.show != Show::Copy && inv.settings.pager != Mode::Never)
+    io.page = inv.settings.pager == Mode::Always ? Paging::Always : Paging::Auto;
+
   switch (inv.action) {
     case Action::Version: io.out += "cxxman " CXXMAN_VERSION "\n"; return 0;
     case Action::Help: io.out += help_text; return 0;

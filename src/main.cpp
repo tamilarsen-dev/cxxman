@@ -4,13 +4,33 @@
 #include "sys/clipboard.hpp"
 #include "sys/paths.hpp"
 #include "term/terminal.hpp"
+#include "term/tty.hpp"
+#include "tui/pager.hpp"
 
+#include <algorithm>
 #include <exception>
 #include <string>
 #include <vector>
 
+namespace {
+
+using namespace cxxman;
+
+// Shows `io.out` in the built-in pager when run() allowed it and it does not
+// fit on the screen (PLAN §4.8); true when it was shown.
+bool page(app::Output& io, const term::Info& t) {
+  if (io.page == app::Paging::Off || io.out.empty()) return false;
+  const auto lines = static_cast<std::size_t>(std::ranges::count(io.out, '\n'));
+  if (io.page == app::Paging::Auto && (t.rows == 0 || lines < t.rows)) return false;
+  auto tty = term::open_fullscreen();  // restores the terminal when it goes
+  if (!tty) return false;
+  tui::page(*tty, io.out);
+  return true;
+}
+
+}  // namespace
+
 int main(int argc, char** argv) {
-  using namespace cxxman;
   term::Console console;  // restored on every exit path below
 
   app::Context ctx;
@@ -46,8 +66,15 @@ int main(int argc, char** argv) {
       code = 1;
     }
   }
+  bool paged = false;
+  try {
+    paged = page(io, t);
+  } catch (const std::exception& e) {  // the terminal is restored by now
+    io.err += std::string("cxxman: internal error: ") + e.what() + "\n";
+    code = 3;
+  }
   // A reader that went away (cxxman sort | head -1) is not an error.
-  if (!term::write_out(io.out)) return 0;
+  if (!paged && !term::write_out(io.out)) return 0;
   term::write_err(io.err);
   return code;
 }

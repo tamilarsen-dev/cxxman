@@ -82,7 +82,10 @@ add_library(cxxman-core STATIC
   src/sys/clipboard.cpp
   src/sys/paths.cpp
   src/sys/process.cpp
-  src/term/terminal.cpp)
+  src/term/keys.cpp
+  src/term/terminal.cpp
+  src/term/tty.cpp
+  src/tui/pager.cpp)
 target_link_libraries(cxxman-core PUBLIC cxxman-data)
 if(WIN32)
   # ShellExecuteW (--web), the clipboard API (--copy).
