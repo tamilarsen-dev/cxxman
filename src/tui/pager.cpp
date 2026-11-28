@@ -1,6 +1,7 @@
 #include "tui/pager.hpp"
 
 #include "render/layout.hpp"
+#include "term/screen.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -10,6 +11,7 @@ namespace cxxman::tui {
 namespace {
 
 using C = term::Key::Code;
+using term::move_to;
 
 // `s` without CSI (ESC [ ... final) and OSC (ESC ] ... ST or BEL) sequences.
 std::string strip_escapes(std::string_view s) {
@@ -44,10 +46,6 @@ std::string fold(std::string_view s) {
 void pop_utf8(std::string& s) {
   while (!s.empty() && (static_cast<unsigned char>(s.back()) & 0xC0u) == 0x80u) s.pop_back();
   if (!s.empty()) s.pop_back();
-}
-
-std::string move_to(std::size_t row, std::size_t col) {
-  return "\x1b[" + std::to_string(row) + ";" + std::to_string(col) + "H";
 }
 
 constexpr std::size_t npos = static_cast<std::size_t>(-1);

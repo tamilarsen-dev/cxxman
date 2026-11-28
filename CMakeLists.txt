@@ -84,6 +84,7 @@ add_library(cxxman-core STATIC
   src/sys/paths.cpp
   src/sys/process.cpp
   src/term/keys.cpp
+  src/term/screen.cpp
   src/term/terminal.cpp
   src/term/tty.cpp
   src/tui/finder_model.cpp

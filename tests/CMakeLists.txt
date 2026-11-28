@@ -16,7 +16,8 @@ add_executable(cxxman-tests
   options_test.cpp
   pager_test.cpp
   search_test.cpp
-  render_test.cpp)
+  render_test.cpp
+  screen_test.cpp)
 target_link_libraries(cxxman-tests PRIVATE cxxman-gen-lib cxxman-core doctest::doctest)
 target_compile_definitions(cxxman-tests PRIVATE
   DOCTEST_CONFIG_USE_STD_HEADERS
